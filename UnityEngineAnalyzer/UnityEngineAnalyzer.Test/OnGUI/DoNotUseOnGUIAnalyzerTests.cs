@@ -37,7 +37,7 @@ class C : MonoBehaviour
             const string code = @"
 class C
 {
-    void OnGUI() { }
+    void [|OnGUI|]() { }
 }";
 
             NoDiagnostic(code, DiagnosticIDs.DoNotUseOnGUI);

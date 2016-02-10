@@ -129,6 +129,7 @@
     <Compile Include="MetadataReferenceHelper.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringMethods\DoNotUseStringMethodsAnalyzerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

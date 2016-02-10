@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using UnityEngineAnalyzer.OnGUI;
+using UnityEngineAnalyzer.StringMethods;
 
 namespace UnityEngineAnalyzer
 {
@@ -13,5 +14,14 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning, 
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseOnGUIResources.Description), DoNotUseOnGUIResources.ResourceManager, typeof(DoNotUseOnGUIResources)));
+
+        public static readonly DiagnosticDescriptor DoNotUseStringMethods = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseStringMethods,
+            title: new LocalizableResourceString(nameof(DoNotUseStringMethodsResources.Title), DoNotUseStringMethodsResources.ResourceManager, typeof(DoNotUseStringMethodsResources)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseStringMethodsResources.MessageFormat), DoNotUseStringMethodsResources.ResourceManager, typeof(DoNotUseStringMethodsResources)),
+            category: DiagnosticCategories.StringMethods,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseStringMethodsResources.Description), DoNotUseStringMethodsResources.ResourceManager, typeof(DoNotUseStringMethodsResources)));
     }
 }
