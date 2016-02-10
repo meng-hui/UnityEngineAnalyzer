@@ -4,16 +4,15 @@
     <id>UnityEngineAnalyzer</id>
     <version>1.0.0.0</version>
     <title>UnityEngineAnalyzer</title>
-    <authors>Jimmy</authors>
-    <owners>Jimmy</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <authors>Meng Hui Koh</authors>
+    <owners>Meng Hui Koh</owners>
+    <licenseUrl>https://raw.githubusercontent.com/meng-hui/UnityEngineAnalyzer/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/meng-hui/UnityEngineAnalyzer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>UnityEngineAnalyzer</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-    <copyright>Copyright</copyright>
-    <tags>UnityEngineAnalyzer, analyzers</tags>
+    <description>UnityEngineAnalyzer aims to provide Roslyn diagnostics for common problems and performance issues in Unity3D code.</description>
+    <releaseNotes>Initial Release.</releaseNotes>
+    <copyright>Copyright © Meng Hui Koh 2016</copyright>
+    <tags>UnityEngineAnalyzer, analyzers, UnityEngine, Roslyn</tags>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System" targetFramework="" />
     </frameworkAssemblies>

@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("UnityEngineAnalyzer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("UnityEngineAnalyzer")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
+[assembly: AssemblyCopyright("Copyright © Meng Hui Koh 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
