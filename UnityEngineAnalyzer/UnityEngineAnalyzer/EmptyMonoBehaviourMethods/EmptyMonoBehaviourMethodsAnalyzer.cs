@@ -82,13 +82,20 @@ namespace UnityEngineAnalyzer.EmptyMonoBehaviourMethods
 
         private static async void AnalyzeSymbol(SymbolAnalysisContext context)
         {
+            // retrieve method symbol
             var methodSymbol = context.Symbol as IMethodSymbol;
+            // check if method name is a MonoBehaviour method name
             if (!MonoBehaviourMethods.Contains(methodSymbol.Name)) { return; }
+            // check the syntax that has this method
             if (methodSymbol.DeclaringSyntaxReferences.Length != 1) { return; }
 
+            // retrieve the method syntax from the method symbol
             var methodSyntax = await methodSymbol.DeclaringSyntaxReferences[0].GetSyntaxAsync() as MethodDeclarationSyntax;
+            // from the method syntax, check if there is a body and if there are statements in it
             if (methodSyntax?.Body?.Statements.Any() ?? true) { return; }
 
+            // at this point, we have a method with a MonoBehaviour method name and an empty body
+            // finally, check if this method is contained in a class which extends UnityEngine.MonoBehaviour
             var containingClass = methodSymbol.ContainingType;
             var baseClass = containingClass.BaseType;
             if (baseClass.ContainingNamespace.Name.Equals("UnityEngine") &&

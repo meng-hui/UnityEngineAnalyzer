@@ -22,9 +22,11 @@ namespace UnityEngineAnalyzer.StringMethods
 
         private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
+            // check if any of the "string methods" are used
             var identifierName = context.Node as IdentifierNameSyntax;
             if (!StringMethods.Contains(identifierName.Identifier.ToString())) { return; }
 
+            // check if the method is the one from UnityEngine
             var methodSymbol = context.SemanticModel.GetSymbolInfo(identifierName).Symbol as IMethodSymbol;
             if (Namespaces.Any(ns => methodSymbol?.ToString().StartsWith(ns) ?? false))
             {

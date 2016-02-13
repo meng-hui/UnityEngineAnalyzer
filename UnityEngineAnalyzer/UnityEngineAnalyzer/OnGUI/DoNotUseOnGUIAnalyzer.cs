@@ -16,9 +16,11 @@ namespace UnityEngineAnalyzer.OnGUI
 
         private static void AnalyzeSymbol(SymbolAnalysisContext context)
         {
+            // check if the method is name OnGUI
             var methodSymbol = context.Symbol as IMethodSymbol;
             if (!methodSymbol.Name.Equals("OnGUI")) { return; }
 
+            // check that it is contained in a class extended by UnityEngine.MonoBehaviour
             var containingClass = methodSymbol.ContainingType;
             var baseClass = containingClass.BaseType;
             if (baseClass.ContainingNamespace.Name.Equals("UnityEngine") &&

@@ -18,7 +18,9 @@ namespace UnityEngineAnalyzer.AOT
 
         private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
+            // retrieve using syntax node
             var syntax = context.Node as UsingDirectiveSyntax;
+            // and check if it is System.Reflection.Emit
             if (syntax.Name.ToString().Equals("System.Reflection.Emit"))
             {
                 var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseReflectionEmit, syntax.GetLocation());
