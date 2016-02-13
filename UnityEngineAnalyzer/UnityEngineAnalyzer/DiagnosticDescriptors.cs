@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using UnityEngineAnalyzer.AOT;
+using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
 using UnityEngineAnalyzer.OnGUI;
 using UnityEngineAnalyzer.StringMethods;
 
@@ -24,6 +25,15 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseStringMethodsResources.Description), DoNotUseStringMethodsResources.ResourceManager, typeof(DoNotUseStringMethodsResources)));
+
+        public static readonly DiagnosticDescriptor EmptyMonoBehaviourMethod = new DiagnosticDescriptor(
+            id: DiagnosticIDs.EmptyMonoBehaviourMethod,
+            title: new LocalizableResourceString(nameof(EmptyMonoBehaviourMethodsResources.Title), EmptyMonoBehaviourMethodsResources.ResourceManager, typeof(EmptyMonoBehaviourMethodsResources)),
+            messageFormat: new LocalizableResourceString(nameof(EmptyMonoBehaviourMethodsResources.MessageFormat), EmptyMonoBehaviourMethodsResources.ResourceManager, typeof(EmptyMonoBehaviourMethodsResources)),
+            category: DiagnosticCategories.Miscellaneous,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(EmptyMonoBehaviourMethodsResources.Description), EmptyMonoBehaviourMethodsResources.ResourceManager, typeof(EmptyMonoBehaviourMethodsResources)));
 
 
         public static readonly DiagnosticDescriptor DoNotUseRemoting = new DiagnosticDescriptor(

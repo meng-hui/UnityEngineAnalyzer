@@ -47,6 +47,12 @@
     <Compile Include="DiagnosticCategories.cs" />
     <Compile Include="DiagnosticDescriptors.cs" />
     <Compile Include="DiagnosticIDs.cs" />
+    <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsAnalyzer.cs" />
+    <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmptyMonoBehaviourMethodsResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzer.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -69,6 +75,10 @@
     <EmbeddedResource Include="AOT\DoNotUseRemotingResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseRemotingResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmptyMonoBehaviourMethodsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="OnGUI\DoNotUseOnGUIResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
