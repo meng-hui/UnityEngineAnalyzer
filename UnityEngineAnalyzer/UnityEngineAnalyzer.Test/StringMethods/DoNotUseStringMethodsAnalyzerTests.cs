@@ -186,5 +186,83 @@ class C : MonoBehaviour
 
             HasDiagnostic(document, span, DiagnosticIDs.DoNotUseStringMethods);
         }
+
+        [Test]
+        public void InvokeUsedInMonoBehaviourClass()
+        {
+            const string code = @"
+using UnityEngine;
+
+class C : MonoBehaviour
+{
+    void Start() { [|Invoke|](string.Empty, 0f); }
+}";
+
+            Document document;
+            TextSpan span;
+            TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine, out document, out span);
+
+            HasDiagnostic(document, span, DiagnosticIDs.DoNotUseStringMethods);
+        }
+
+        [Test]
+        public void InvokeUsedByMonoBehaviourClass()
+        {
+            const string code = @"
+using UnityEngine;
+
+class CC : MonoBehaviour { }
+
+class C : MonoBehaviour
+{
+    private CC cc;
+    void Start() { cc.[|Invoke|](string.Empty, 0f); }
+}";
+
+            Document document;
+            TextSpan span;
+            TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine, out document, out span);
+
+            HasDiagnostic(document, span, DiagnosticIDs.DoNotUseStringMethods);
+        }
+
+        [Test]
+        public void InvokeRepeatingUsedInMonoBehaviourClass()
+        {
+            const string code = @"
+using UnityEngine;
+
+class C : MonoBehaviour
+{
+    void Start() { [|InvokeRepeating|](string.Empty, 0f); }
+}";
+
+            Document document;
+            TextSpan span;
+            TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine, out document, out span);
+
+            HasDiagnostic(document, span, DiagnosticIDs.DoNotUseStringMethods);
+        }
+
+        [Test]
+        public void InvokeRepeatingUsedByMonoBehaviourClass()
+        {
+            const string code = @"
+using UnityEngine;
+
+class CC : MonoBehaviour { }
+
+class C : MonoBehaviour
+{
+    private CC cc;
+    void Start() { cc.[|InvokeRepeating|](string.Empty, 0f); }
+}";
+
+            Document document;
+            TextSpan span;
+            TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine, out document, out span);
+
+            HasDiagnostic(document, span, DiagnosticIDs.DoNotUseStringMethods);
+        }
     }
 }

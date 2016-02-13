@@ -62,7 +62,7 @@ namespace UnityEngineAnalyzer.StringMethods {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use of SendMessage, SendMessageUpwards or BroadcastMessage leads to code that is hard to maintain. Consider using UnityEvent, C# event or delegates..
+        ///   Looks up a localized string similar to Use of SendMessage, SendMessageUpwards, BroadcastMessage, Invoke or InvokeRepeating leads to code that is hard to maintain. Consider using UnityEvent, C# event, delegates or a direct method call..
         /// </summary>
         internal static string Description {
             get {
@@ -71,7 +71,7 @@ namespace UnityEngineAnalyzer.StringMethods {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use of SendMessage, SendMessageUpwards or BroadcastMessage leads to code that is hard to maintain. Consider using UnityEvent, C# event or delegates..
+        ///   Looks up a localized string similar to Use of SendMessage, SendMessageUpwards, BroadcastMessage, Invoke or InvokeRepeating leads to code that is hard to maintain. Consider using UnityEvent, C# event, delegates or a direct method call..
         /// </summary>
         internal static string MessageFormat {
             get {
