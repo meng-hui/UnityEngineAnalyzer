@@ -126,6 +126,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AOT\DoNotUseReflectionEmitAnalyzerTests.cs" />
     <Compile Include="AOT\DoNotUseRemotingAnalyzerTests.cs" />
     <Compile Include="MetadataReferenceHelper.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzerTests.cs" />

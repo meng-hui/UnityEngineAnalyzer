@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AOT\DoNotUseReflectionEmitAnalyzer.cs" />
+    <Compile Include="AOT\DoNotUseReflectionEmitResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoNotUseReflectionEmitResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="AOT\DoNotUseRemotingAnalyzer.cs" />
     <Compile Include="AOT\DoNotUseRemotingResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -56,6 +62,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AOT\DoNotUseReflectionEmitResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoNotUseReflectionEmitResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="AOT\DoNotUseRemotingResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseRemotingResources.Designer.cs</LastGenOutput>
