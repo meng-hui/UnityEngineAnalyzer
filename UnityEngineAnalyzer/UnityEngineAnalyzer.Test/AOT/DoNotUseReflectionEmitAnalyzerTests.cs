@@ -1,12 +1,7 @@
-﻿using NUnit.Framework;
-using RoslynNUnitLight;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis;
+using NUnit.Framework;
+using RoslynNUnitLight;
 using UnityEngineAnalyzer.AOT;
 
 namespace UnityEngineAnalyzer.Test.AOT
