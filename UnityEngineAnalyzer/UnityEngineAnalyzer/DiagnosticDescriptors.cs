@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using UnityEngineAnalyzer.AOT;
+using UnityEngineAnalyzer.CompareTag;
 using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
 using UnityEngineAnalyzer.OnGUI;
 using UnityEngineAnalyzer.StringMethods;
@@ -34,6 +35,15 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(EmptyMonoBehaviourMethodsResources.Description), EmptyMonoBehaviourMethodsResources.ResourceManager, typeof(EmptyMonoBehaviourMethodsResources)));
+
+        public static readonly DiagnosticDescriptor UseCompareTag = new DiagnosticDescriptor(
+            id: DiagnosticIDs.UseCompareTag,
+            title: new LocalizableResourceString(nameof(UseCompareTagResources.Title), UseCompareTagResources.ResourceManager, typeof(UseCompareTagResources)),
+            messageFormat: new LocalizableResourceString(nameof(UseCompareTagResources.MessageFormat), UseCompareTagResources.ResourceManager, typeof(UseCompareTagResources)),
+            category: DiagnosticCategories.GC,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(UseCompareTagResources.Description), UseCompareTagResources.ResourceManager, typeof(UseCompareTagResources)));
 
 
         public static readonly DiagnosticDescriptor DoNotUseRemoting = new DiagnosticDescriptor(
