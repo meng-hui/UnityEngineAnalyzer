@@ -2,6 +2,7 @@
 using UnityEngineAnalyzer.AOT;
 using UnityEngineAnalyzer.CompareTag;
 using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
+using UnityEngineAnalyzer.FindMethodsInUpdate;
 using UnityEngineAnalyzer.OnGUI;
 using UnityEngineAnalyzer.StringMethods;
 
@@ -44,6 +45,15 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(UseCompareTagResources.Description), UseCompareTagResources.ResourceManager, typeof(UseCompareTagResources)));
+
+        public static readonly DiagnosticDescriptor DoNotUseFindMethodsInUpdate = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseFindMethodsInUpdate,
+            title: new LocalizableResourceString(nameof(DoNotUseFindMethodsInUpdateResources.Title), DoNotUseFindMethodsInUpdateResources.ResourceManager, typeof(DoNotUseFindMethodsInUpdateResources)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseFindMethodsInUpdateResources.MessageFormat), DoNotUseFindMethodsInUpdateResources.ResourceManager, typeof(DoNotUseFindMethodsInUpdateResources)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseFindMethodsInUpdateResources.Description), DoNotUseFindMethodsInUpdateResources.ResourceManager, typeof(DoNotUseFindMethodsInUpdateResources)));
 
 
         public static readonly DiagnosticDescriptor DoNotUseRemoting = new DiagnosticDescriptor(

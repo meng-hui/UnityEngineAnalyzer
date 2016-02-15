@@ -59,6 +59,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EmptyMonoBehaviourMethodsResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="FindMethodsInUpdate\DoNotUseFindMethodsInUpdateAnalyzer.cs" />
+    <Compile Include="FindMethodsInUpdate\DoNotUseFindMethodsInUpdateResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoNotUseFindMethodsInUpdateResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzer.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -89,6 +95,10 @@
     <EmbeddedResource Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EmptyMonoBehaviourMethodsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindMethodsInUpdate\DoNotUseFindMethodsInUpdateResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoNotUseFindMethodsInUpdateResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="OnGUI\DoNotUseOnGUIResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
