@@ -129,6 +129,7 @@
     <Compile Include="AOT\DoNotUseReflectionEmitAnalyzerTests.cs" />
     <Compile Include="AOT\DoNotUseRemotingAnalyzerTests.cs" />
     <Compile Include="CompareTag\UseCompareTagAnalyzerTests.cs" />
+    <Compile Include="Coroutines\DoNotUseCoroutinesAnalyzerTests.cs" />
     <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsAnalyzerTests.cs" />
     <Compile Include="FindMethodsInUpdate\DoNotUseFindMethodsInUpdateAnalyzerTests.cs" />
     <Compile Include="MetadataReferenceHelper.cs" />

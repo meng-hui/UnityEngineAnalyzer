@@ -50,6 +50,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UseCompareTagResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Coroutines\DoNotUseCoroutinesAnalyzer.cs" />
+    <Compile Include="Coroutines\DoNotUseCoroutinesResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoNotUseCoroutinesResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="DiagnosticCategories.cs" />
     <Compile Include="DiagnosticDescriptors.cs" />
     <Compile Include="DiagnosticIDs.cs" />
@@ -91,6 +97,10 @@
     <EmbeddedResource Include="CompareTag\UseCompareTagResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UseCompareTagResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Coroutines\DoNotUseCoroutinesResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoNotUseCoroutinesResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

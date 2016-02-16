@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using UnityEngineAnalyzer.AOT;
 using UnityEngineAnalyzer.CompareTag;
+using UnityEngineAnalyzer.Coroutines;
 using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
 using UnityEngineAnalyzer.FindMethodsInUpdate;
 using UnityEngineAnalyzer.OnGUI;
@@ -55,6 +56,14 @@ namespace UnityEngineAnalyzer
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseFindMethodsInUpdateResources.Description), DoNotUseFindMethodsInUpdateResources.ResourceManager, typeof(DoNotUseFindMethodsInUpdateResources)));
 
+        public static readonly DiagnosticDescriptor DoNotUseCoroutines = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseCoroutines,
+            title: new LocalizableResourceString(nameof(DoNotUseCoroutinesResources.Title), DoNotUseCoroutinesResources.ResourceManager, typeof(DoNotUseCoroutinesResources)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseCoroutinesResources.MessageFormat), DoNotUseCoroutinesResources.ResourceManager, typeof(DoNotUseCoroutinesResources)),
+            category: DiagnosticCategories.GC,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseCoroutinesResources.Description), DoNotUseCoroutinesResources.ResourceManager, typeof(DoNotUseCoroutinesResources)));
 
         public static readonly DiagnosticDescriptor DoNotUseRemoting = new DiagnosticDescriptor(
             id: DiagnosticIDs.DoNotUseRemoting,
