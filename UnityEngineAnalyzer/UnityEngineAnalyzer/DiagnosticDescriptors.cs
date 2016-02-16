@@ -82,5 +82,14 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseReflectionEmitResources.Description), DoNotUseReflectionEmitResources.ResourceManager, typeof(DoNotUseReflectionEmitResources)));
+
+        public static readonly DiagnosticDescriptor TypeGetType = new DiagnosticDescriptor(
+            id: DiagnosticIDs.TypeGetType,
+            title: new LocalizableResourceString(nameof(TypeGetTypeResources.Title), TypeGetTypeResources.ResourceManager, typeof(TypeGetTypeResources)),
+            messageFormat: new LocalizableResourceString(nameof(TypeGetTypeResources.MessageFormat), TypeGetTypeResources.ResourceManager, typeof(TypeGetTypeResources)),
+            category: DiagnosticCategories.AOT,
+            defaultSeverity: DiagnosticSeverity.Info,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(TypeGetTypeResources.Description), TypeGetTypeResources.ResourceManager, typeof(TypeGetTypeResources)));
     }
 }

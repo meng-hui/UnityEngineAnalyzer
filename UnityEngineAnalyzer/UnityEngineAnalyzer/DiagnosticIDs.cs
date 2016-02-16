@@ -12,5 +12,6 @@ namespace UnityEngineAnalyzer
 
         public const string DoNotUseRemoting = "AOT0001";
         public const string DoNotUseReflectionEmit = "AOT0002";
+        public const string TypeGetType = "AOT0003";
     }
 }
