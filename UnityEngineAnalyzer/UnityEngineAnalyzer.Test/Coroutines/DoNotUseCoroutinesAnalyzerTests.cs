@@ -30,7 +30,7 @@ class C : MonoBehaviour
             TextSpan span;
             TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine, out document, out span);
 
-            HasDiagnostic(document, span, DiagnosticIDs.EmptyMonoBehaviourMethod);
+            HasDiagnostic(document, span, DiagnosticIDs.DoNotUseCoroutines);
         }
 
         [Test]
@@ -53,7 +53,7 @@ class C : MonoBehaviour
             TextSpan span;
             TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine, out document, out span);
 
-            HasDiagnostic(document, span, DiagnosticIDs.EmptyMonoBehaviourMethod);
+            HasDiagnostic(document, span, DiagnosticIDs.DoNotUseCoroutines);
         }
     }
 }
