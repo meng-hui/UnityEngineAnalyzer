@@ -9,7 +9,7 @@
     <licenseUrl>https://raw.githubusercontent.com/meng-hui/UnityEngineAnalyzer/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/meng-hui/UnityEngineAnalyzer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>UnityEngineAnalyzer aims to provide Roslyn diagnostics for common problems and performance issues in Unity3D code.</description>
+    <description>UnityEngineAnalyzer is a set of Roslyn analyzers that aim to detect common problems in Unity3D C# code. Unity3D makes it easy for us to make cross platform games, but there are hidden rules about performance and AOT, which might only come with experience, testing or reading the forums. It is hoped that such problems can be caught before compilation.</description>
     <releaseNotes>Initial Release.</releaseNotes>
     <copyright>Copyright © Meng Hui Koh 2016</copyright>
     <tags>UnityEngineAnalyzer, analyzers, UnityEngine, Roslyn</tags>
