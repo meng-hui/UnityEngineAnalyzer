@@ -1,8 +1,12 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Linq;
+using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace UnityEngineAnalyzer.FindMethodsInUpdate
 {
@@ -42,39 +46,127 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate);
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.InvocationExpression);
+            //context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.InvocationExpression);
+            //context.RegisterSemanticModelAction();
+            //context.RegisterSymbolAction(AnalyzeMethodSymbol, SymbolKind.Method);
+            context.RegisterSyntaxNodeAction(AnalyzeClassSyntax, SyntaxKind.ClassDeclaration);
         }
 
-        private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
+        public static void AnalyzeClassSyntax(SyntaxNodeAnalysisContext context)
         {
-            // get the invocation expression
-            var invocationExpression = context.Node as InvocationExpressionSyntax;
-            // get the method symbol
-            var methodSymbol = context.SemanticModel.GetSymbolInfo(invocationExpression).Symbol as IMethodSymbol;
-            if (methodSymbol == null) { return; }
+            var classDeclaration = context.Node as ClassDeclarationSyntax;
 
-            // check if we have found a Find* or Get* method from UnityEngine
-            if (!FindMethodNames.Contains(methodSymbol.Name) ||
-                !ContainingSymbols.Contains(methodSymbol.ContainingSymbol.ToString())) { return; }
-
-            // retrive the method this invocation happened in
-            var outerMethodSyntax = invocationExpression.FirstAncestorOrSelf<MethodDeclarationSyntax>();
-            if (outerMethodSyntax == null) { return; }
-
-            // check if we are immediately in a Update* method
-            var outerMethodSymbol = context.SemanticModel.GetDeclaredSymbol(outerMethodSyntax);
-            if (outerMethodSymbol == null) { return; }
-            if (!UpdateMethodNames.Contains(outerMethodSymbol.Name)) { return; }
-
-            // check if the Update* method is from UnityEngine
-            var containingClass = outerMethodSymbol.ContainingType;
-            var baseClass = containingClass.BaseType;
-            if (baseClass.ContainingNamespace.Name.Equals("UnityEngine") &&
-                baseClass.Name.Equals("MonoBehaviour"))
+            if (classDeclaration != null)
             {
-                var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, invocationExpression.GetLocation());
-                context.ReportDiagnostic(diagnostic);
+                var classSymbol = context.SemanticModel.GetDeclaredSymbol(classDeclaration);
+
+                if (IsMonoBehavior(classSymbol))
+                {
+                    var methods = classDeclaration.Members.OfType<MethodDeclarationSyntax>();
+
+                    foreach (var method in methods)
+                    {
+                        if (UpdateMethodNames.Contains(method.Identifier.ValueText))
+                        {
+                            var searched = new Dictionary<IMethodSymbol, bool>();
+
+                            var findCalls = SearchForFindCalls(context, method, searched);
+
+                            foreach (var findCall in findCalls)
+                            {
+                                Debug.WriteLine("Found a bad call! " + findCall);
+
+                                var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, findCall.GetLocation());
+                                context.ReportDiagnostic(diagnostic);
+                            }
+                        }
+                    }
+                }
             }
         }
+
+
+        private static IEnumerable<ExpressionSyntax> SearchForFindCalls(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched )
+        {
+            var expressions = new List<ExpressionSyntax>();
+
+            var invocations = method.DescendantNodes().OfType<InvocationExpressionSyntax>();
+
+            foreach (var invocation in invocations)
+            {
+                var methodSymbol = context.SemanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
+
+                if (methodSymbol != null)
+                {
+                    if (searched.ContainsKey(methodSymbol))
+                    {
+                        if (searched[methodSymbol])
+                        {
+                            expressions.Add(invocation);
+                        }
+                    }
+                    else
+                    {
+                        if (FindMethodNames.Contains(methodSymbol.Name) &&
+                            ContainingSymbols.Contains(methodSymbol.ContainingSymbol.ToString()))
+                        {
+                            searched.Add(methodSymbol, true);
+                            expressions.Add(invocation);
+                        }
+                        else
+                        {
+                            var methodDeclarations = methodSymbol.DeclaringSyntaxReferences;
+
+                            searched.Add(methodSymbol, false); //let's assume there won't be any calls
+
+                            foreach (var methodDeclaration in methodDeclarations)
+                            {
+                                var theMethodSyntax = methodDeclaration.GetSyntax() as MethodDeclarationSyntax;
+
+                                if (theMethodSyntax != null)
+                                {
+                                    Debug.WriteLine("here!" + theMethodSyntax);
+
+                                    var childFindCallers = SearchForFindCalls(context, theMethodSyntax, searched);
+
+                                    if (childFindCallers != null && childFindCallers.Any())
+                                    {
+                                        searched[methodSymbol] = true; //update the searched dictionary with new info
+                                        expressions.Add(invocation);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                }
+            }
+
+            return expressions;
+        }
+
+
+        private static bool IsMonoBehavior(INamedTypeSymbol classDeclaration)
+        {
+
+            if (classDeclaration.BaseType == null)
+            {
+                return false;
+            }
+
+            var baseClass = classDeclaration.BaseType;
+
+            //TODO: Might have to go up the base class chain
+            if (baseClass.ContainingNamespace.Name.Equals("UnityEngine") && baseClass.Name.Equals("MonoBehaviour"))
+            {
+                return true;
+            }
+
+            return IsMonoBehavior(baseClass); //determine if the BaseClass extends mono behavior
+
+        }
+
     }
 }
