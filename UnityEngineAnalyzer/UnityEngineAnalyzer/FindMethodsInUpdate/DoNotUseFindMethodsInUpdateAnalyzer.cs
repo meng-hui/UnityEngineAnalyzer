@@ -46,9 +46,6 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate);
         public override void Initialize(AnalysisContext context)
         {
-            //context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.InvocationExpression);
-            //context.RegisterSemanticModelAction();
-            //context.RegisterSymbolAction(AnalyzeMethodSymbol, SymbolKind.Method);
             context.RegisterSyntaxNodeAction(AnalyzeClassSyntax, SyntaxKind.ClassDeclaration);
         }
 
@@ -139,8 +136,6 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                             }
                         }
                     }
-
-
                 }
             }
 
