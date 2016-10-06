@@ -118,11 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Description" xml:space="preserve">
-    <value>Cache the result of Find or GetComponent in Start or Awake.</value>
+    <value>Using Find or GetComponent in Start or Awake can cause performance problems. Cache the result on Start or Awake methods</value>
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
   <data name="MessageFormat" xml:space="preserve">
-    <value>Cache the result of Find or GetComponent in Start or Awake.</value>
+    <value>The method {0} is called from {1} which could cause performance problems. Cache the result from {0} in Start or Awake instead.</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
   <data name="Title" xml:space="preserve">
