@@ -56,12 +56,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UseCompareTagResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Coroutines\DoNotUseCoroutinesAnalyzer.cs" />
-    <Compile Include="Coroutines\DoNotUseCoroutinesResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DoNotUseCoroutinesResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="DiagnosticCategories.cs" />
     <Compile Include="DiagnosticDescriptors.cs" />
     <Compile Include="DiagnosticIDs.cs" />
@@ -77,19 +71,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotUseFindMethodsInUpdateResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="OnGUI\DoNotUseOnGUIAnalyzer.cs" />
-    <Compile Include="OnGUI\DoNotUseOnGUIResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DoNotUseOnGUIResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringMethods\DoNotUseStringMethodsAnalyzer.cs" />
-    <Compile Include="StringMethods\DoNotUseStringMethodsResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DoNotUseStringMethodsResources.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AOT\DoNotUseReflectionEmitResources.resx">
@@ -108,10 +90,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UseCompareTagResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Coroutines\DoNotUseCoroutinesResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoNotUseCoroutinesResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EmptyMonoBehaviourMethodsResources.Designer.cs</LastGenOutput>
@@ -119,14 +97,6 @@
     <EmbeddedResource Include="FindMethodsInUpdate\DoNotUseFindMethodsInUpdateResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseFindMethodsInUpdateResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OnGUI\DoNotUseOnGUIResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoNotUseOnGUIResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StringMethods\DoNotUseStringMethodsResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoNotUseStringMethodsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
