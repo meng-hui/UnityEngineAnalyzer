@@ -73,7 +73,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                             {
                                 Debug.WriteLine("Found a bad call! " + findCall);
 
-                                var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, findCall.GetLocation());
+                                var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, findCall.GetLocation(),findCall,method.Identifier);
                                 context.ReportDiagnostic(diagnostic);
                             }
                         }
