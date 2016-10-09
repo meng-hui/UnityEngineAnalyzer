@@ -3,6 +3,7 @@ using UnityEngineAnalyzer.AOT;
 using UnityEngineAnalyzer.CompareTag;
 using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
 using UnityEngineAnalyzer.FindMethodsInUpdate;
+using UnityEngineAnalyzer.ForEachInUpdate;
 
 namespace UnityEngineAnalyzer
 {
@@ -61,5 +62,15 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(TypeGetTypeResources.Description), TypeGetTypeResources.ResourceManager, typeof(TypeGetTypeResources)));
+
+        public static readonly DiagnosticDescriptor DoNotUseForEachInUpdate  = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseForEachInUpdate,
+            title: new LocalizableResourceString(nameof(DoNotUseForEachInUpdateResources.Title), DoNotUseForEachInUpdateResources.ResourceManager, typeof(DoNotUseForEachInUpdateResources)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseForEachInUpdateResources.MessageFormat), DoNotUseForEachInUpdateResources.ResourceManager, typeof(DoNotUseForEachInUpdateResources)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Info,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseForEachInUpdateResources.Description), DoNotUseForEachInUpdateResources.ResourceManager, typeof(DoNotUseForEachInUpdateResources))
+        );
     }
 }

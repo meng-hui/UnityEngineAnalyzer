@@ -71,6 +71,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotUseFindMethodsInUpdateResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ForEachInUpdate\DoNotUseForEachInUpdateResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoNotUseForEachInUpdateResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ForEachInUpdate\DoNotUseForEachInUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +103,10 @@
     <EmbeddedResource Include="FindMethodsInUpdate\DoNotUseFindMethodsInUpdateResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseFindMethodsInUpdateResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ForEachInUpdate\DoNotUseForEachInUpdateResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoNotUseForEachInUpdateResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
