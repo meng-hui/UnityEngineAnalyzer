@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace UnityEngineAnalyzer.CLI
 {
@@ -11,15 +12,17 @@ namespace UnityEngineAnalyzer.CLI
                 return;
             }
 
-
             var fileName = args[0];
             var fileInfo = new FileInfo(fileName);
 
             if (fileInfo.Exists)
             {
                 var solutionAnalyzer = new SolutionAnalyzer();
-                solutionAnalyzer.Analyze(fileInfo);
+                solutionAnalyzer.LoadAnadAnalyzeProject(fileInfo);
             }
+
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }
