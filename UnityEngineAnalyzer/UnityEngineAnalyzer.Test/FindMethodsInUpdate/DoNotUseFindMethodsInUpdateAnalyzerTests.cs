@@ -1,36 +1,52 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Immutable;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.CodeAnalysis.Text;
 using NUnit.Framework;
 using RoslynNUnitLight;
 using UnityEngineAnalyzer.FindMethodsInUpdate;
+
+
+//using Microsoft.CodeAnalysis.Workspaces;
 
 namespace UnityEngineAnalyzer.Test.FindMethodsInUpdate
 {
     [TestFixture]
     sealed class DoNotUseFindMethodsInUpdateAnalyzerTests : AnalyzerTestFixture
     {
+
         protected override string LanguageName => LanguageNames.CSharp;
         protected override DiagnosticAnalyzer CreateAnalyzer() => new DoNotUseFindMethodsInUpdateAnalyzer();
 
         [Test]
         public void GameObjectFindInUpdate()
         {
-            const string code = @"
+            var code = @"
 using UnityEngine;
 
 class C : MonoBehaviour
 {
-    void Update() 
+    void Update()
     {
-        [|GameObject.Find("")|]; 
+        [|GameObject.Find(""param"")|];
+
+        //var result = GameObject.Find(""param"");
     }
 }";
+
             Document document;
             TextSpan span;
-            TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine, out document, out span);
 
-            HasDiagnostic(document, span, DiagnosticIDs.EmptyMonoBehaviourMethod);
+            if (TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine,
+                out document, out span))
+            {
+                HasDiagnostic(document, span, DiagnosticIDs.DoNotUseFindMethodsInUpdate);
+            }
+            else
+            {
+                Assert.Fail("Could not load unit test code");
+            }
         }
 
         [Test]
@@ -41,9 +57,9 @@ using UnityEngine;
 
 class C : MonoBehaviour
 {
-    void Start() 
+    void Start()
     {
-        [|GameObject.Find("")|]; 
+        [|GameObject.Find("")|];
     }
 }";
             Document document;
