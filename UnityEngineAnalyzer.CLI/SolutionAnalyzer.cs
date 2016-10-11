@@ -2,13 +2,13 @@
 using System.Collections.Immutable;
 using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.MSBuild;
 using UnityEngineAnalyzer.CompareTag;
 using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
 using UnityEngineAnalyzer.FindMethodsInUpdate;
+using UnityEngineAnalyzer.ForEachInUpdate;
 
 namespace UnityEngineAnalyzer.CLI
 {
@@ -33,6 +33,7 @@ namespace UnityEngineAnalyzer.CLI
             listBuilder.Add(new DoNotUseFindMethodsInUpdateAnalyzer());
             listBuilder.Add(new EmptyMonoBehaviourMethodsAnalyzer());
             listBuilder.Add(new UseCompareTagAnalyzer());
+            listBuilder.Add(new DoNotUseForEachInUpdate());
 
             var analyzers = listBuilder.ToImmutable();
             return analyzers;
