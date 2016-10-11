@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.MSBuild;
@@ -14,17 +15,15 @@ namespace UnityEngineAnalyzer.CLI
 {
     public class SolutionAnalyzer
     {
-        public void LoadAnadAnalyzeProject(FileInfo projectFile)
+        public async Task LoadAnadAnalyzeProject(FileInfo projectFile)
         {
-            //TODO: use async!
-
             var workspace = MSBuildWorkspace.Create();
 
-            var project = workspace.OpenProjectAsync(projectFile.FullName, CancellationToken.None).Result;
+            var project = await workspace.OpenProjectAsync(projectFile.FullName, CancellationToken.None);
 
             var analyzers = this.GetAnalyzers();
 
-            AnalyzeProject(project, analyzers);
+            await AnalyzeProject(project, analyzers);
         }
 
         private ImmutableArray<DiagnosticAnalyzer> GetAnalyzers()
@@ -34,16 +33,18 @@ namespace UnityEngineAnalyzer.CLI
             listBuilder.Add(new EmptyMonoBehaviourMethodsAnalyzer());
             listBuilder.Add(new UseCompareTagAnalyzer());
             listBuilder.Add(new DoNotUseForEachInUpdate());
+            //NOTE: We could use Reflection to automatically pick up all of the Analyzers
+
 
             var analyzers = listBuilder.ToImmutable();
             return analyzers;
         }
 
-        private void AnalyzeProject(Project project, ImmutableArray<DiagnosticAnalyzer> analyzers)
+        private async Task AnalyzeProject(Project project, ImmutableArray<DiagnosticAnalyzer> analyzers)
         {
-            var compilation = project.GetCompilationAsync().Result;
+            var compilation = await project.GetCompilationAsync();
 
-            var diagnosticResults = compilation.WithAnalyzers(analyzers).GetAnalyzerDiagnosticsAsync().Result;
+            var diagnosticResults = await compilation.WithAnalyzers(analyzers).GetAnalyzerDiagnosticsAsync();
 
             foreach (var diagnosticResult in diagnosticResults)
             {
