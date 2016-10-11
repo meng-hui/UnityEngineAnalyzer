@@ -18,19 +18,31 @@ namespace UnityEngineAnalyzer.Test.AOT
         {
             const string code = @"
 using UnityEngine;
+using System;
 
 class C : MonoBehaviour
 {
     void Start()
     {
-        [|Type.GetType("")|];
+        var theType =  [|Type.GetType("""")|];
     }
 }";
             Document document;
             TextSpan span;
-            TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine, out document, out span);
 
-            HasDiagnostic(document, span, DiagnosticIDs.TypeGetType);
+            var references = MetadataReferenceHelper.UsingUnityEngine;
+
+            if (TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, references, out document, out span))
+            {
+                this.HasDiagnostic(document, span, DiagnosticIDs.TypeGetType);
+            }
+            else
+            {
+                Assert.Fail("Could not load the Test code in the unit test");
+            }
+            
+
+
         }
     }
 }
