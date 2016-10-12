@@ -132,6 +132,7 @@
     <Compile Include="CompareTag\UseCompareTagAnalyzerTests.cs" />
     <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsAnalyzerTests.cs" />
     <Compile Include="FindMethodsInUpdate\DoNotUseFindMethodsInUpdateAnalyzerTests.cs" />
+    <Compile Include="ForEachInUpdate\DoNotUseForeachInUpdateAnalyzerTests.cs" />
     <Compile Include="MetadataReferenceHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

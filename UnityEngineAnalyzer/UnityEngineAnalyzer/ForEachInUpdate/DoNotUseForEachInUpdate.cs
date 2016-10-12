@@ -32,14 +32,15 @@ namespace UnityEngineAnalyzer.ForEachInUpdate
                 {
                     Debug.WriteLine("Found a bad call! " + forEachStatement);
 
-                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseForEachInUpdate, forEachStatement.GetLocation(), updateMethod.Identifier);
+                    var location = forEachStatement.ForEachKeyword.GetLocation();
+                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseForEachInUpdate, location, updateMethod.Identifier);
                     context.ReportDiagnostic(diagnostic);
                 }
             });
         }
 
 
-        private static IEnumerable<StatementSyntax> SearchForForEach(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched)
+        private static IEnumerable<ForEachStatementSyntax> SearchForForEach(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched)
         {
             var invocations = method.DescendantNodes().OfType<ForEachStatementSyntax>();
 
