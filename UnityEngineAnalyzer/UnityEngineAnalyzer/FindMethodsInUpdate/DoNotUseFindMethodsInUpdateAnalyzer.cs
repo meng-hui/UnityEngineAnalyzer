@@ -47,12 +47,12 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
         {
             var monoBehaviourInfo = new MonoBehaviourInfo(context);
 
+            var searched = new Dictionary<IMethodSymbol, bool>();
+
             monoBehaviourInfo.ForEachUpdateMethod((updateMethod) =>
             {
                 //Debug.WriteLine("Found an update call! " + updateMethod);
-
-                var searched = new Dictionary<IMethodSymbol, bool>();
-
+                
                 var findCalls = SearchForFindCalls(context, updateMethod, searched);
 
                 foreach (var findCall in findCalls)

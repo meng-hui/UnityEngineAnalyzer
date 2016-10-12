@@ -12,17 +12,6 @@ namespace UnityEngineAnalyzer.ForEachInUpdate
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public sealed class DoNotUseForEachInUpdate : DiagnosticAnalyzer
     {
-        private static readonly ImmutableHashSet<string> ContainingSymbols = ImmutableHashSet.Create(
-            "UnityEngine.GameObject",
-            "UnityEngine.Object",
-            "UnityEngine.Component",
-            "UnityEngine.Transform");
-
-        private static readonly ImmutableHashSet<string> UpdateMethodNames = ImmutableHashSet.Create(
-            "OnGUI",
-            "Update",
-            "FixedUpdate",
-            "LateUpdate");
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptors.DoNotUseForEachInUpdate);
         public override void Initialize(AnalysisContext context)
@@ -30,79 +19,36 @@ namespace UnityEngineAnalyzer.ForEachInUpdate
             context.RegisterSyntaxNodeAction(AnalyzeClassSyntax, SyntaxKind.ClassDeclaration);
         }
 
-
-        //TODO: This function has a lot in common with the DoNotUseFindInUpdate -- Refactor
-
         public static void AnalyzeClassSyntax(SyntaxNodeAnalysisContext context)
         {
-            var classDeclaration = context.Node as ClassDeclarationSyntax;
+            var monoBehaviourInfo = new MonoBehaviourInfo(context);
 
-            if (classDeclaration != null)
+            var searched = new Dictionary<IMethodSymbol, bool>();
+            monoBehaviourInfo.ForEachUpdateMethod((updateMethod) =>
             {
-                var classSymbol = context.SemanticModel.GetDeclaredSymbol(classDeclaration);
+                var forEachStatements = SearchForForEach(context, updateMethod, searched);
 
-                if (IsMonoBehavior(classSymbol))
+                foreach (var forEachStatement in forEachStatements)
                 {
-                    var methods = classDeclaration.Members.OfType<MethodDeclarationSyntax>();
+                    Debug.WriteLine("Found a bad call! " + forEachStatement);
 
-                    foreach (var method in methods)
-                    {
-                        if (UpdateMethodNames.Contains(method.Identifier.ValueText))
-                        {
-                            var searched = new Dictionary<IMethodSymbol, bool>();
-
-                            var forEachStatements = SearchForForEach(context, method, searched);
-
-                            foreach (var forEachStatement in forEachStatements)
-                            {
-                                Debug.WriteLine("Found a bad call! " + forEachStatement);
-
-                                var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseForEachInUpdate, forEachStatement.GetLocation(), method.Identifier);
-                                context.ReportDiagnostic(diagnostic);
-                            }
-                        }
-                    }
+                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseForEachInUpdate, forEachStatement.GetLocation(), updateMethod.Identifier);
+                    context.ReportDiagnostic(diagnostic);
                 }
-            }
+            });
         }
 
 
         private static IEnumerable<StatementSyntax> SearchForForEach(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched)
         {
-            var statements = new List<StatementSyntax>();
-
             var invocations = method.DescendantNodes().OfType<ForEachStatementSyntax>();
 
             foreach (var invocation in invocations)
             {
-                //var methodSymbol = context.SemanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
-
-               statements.Add(invocation);
+                yield return invocation;
             }
 
-            return statements;
+            //TODO: Keep Searching recurively to other methods...
         }
-
-
-        private static bool IsMonoBehavior(INamedTypeSymbol classDeclaration)
-        {
-
-            if (classDeclaration.BaseType == null)
-            {
-                return false;
-            }
-
-            var baseClass = classDeclaration.BaseType;
-
-            //TODO: Might have to go up the base class chain
-            if (baseClass.ContainingNamespace.Name.Equals("UnityEngine") && baseClass.Name.Equals("MonoBehaviour"))
-            {
-                return true;
-            }
-
-            return IsMonoBehavior(baseClass); //determine if the BaseClass extends mono behavior
-
-        }
-
     }
 }
