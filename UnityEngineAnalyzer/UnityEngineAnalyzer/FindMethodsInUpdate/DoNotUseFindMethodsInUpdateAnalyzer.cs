@@ -68,10 +68,6 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
 
         private static IEnumerable<ExpressionSyntax> SearchForFindCalls(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched )
         {
-            //TODO: Use yield return to reduce looping
-
-            var expressions = new List<ExpressionSyntax>();
-
             var invocations = method.DescendantNodes().OfType<InvocationExpressionSyntax>();
 
             foreach (var invocation in invocations)
@@ -84,7 +80,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                     {
                         if (searched[methodSymbol])
                         {
-                            expressions.Add(invocation);
+                            yield return invocation;
                         }
                     }
                     else
@@ -93,7 +89,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                             ContainingSymbols.Contains(methodSymbol.ContainingSymbol.ToString()))
                         {
                             searched.Add(methodSymbol, true);
-                            expressions.Add(invocation);
+                            yield return invocation;
                         }
                         else
                         {
@@ -112,7 +108,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                                     if (childFindCallers != null && childFindCallers.Any())
                                     {
                                         searched[methodSymbol] = true; //update the searched dictionary with new info
-                                        expressions.Add(invocation);
+                                        yield return invocation;
                                         break;
                                     }
                                 }
@@ -121,8 +117,6 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                     }
                 }
             }
-
-            return expressions;
         }
     }
 }
