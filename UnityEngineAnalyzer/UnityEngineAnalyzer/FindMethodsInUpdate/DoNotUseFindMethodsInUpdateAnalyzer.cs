@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace UnityEngineAnalyzer.FindMethodsInUpdate
 {
@@ -37,11 +36,6 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
             "UnityEngine.Component",
             "UnityEngine.Transform");
 
-        private static readonly ImmutableHashSet<string> UpdateMethodNames = ImmutableHashSet.Create(
-            "OnGUI",
-            "Update",
-            "FixedUpdate",
-            "LateUpdate");
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate);
         public override void Initialize(AnalysisContext context)
@@ -51,40 +45,31 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
 
         public static void AnalyzeClassSyntax(SyntaxNodeAnalysisContext context)
         {
-            var classDeclaration = context.Node as ClassDeclarationSyntax;
+            var monoBehaviourInfo = new MonoBehaviourInfo(context);
 
-            if (classDeclaration != null)
+            monoBehaviourInfo.ForEachUpdateMethod((updateMethod) =>
             {
-                var classSymbol = context.SemanticModel.GetDeclaredSymbol(classDeclaration);
+                //Debug.WriteLine("Found an update call! " + updateMethod);
 
-                if (IsMonoBehavior(classSymbol))
+                var searched = new Dictionary<IMethodSymbol, bool>();
+
+                var findCalls = SearchForFindCalls(context, updateMethod, searched);
+
+                foreach (var findCall in findCalls)
                 {
-                    var methods = classDeclaration.Members.OfType<MethodDeclarationSyntax>();
+                    //Debug.WriteLine("Found a bad call! " + findCall);
 
-                    foreach (var method in methods)
-                    {
-                        if (UpdateMethodNames.Contains(method.Identifier.ValueText))
-                        {
-                            var searched = new Dictionary<IMethodSymbol, bool>();
-
-                            var findCalls = SearchForFindCalls(context, method, searched);
-
-                            foreach (var findCall in findCalls)
-                            {
-                                Debug.WriteLine("Found a bad call! " + findCall);
-
-                                var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, findCall.GetLocation(),findCall,method.Identifier);
-                                context.ReportDiagnostic(diagnostic);
-                            }
-                        }
-                    }
+                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, findCall.GetLocation(), findCall, updateMethod.Identifier);
+                    context.ReportDiagnostic(diagnostic);
                 }
-            }
+            });
         }
 
 
         private static IEnumerable<ExpressionSyntax> SearchForFindCalls(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched )
         {
+            //TODO: Use yield return to reduce looping
+
             var expressions = new List<ExpressionSyntax>();
 
             var invocations = method.DescendantNodes().OfType<InvocationExpressionSyntax>();
@@ -122,8 +107,6 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
 
                                 if (theMethodSyntax != null)
                                 {
-                                    Debug.WriteLine("here!" + theMethodSyntax);
-
                                     var childFindCallers = SearchForFindCalls(context, theMethodSyntax, searched);
 
                                     if (childFindCallers != null && childFindCallers.Any())
@@ -141,27 +124,5 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
 
             return expressions;
         }
-
-
-        private static bool IsMonoBehavior(INamedTypeSymbol classDeclaration)
-        {
-
-            if (classDeclaration.BaseType == null)
-            {
-                return false;
-            }
-
-            var baseClass = classDeclaration.BaseType;
-
-            //TODO: Might have to go up the base class chain
-            if (baseClass.ContainingNamespace.Name.Equals("UnityEngine") && baseClass.Name.Equals("MonoBehaviour"))
-            {
-                return true;
-            }
-
-            return IsMonoBehavior(baseClass); //determine if the BaseClass extends mono behavior
-
-        }
-
     }
 }

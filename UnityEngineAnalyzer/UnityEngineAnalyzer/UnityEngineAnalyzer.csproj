@@ -77,6 +77,7 @@
       <DependentUpon>DoNotUseForEachInUpdateResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ForEachInUpdate\DoNotUseForEachInUpdate.cs" />
+    <Compile Include="MonoBehaviourInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
