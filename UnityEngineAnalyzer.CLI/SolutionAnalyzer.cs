@@ -15,7 +15,7 @@ namespace UnityEngineAnalyzer.CLI
 {
     public class SolutionAnalyzer
     {
-        public async Task LoadAnadAnalyzeProject(FileInfo projectFile)
+        public async Task LoadAnadAnalyzeProject(FileInfo projectFile, AnalyzerReport report)
         {
             var workspace = MSBuildWorkspace.Create();
 
@@ -23,7 +23,7 @@ namespace UnityEngineAnalyzer.CLI
 
             var analyzers = this.GetAnalyzers();
 
-            await AnalyzeProject(project, analyzers);
+            await AnalyzeProject(project, analyzers, report);
         }
 
         private ImmutableArray<DiagnosticAnalyzer> GetAnalyzers()
@@ -40,18 +40,22 @@ namespace UnityEngineAnalyzer.CLI
             return analyzers;
         }
 
-        private async Task AnalyzeProject(Project project, ImmutableArray<DiagnosticAnalyzer> analyzers)
+        private async Task AnalyzeProject(Project project, ImmutableArray<DiagnosticAnalyzer> analyzers, AnalyzerReport report)
         {
             var compilation = await project.GetCompilationAsync();
 
             var diagnosticResults = await compilation.WithAnalyzers(analyzers).GetAnalyzerDiagnosticsAsync();
 
-            foreach (var diagnosticResult in diagnosticResults)
-            {
-                var record = string.Join("\t",diagnosticResult.Id,diagnosticResult.GetMessage(), diagnosticResult.Location);
+            report.AppendDiagnostics(diagnosticResults);
 
-                Console.WriteLine(record);
-            }
+            //foreach (var diagnosticResult in diagnosticResults)
+            //{
+            //    var record = string.Join("\t",diagnosticResult.Id,diagnosticResult.GetMessage(), diagnosticResult.Location);
+
+            //    report.AppendDiagnostic(diagnosticResult);
+
+            //    Console.WriteLine(record);
+            //}
         }
     }
 }
