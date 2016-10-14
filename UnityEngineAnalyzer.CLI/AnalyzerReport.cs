@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace UnityEngineAnalyzer.CLI
@@ -16,30 +13,9 @@ namespace UnityEngineAnalyzer.CLI
 
         private readonly List<IAnalyzerExporter> _exporters = new List<IAnalyzerExporter>();
 
-        public void AppendDiagnostic(Diagnostic diagnostic)
-        {
-            var diagnosticInfo = new DiagnosticInfo
-            {
-                Id = diagnostic.Id,
-                Message = diagnostic.GetMessage()
-            };
-
-            _diagnostics.Add(diagnosticInfo);
-        }
-
         public void AddExporter(IAnalyzerExporter exporter)
         {
             _exporters.Add(exporter);
-        }
-
-        public void Export(params IAnalyzerExporter[] exporters)
-        {
-            _exporters.AddRange(exporters);
-            this.Export();
-        }
-        public void Export()
-        {
-            
         }
 
         public void AppendDiagnostics(IEnumerable<Diagnostic> diagnosticResults)
@@ -51,10 +27,15 @@ namespace UnityEngineAnalyzer.CLI
 
             foreach (var diagnostic in diagnosticResults)
             {
+                var locationSpan = diagnostic.Location.SourceSpan;
+                var lineSpan = diagnostic.Location.SourceTree.GetLineSpan(locationSpan);
+
                 var diagnosticInfo = new DiagnosticInfo
                 {
                     Id = diagnostic.Id,
-                    Message = diagnostic.GetMessage()
+                    Message = diagnostic.GetMessage(),
+                    FileName = diagnostic.Location.SourceTree.FilePath,
+                    LineNumber = lineSpan.StartLinePosition.Line
                 };
 
                 foreach (var exporter in _exporters)
@@ -84,12 +65,12 @@ namespace UnityEngineAnalyzer.CLI
         public string Id { get; set; }
         public string Message { get; set; }
         public string FileName { get; set; }
-
+        public int LineNumber { get; set; }
     }
 
     public class JsonAnalyzerExporter : IAnalyzerExporter
     {
-        private List<DiagnosticInfo> _diagnostics = new List<DiagnosticInfo>();
+        private readonly List<DiagnosticInfo> _diagnostics = new List<DiagnosticInfo>();
 
         public void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
         {
@@ -98,20 +79,28 @@ namespace UnityEngineAnalyzer.CLI
 
         public void Finish()
         {
-            Console.WriteLine("This is where we write the json file" + _diagnostics.Count);
+            Console.WriteLine("This is where we write the json file : " + _diagnostics.Count);
         }
     }
 
     public class ConsoleAnalyzerExporter : IAnalyzerExporter
     {
+        private const string ConsoleSeparator = "\t";
+
         public void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
         {
-            Console.WriteLine(diagnosticInfo.Message);
+            Console.Write(diagnosticInfo.Id);
+            Console.Write(ConsoleSeparator);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(diagnosticInfo.Message);
+            Console.ResetColor();
+            Console.Write(ConsoleSeparator);
+            Console.WriteLine("{0}({1})",diagnosticInfo.FileName,diagnosticInfo.LineNumber);
         }
 
         public void Finish()
         {
-            Console.WriteLine("FINISHED");
+            Console.WriteLine("Console Export Finished");
         }
     }
 

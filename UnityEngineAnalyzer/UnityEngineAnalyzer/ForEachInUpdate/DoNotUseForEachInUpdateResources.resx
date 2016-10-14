@@ -122,7 +122,7 @@
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
   <data name="MessageFormat" xml:space="preserve">
-    <value>The method {0} is calling using a ForEach loop</value>
+    <value>The method {0} is using a ForEach loop</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
   <data name="Title" xml:space="preserve">

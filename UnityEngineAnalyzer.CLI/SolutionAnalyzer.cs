@@ -48,14 +48,6 @@ namespace UnityEngineAnalyzer.CLI
 
             report.AppendDiagnostics(diagnosticResults);
 
-            //foreach (var diagnosticResult in diagnosticResults)
-            //{
-            //    var record = string.Join("\t",diagnosticResult.Id,diagnosticResult.GetMessage(), diagnosticResult.Location);
-
-            //    report.AppendDiagnostic(diagnosticResult);
-
-            //    Console.WriteLine(record);
-            //}
         }
     }
 }
