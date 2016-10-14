@@ -33,7 +33,7 @@ namespace UnityEngineAnalyzer.ForEachInUpdate
                     Debug.WriteLine("Found a bad call! " + forEachStatement);
 
                     var location = forEachStatement.ForEachKeyword.GetLocation();
-                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseForEachInUpdate, location, updateMethod.Identifier);
+                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseForEachInUpdate, location, monoBehaviourInfo.ClassName ,updateMethod.Identifier);
                     context.ReportDiagnostic(diagnostic);
                 }
             });

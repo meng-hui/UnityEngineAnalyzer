@@ -100,7 +100,9 @@ namespace UnityEngineAnalyzer.CLI
 
         public void Finish()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Console Export Finished");
+            Console.ResetColor();
         }
     }
 

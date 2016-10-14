@@ -71,7 +71,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The method {0} is called from {1} which could cause performance problems. Cache the result from {0} in Start or Awake instead..
+        ///   Looks up a localized string similar to The method {0} is called from {1}.{2} which could cause performance problems. Cache the result from {0} in Start or Awake instead..
         /// </summary>
         internal static string MessageFormat {
             get {

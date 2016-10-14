@@ -59,13 +59,13 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                 {
                     //Debug.WriteLine("Found a bad call! " + findCall);
 
-                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, findCall.GetLocation(), findCall, updateMethod.Identifier);
+                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, findCall.GetLocation(), findCall,monoBehaviourInfo.ClassName, updateMethod.Identifier);
                     context.ReportDiagnostic(diagnostic);
                 }
             });
         }
 
-
+        //TODO: Try to simplify this method - it's very hard to follow
         private static IEnumerable<ExpressionSyntax> SearchForFindCalls(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched )
         {
             var invocations = method.DescendantNodes().OfType<InvocationExpressionSyntax>();

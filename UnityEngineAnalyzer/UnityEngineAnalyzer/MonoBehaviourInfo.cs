@@ -23,7 +23,14 @@ namespace UnityEngineAnalyzer
         {
             _classDeclaration = analysisContext.Node as ClassDeclarationSyntax;
             _classSymbol = analysisContext.SemanticModel.GetDeclaredSymbol(_classDeclaration) as INamedTypeSymbol;
+
+            if (_classSymbol != null)
+            {
+                this.ClassName = _classSymbol.Name;
+            }
         }
+
+        public string ClassName { get; private set; }
 
         public void ForEachUpdateMethod(Action<MethodDeclarationSyntax> callback)
         {

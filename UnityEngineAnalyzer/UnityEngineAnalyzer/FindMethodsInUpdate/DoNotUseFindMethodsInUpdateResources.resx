@@ -122,7 +122,7 @@
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
   <data name="MessageFormat" xml:space="preserve">
-    <value>The method {0} is called from {1} which could cause performance problems. Cache the result from {0} in Start or Awake instead.</value>
+    <value>The method {0} is called from {1}.{2} which could cause performance problems. Cache the result from {0} in Start or Awake instead.</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
   <data name="Title" xml:space="preserve">
