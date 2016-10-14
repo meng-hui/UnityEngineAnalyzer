@@ -9,7 +9,6 @@ namespace UnityEngineAnalyzer.CLI
         public string ProjectName { get; set; }
 
         //TODO: Add support for Solutions with multiple Projects
-        private readonly List<DiagnosticInfo> _diagnostics = new List<DiagnosticInfo>();
 
         private readonly List<IAnalyzerExporter> _exporters = new List<IAnalyzerExporter>();
 
@@ -45,19 +44,29 @@ namespace UnityEngineAnalyzer.CLI
             }
         }
 
-        public void FinalizeReport()
+        public void FinalizeReport(TimeSpan duration)
         {
             foreach (var exporter in _exporters)
             {
-                exporter.Finish();
+                exporter.Finish(duration);
             }
+        }
+
+        public void InitializeReport(string fileInfoName)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Unity Syntax Analyzer");
+            Console.WriteLine();
+            Console.WriteLine("Analyzing: {0}", fileInfoName);
+            Console.WriteLine();
+            Console.ResetColor();
         }
     }
 
     public interface IAnalyzerExporter
     {
         void AppendDiagnostic(DiagnosticInfo diagnosticInfo);
-        void Finish();
+        void Finish(TimeSpan duration);
     }
 
     public class DiagnosticInfo
@@ -77,7 +86,7 @@ namespace UnityEngineAnalyzer.CLI
             _diagnostics.Add(diagnosticInfo);
         }
 
-        public void Finish()
+        public void Finish(TimeSpan duration)
         {
             Console.WriteLine("This is where we write the json file : " + _diagnostics.Count);
         }
@@ -98,10 +107,10 @@ namespace UnityEngineAnalyzer.CLI
             Console.WriteLine("{0}({1})",diagnosticInfo.FileName,diagnosticInfo.LineNumber);
         }
 
-        public void Finish()
+        public void Finish(TimeSpan duration)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Console Export Finished");
+            Console.WriteLine("Console Export Finished ({0})", duration);
             Console.ResetColor();
         }
     }

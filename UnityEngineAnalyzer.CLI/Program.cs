@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace UnityEngineAnalyzer.CLI
@@ -16,12 +17,17 @@ namespace UnityEngineAnalyzer.CLI
                     return;
                 }
 
+                var startTime = DateTime.Now;
+
                 var fileName = args[0];
                 var fileInfo = new FileInfo(fileName);
 
                 var report = new AnalyzerReport();
                 report.AddExporter(new ConsoleAnalyzerExporter());
                 //report.AddExporter(new JsonAnalyzerExporter());
+
+
+                report.InitializeReport(fileInfo.FullName);
 
                 var tasks = new List<Task>();
                 if (fileInfo.Exists)
@@ -33,7 +39,10 @@ namespace UnityEngineAnalyzer.CLI
 
                 Task.WaitAll(tasks.ToArray());
 
-                report.FinalizeReport();
+                var endTime = DateTime.Now;
+                var duration = endTime - startTime;
+
+                report.FinalizeReport(duration);
 
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey();
