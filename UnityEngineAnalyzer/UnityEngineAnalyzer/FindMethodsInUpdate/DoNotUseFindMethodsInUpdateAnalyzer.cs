@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -37,7 +38,9 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
             "UnityEngine.Transform");
 
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate);
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
+            => ImmutableArray.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate);
+
         public override void Initialize(AnalysisContext context)
         {
             context.RegisterSyntaxNodeAction(AnalyzeClassSyntax, SyntaxKind.ClassDeclaration);
@@ -52,27 +55,36 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
             monoBehaviourInfo.ForEachUpdateMethod((updateMethod) =>
             {
                 //Debug.WriteLine("Found an update call! " + updateMethod);
-                
+
                 var findCalls = SearchForFindCalls(context, updateMethod, searched);
 
                 foreach (var findCall in findCalls)
                 {
                     //Debug.WriteLine("Found a bad call! " + findCall);
 
-                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, findCall.GetLocation(), findCall,monoBehaviourInfo.ClassName, updateMethod.Identifier);
+                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate,
+                        findCall.GetLocation(), findCall, monoBehaviourInfo.ClassName, updateMethod.Identifier);
                     context.ReportDiagnostic(diagnostic);
                 }
             });
         }
 
         //TODO: Try to simplify this method - it's very hard to follow
-        private static IEnumerable<ExpressionSyntax> SearchForFindCalls(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched )
+        private static IEnumerable<ExpressionSyntax> SearchForFindCalls(SyntaxNodeAnalysisContext context,
+            MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched)
         {
             var invocations = method.DescendantNodes().OfType<InvocationExpressionSyntax>();
 
             foreach (var invocation in invocations)
             {
-                var methodSymbol = context.SemanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
+                SymbolInfo symbolInfo;
+                if (!TryGetSymbolInfo(context, invocation, out symbolInfo))
+                {
+                    break;
+                }
+                //var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
+
+                var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
 
                 if (methodSymbol != null)
                 {
@@ -117,6 +129,26 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                     }
                 }
             }
+        }
+
+        private static bool TryGetSymbolInfo(SyntaxNodeAnalysisContext context, SyntaxNode node, out SymbolInfo symbolInfo)
+        {
+            //TODO: This code is a temporary solution until i get a better understanding of why we cannot get symbol info for the expressions
+            //HACK: See Above
+
+            try
+            {
+                symbolInfo = context.SemanticModel.GetSymbolInfo(node);
+                return true;
+            }
+            catch (Exception generalException)
+            {
+                Debug.WriteLine("Unable to find Symbol: " + node);
+                Debug.WriteLine(generalException);
+            }
+
+            symbolInfo = default(SymbolInfo);
+            return false;
         }
     }
 }
