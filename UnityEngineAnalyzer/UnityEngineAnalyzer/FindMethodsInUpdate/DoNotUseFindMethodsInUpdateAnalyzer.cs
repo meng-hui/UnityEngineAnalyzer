@@ -133,12 +133,14 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
 
         private static bool TryGetSymbolInfo(SyntaxNodeAnalysisContext context, SyntaxNode node, out SymbolInfo symbolInfo)
         {
-            //TODO: This code is a temporary solution until i get a better understanding of why we cannot get symbol info for the expressions
-            //HACK: See Above
-
             try
             {
-                symbolInfo = context.SemanticModel.GetSymbolInfo(node);
+                //NOTE: The Call below fixes many issues where the symbol cannot be found - but there are still cases where an argumentexception is thrown
+                // which seems to resemble this issue: https://github.com/dotnet/roslyn/issues/11193
+
+                var semanticModel = SemanticModelFor(context.SemanticModel, node);
+
+                symbolInfo = semanticModel.GetSymbolInfo(node); //context.SemanticModel.GetSymbolInfo(node);
                 return true;
             }
             catch (Exception generalException)
@@ -149,6 +151,17 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
 
             symbolInfo = default(SymbolInfo);
             return false;
+        }
+
+        internal static SemanticModel SemanticModelFor(SemanticModel semanticModel, SyntaxNode expression)
+        {
+            if (ReferenceEquals(semanticModel.SyntaxTree, expression.SyntaxTree))
+            {
+                return semanticModel;
+            }
+
+            //NOTE: there may be a performance boost if we cache some of the semantic models
+            return semanticModel.Compilation.GetSemanticModel(expression.SyntaxTree);
         }
     }
 }
