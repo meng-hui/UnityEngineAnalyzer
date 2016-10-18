@@ -130,11 +130,14 @@
     <Compile Include="AOT\DoNotUseRemotingAnalyzerTests.cs" />
     <Compile Include="AOT\TypeGetTypeAnalyzerTests.cs" />
     <Compile Include="CompareTag\UseCompareTagAnalyzerTests.cs" />
+    <Compile Include="Coroutines\DoNotUseCoroutinesAnalyzerTests.cs" />
     <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsAnalyzerTests.cs" />
     <Compile Include="FindMethodsInUpdate\DoNotUseFindMethodsInUpdateAnalyzerTests.cs" />
     <Compile Include="ForEachInUpdate\DoNotUseForeachInUpdateAnalyzerTests.cs" />
     <Compile Include="MetadataReferenceHelper.cs" />
+    <Compile Include="OnGUI\DoNotUseOnGUIAnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringMethods\DoNotUseStringMethodsAnalyzerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
