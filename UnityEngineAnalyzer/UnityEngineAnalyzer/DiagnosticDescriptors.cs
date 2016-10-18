@@ -17,7 +17,7 @@ namespace UnityEngineAnalyzer
             title: new LocalizableResourceString(nameof(DoNotUseOnGUIResources.Title), DoNotUseOnGUIResources.ResourceManager, typeof(DoNotUseOnGUIResources)),
             messageFormat: new LocalizableResourceString(nameof(DoNotUseOnGUIResources.MessageFormat), DoNotUseOnGUIResources.ResourceManager, typeof(DoNotUseOnGUIResources)),
             category: DiagnosticCategories.GC,
-            defaultSeverity: DiagnosticSeverity.Warning,
+            defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseOnGUIResources.Description), DoNotUseOnGUIResources.ResourceManager, typeof(DoNotUseOnGUIResources)));
 
@@ -26,18 +26,18 @@ namespace UnityEngineAnalyzer
             title: new LocalizableResourceString(nameof(DoNotUseStringMethodsResources.Title), DoNotUseStringMethodsResources.ResourceManager, typeof(DoNotUseStringMethodsResources)),
             messageFormat: new LocalizableResourceString(nameof(DoNotUseStringMethodsResources.MessageFormat), DoNotUseStringMethodsResources.ResourceManager, typeof(DoNotUseStringMethodsResources)),
             category: DiagnosticCategories.StringMethods,
-            defaultSeverity: DiagnosticSeverity.Warning,
+            defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseStringMethodsResources.Description), DoNotUseStringMethodsResources.ResourceManager, typeof(DoNotUseStringMethodsResources)));
 
         public static readonly DiagnosticDescriptor DoNotUseCoroutines = new DiagnosticDescriptor(
-                  id: DiagnosticIDs.DoNotUseCoroutines,
-                  title: new LocalizableResourceString(nameof(DoNotUseCoroutinesResources.Title), DoNotUseCoroutinesResources.ResourceManager, typeof(DoNotUseCoroutinesResources)),
-                  messageFormat: new LocalizableResourceString(nameof(DoNotUseCoroutinesResources.MessageFormat), DoNotUseCoroutinesResources.ResourceManager, typeof(DoNotUseCoroutinesResources)),
-                  category: DiagnosticCategories.GC,
-                  defaultSeverity: DiagnosticSeverity.Warning,
-                  isEnabledByDefault: true,
-                  description: new LocalizableResourceString(nameof(DoNotUseCoroutinesResources.Description), DoNotUseCoroutinesResources.ResourceManager, typeof(DoNotUseCoroutinesResources)));
+            id: DiagnosticIDs.DoNotUseCoroutines,
+            title: new LocalizableResourceString(nameof(DoNotUseCoroutinesResources.Title), DoNotUseCoroutinesResources.ResourceManager, typeof(DoNotUseCoroutinesResources)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseCoroutinesResources.MessageFormat), DoNotUseCoroutinesResources.ResourceManager, typeof(DoNotUseCoroutinesResources)),
+            category: DiagnosticCategories.GC,
+            defaultSeverity: DiagnosticSeverity.Info,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseCoroutinesResources.Description), DoNotUseCoroutinesResources.ResourceManager, typeof(DoNotUseCoroutinesResources)));
 
 
         public static readonly DiagnosticDescriptor EmptyMonoBehaviourMethod = new DiagnosticDescriptor(
