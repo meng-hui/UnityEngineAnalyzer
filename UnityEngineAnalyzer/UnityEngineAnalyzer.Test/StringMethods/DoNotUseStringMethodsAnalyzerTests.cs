@@ -76,7 +76,7 @@ using UnityEngine;
 class C : MonoBehaviour
 {
     private GameObject go;
-    void Start() { go.[|SendMessage|](string.Empty); }
+    void Start() { [|go.SendMessage(string.Empty)|]; }
 }";
 
             Document document;
@@ -95,7 +95,7 @@ using UnityEngine;
 class C : MonoBehaviour
 {
     private GameObject go;
-    void Start() { go.[|SendMessageUpwards|](string.Empty); }
+    void Start() { [|go.SendMessageUpwards(string.Empty)|]; }
 }";
 
             Document document;
@@ -114,7 +114,7 @@ using UnityEngine;
 class C : MonoBehaviour
 {
     private GameObject go;
-    void Start() { go.[|BroadcastMessage|](string.Empty); }
+    void Start() { [|go.BroadcastMessage(string.Empty)|]; }
 }";
 
             Document document;
@@ -135,7 +135,7 @@ class CC : MonoBehaviour { }
 class C : MonoBehaviour
 {
     private CC cc;
-    void Start() { cc.[|SendMessage|](string.Empty); }
+    void Start() { [|cc.SendMessage(string.Empty)|]; }
 }";
 
             Document document;
@@ -156,7 +156,7 @@ class CC : MonoBehaviour { }
 class C : MonoBehaviour
 {
     private CC cc;
-    void Start() { cc.[|SendMessageUpwards|](string.Empty); }
+    void Start() { [|cc.SendMessageUpwards(string.Empty)|]; }
 }";
 
             Document document;
@@ -177,7 +177,7 @@ class CC : MonoBehaviour { }
 class C : MonoBehaviour
 {
     private CC cc;
-    void Start() { cc.[|BroadcastMessage|](string.Empty); }
+    void Start() { [|cc.BroadcastMessage(string.Empty)|]; }
 }";
 
             Document document;
@@ -216,7 +216,7 @@ class CC : MonoBehaviour { }
 class C : MonoBehaviour
 {
     private CC cc;
-    void Start() { cc.[|Invoke|](string.Empty, 0f); }
+    void Start() { [|cc.Invoke(string.Empty, 0f)|]; }
 }";
 
             Document document;
