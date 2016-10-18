@@ -23,7 +23,7 @@ class C : MonoBehaviour
 {
     void M()
     {
-        [|StartCoroutine("")|];
+        [|StartCoroutine(""MyCoroutine"")|];
     }
 }";
             Document document;
@@ -46,7 +46,7 @@ class C : MonoBehaviour
     private CC cc;
     void M()
     {
-        cc.[|StartCoroutine("")|];
+        [|cc.StartCoroutine(""MyCoroutine"")|];
     }
 }";
             Document document;
