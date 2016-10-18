@@ -28,13 +28,24 @@ namespace UnityEngineAnalyzer.StringMethods
                 return;
             }
 
-            var name = (invocation.Expression as MemberAccessExpressionSyntax)?.Name.Identifier.ToString();
+            var memberAccessExpression = invocation.Expression as MemberAccessExpressionSyntax;
+
+            string name = null;
+            if (memberAccessExpression != null)
+            {
+                name = memberAccessExpression.Name.Identifier.ToString();
+            }
+            else
+            {
+                var identifier = invocation.Expression as IdentifierNameSyntax;
+                name = identifier?.ToString();
+            }
+            
 
             // check if any of the "string" methods are used
             if (!StringMethods.Contains(name)) { return; }
 
 
-            //TODO: the call below is receiving a "OverloadResolutionFailure" - I think this is because it did not load the Unity references properly
             // check if the method is the one from UnityEngine
             var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
             var methodSymbol = symbolInfo.Symbol as IMethodSymbol;

@@ -21,7 +21,7 @@ using UnityEngine;
 
 class C : MonoBehaviour
 {
-    void Start() { [|SendMessage|](string.Empty); }
+    void Start() { [|SendMessage(string.Empty)|]; }
 }";
 
             Document document;
@@ -39,7 +39,7 @@ using UnityEngine;
 
 class C : MonoBehaviour
 {
-    void Start() { [|SendMessageUpwards|](string.Empty); }
+    void Start() { [|SendMessageUpwards(string.Empty)|]; }
 }";
 
             Document document;
@@ -57,7 +57,7 @@ using UnityEngine;
 
 class C : MonoBehaviour
 {
-    void Start() { [|BroadcastMessage|](string.Empty); }
+    void Start() { [|BroadcastMessage(string.Empty)|]; }
 }";
 
             Document document;
@@ -195,7 +195,7 @@ using UnityEngine;
 
 class C : MonoBehaviour
 {
-    void Start() { [|Invoke|](string.Empty, 0f); }
+    void Start() { [|Invoke(string.Empty, 0f)|]; }
 }";
 
             Document document;
@@ -234,7 +234,7 @@ using UnityEngine;
 
 class C : MonoBehaviour
 {
-    void Start() { [|InvokeRepeating|](string.Empty, 0f); }
+    void Start() { [|InvokeRepeating(string.Empty, 0f, 0f)|]; }
 }";
 
             Document document;
@@ -255,7 +255,7 @@ class CC : MonoBehaviour { }
 class C : MonoBehaviour
 {
     private CC cc;
-    void Start() { cc.[|InvokeRepeating|](string.Empty, 0f); }
+    void Start() { [|cc.InvokeRepeating(string.Empty, 0f, 0f)|]; }
 }";
 
             Document document;
