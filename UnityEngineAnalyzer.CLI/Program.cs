@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngineAnalyzer.CLI.Reporting;
 
 namespace UnityEngineAnalyzer.CLI
 {
@@ -22,9 +23,10 @@ namespace UnityEngineAnalyzer.CLI
                 var fileName = args[0];
                 var fileInfo = new FileInfo(fileName);
 
+                //NOTE: This could be configurable via the CLI at some point
                 var report = new AnalyzerReport();
                 report.AddExporter(new ConsoleAnalyzerExporter());
-                //report.AddExporter(new JsonAnalyzerExporter());
+                report.AddExporter(new JsonAnalyzerExporter());
 
 
                 report.InitializeReport(fileInfo.FullName);
