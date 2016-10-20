@@ -72,7 +72,7 @@ namespace UnityEngineAnalyzer
             title: new LocalizableResourceString(nameof(DoNotUseRemotingResources.Title), DoNotUseRemotingResources.ResourceManager, typeof(DoNotUseRemotingResources)),
             messageFormat: new LocalizableResourceString(nameof(DoNotUseRemotingResources.MessageFormat), DoNotUseRemotingResources.ResourceManager, typeof(DoNotUseRemotingResources)),
             category: DiagnosticCategories.AOT,
-            defaultSeverity: DiagnosticSeverity.Warning,
+            defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseRemotingResources.Description), DoNotUseRemotingResources.ResourceManager, typeof(DoNotUseRemotingResources)));
 
@@ -81,7 +81,7 @@ namespace UnityEngineAnalyzer
             title: new LocalizableResourceString(nameof(DoNotUseReflectionEmitResources.Title), DoNotUseReflectionEmitResources.ResourceManager, typeof(DoNotUseReflectionEmitResources)),
             messageFormat: new LocalizableResourceString(nameof(DoNotUseReflectionEmitResources.MessageFormat), DoNotUseReflectionEmitResources.ResourceManager, typeof(DoNotUseReflectionEmitResources)),
             category: DiagnosticCategories.AOT,
-            defaultSeverity: DiagnosticSeverity.Warning,
+            defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseReflectionEmitResources.Description), DoNotUseReflectionEmitResources.ResourceManager, typeof(DoNotUseReflectionEmitResources)));
 
@@ -99,7 +99,7 @@ namespace UnityEngineAnalyzer
             title: new LocalizableResourceString(nameof(DoNotUseForEachInUpdateResources.Title), DoNotUseForEachInUpdateResources.ResourceManager, typeof(DoNotUseForEachInUpdateResources)),
             messageFormat: new LocalizableResourceString(nameof(DoNotUseForEachInUpdateResources.MessageFormat), DoNotUseForEachInUpdateResources.ResourceManager, typeof(DoNotUseForEachInUpdateResources)),
             category: DiagnosticCategories.Performance,
-            defaultSeverity: DiagnosticSeverity.Info,
+            defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseForEachInUpdateResources.Description), DoNotUseForEachInUpdateResources.ResourceManager, typeof(DoNotUseForEachInUpdateResources))
         );

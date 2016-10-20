@@ -34,8 +34,10 @@ namespace UnityEngineAnalyzer.CLI
                     Id = diagnostic.Id,
                     Message = diagnostic.GetMessage(),
                     FileName = diagnostic.Location.SourceTree.FilePath,
-                    LineNumber = lineSpan.StartLinePosition.Line
+                    LineNumber = lineSpan.StartLinePosition.Line,
+                    Severity = (DiagnosticInfoSeverity)diagnostic.Severity
                 };
+
 
                 foreach (var exporter in _exporters)
                 {
@@ -69,12 +71,21 @@ namespace UnityEngineAnalyzer.CLI
         void Finish(TimeSpan duration);
     }
 
+    public enum DiagnosticInfoSeverity
+    {
+        Hidden = 0,
+        Info = 1,
+        Warning = 2,
+        Error = 3
+    }
+
     public class DiagnosticInfo
     {
         public string Id { get; set; }
         public string Message { get; set; }
         public string FileName { get; set; }
         public int LineNumber { get; set; }
+        public DiagnosticInfoSeverity Severity { get; set; }
     }
 
     public class JsonAnalyzerExporter : IAnalyzerExporter
@@ -100,11 +111,33 @@ namespace UnityEngineAnalyzer.CLI
         {
             Console.Write(diagnosticInfo.Id);
             Console.Write(ConsoleSeparator);
-            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            Console.ForegroundColor = ConsoleColorFromSeverity(diagnosticInfo.Severity);
+            Console.Write(diagnosticInfo.Severity.ToString());
+            Console.Write(ConsoleSeparator);
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write(diagnosticInfo.Message);
             Console.ResetColor();
             Console.Write(ConsoleSeparator);
             Console.WriteLine("{0}({1})",diagnosticInfo.FileName,diagnosticInfo.LineNumber);
+        }
+
+        private ConsoleColor ConsoleColorFromSeverity(DiagnosticInfoSeverity severity)
+        {
+            switch (severity)
+            {
+                case DiagnosticInfoSeverity.Hidden:
+                    return ConsoleColor.Gray;
+                case DiagnosticInfoSeverity.Info:
+                    return ConsoleColor.Green;
+                case DiagnosticInfoSeverity.Warning:
+                    return ConsoleColor.Yellow;
+                case DiagnosticInfoSeverity.Error:
+                    return ConsoleColor.Red;
+                default:
+                    return ConsoleColor.White;
+            }
         }
 
         public void Finish(TimeSpan duration)

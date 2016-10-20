@@ -7,15 +7,18 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.MSBuild;
 using UnityEngineAnalyzer.CompareTag;
+using UnityEngineAnalyzer.Coroutines;
 using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
 using UnityEngineAnalyzer.FindMethodsInUpdate;
 using UnityEngineAnalyzer.ForEachInUpdate;
+using UnityEngineAnalyzer.OnGUI;
+using UnityEngineAnalyzer.StringMethods;
 
 namespace UnityEngineAnalyzer.CLI
 {
     public class SolutionAnalyzer
     {
-        public async Task LoadAnadAnalyzeProject(FileInfo projectFile, AnalyzerReport report)
+        public async Task LoadAnadAnalyzeProject(FileInfo projectFile, AnalyzerReport report) //TODO: Add async suffix
         {
             var workspace = MSBuildWorkspace.Create();
 
@@ -33,6 +36,9 @@ namespace UnityEngineAnalyzer.CLI
             listBuilder.Add(new EmptyMonoBehaviourMethodsAnalyzer());
             listBuilder.Add(new UseCompareTagAnalyzer());
             listBuilder.Add(new DoNotUseForEachInUpdate());
+            listBuilder.Add(new DoNotUseCoroutinesAnalyzer());
+            listBuilder.Add(new DoNotUseOnGUIAnalyzer());
+            listBuilder.Add(new DoNotUseStringMethodsAnalyzer());
             //NOTE: We could use Reflection to automatically pick up all of the Analyzers
 
 
