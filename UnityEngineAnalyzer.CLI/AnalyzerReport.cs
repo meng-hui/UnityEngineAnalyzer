@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.CodeAnalysis;
 using UnityEngineAnalyzer.CLI.Reporting;
 
@@ -53,11 +54,11 @@ namespace UnityEngineAnalyzer.CLI
             }
         }
 
-        public void InitializeReport(string projectFileName)
+        public void InitializeReport(FileInfo projectFile)
         {
             foreach (var exporter in _exporters)
             {
-                exporter.InitializeExporter(projectFileName);       
+                exporter.InitializeExporter(projectFile);       
             }
         }
     }

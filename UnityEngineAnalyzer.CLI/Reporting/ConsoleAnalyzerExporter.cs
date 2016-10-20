@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
@@ -46,12 +47,12 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             Console.ResetColor();
         }
 
-        public void InitializeExporter(string fileName)
+        public void InitializeExporter(FileInfo projectFile)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Unity Syntax Analyzer");
             Console.WriteLine();
-            Console.WriteLine("Analyzing: {0}", fileName);
+            Console.WriteLine("Analyzing: {0}", projectFile.FullName);
             Console.WriteLine();
             Console.ResetColor();
         }

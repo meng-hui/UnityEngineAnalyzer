@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
@@ -6,6 +7,6 @@ namespace UnityEngineAnalyzer.CLI.Reporting
     {
         void AppendDiagnostic(DiagnosticInfo diagnosticInfo);
         void Finish(TimeSpan duration);
-        void InitializeExporter(string fileName);
+        void InitializeExporter(FileInfo projectFile);
     }
 }

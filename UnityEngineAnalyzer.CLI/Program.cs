@@ -29,7 +29,7 @@ namespace UnityEngineAnalyzer.CLI
                 report.AddExporter(new JsonAnalyzerExporter());
 
 
-                report.InitializeReport(fileInfo.FullName);
+                report.InitializeReport(fileInfo);
 
                 var tasks = new List<Task>();
                 if (fileInfo.Exists)
