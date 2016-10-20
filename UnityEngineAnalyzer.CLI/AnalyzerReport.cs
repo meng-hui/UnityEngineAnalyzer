@@ -6,8 +6,6 @@ namespace UnityEngineAnalyzer.CLI
 {
     public class AnalyzerReport
     {
-        public string ProjectName { get; set; }
-
         //TODO: Add support for Solutions with multiple Projects
 
         private readonly List<IAnalyzerExporter> _exporters = new List<IAnalyzerExporter>();
@@ -56,12 +54,10 @@ namespace UnityEngineAnalyzer.CLI
 
         public void InitializeReport(string fileInfoName)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Unity Syntax Analyzer");
-            Console.WriteLine();
-            Console.WriteLine("Analyzing: {0}", fileInfoName);
-            Console.WriteLine();
-            Console.ResetColor();
+            foreach (var exporter in _exporters)
+            {
+                exporter.InitializeExporter(fileInfoName);       
+            }
         }
     }
 
@@ -69,6 +65,7 @@ namespace UnityEngineAnalyzer.CLI
     {
         void AppendDiagnostic(DiagnosticInfo diagnosticInfo);
         void Finish(TimeSpan duration);
+        void InitializeExporter(string fileName);
     }
 
     public enum DiagnosticInfoSeverity
@@ -100,6 +97,11 @@ namespace UnityEngineAnalyzer.CLI
         public void Finish(TimeSpan duration)
         {
             Console.WriteLine("This is where we write the json file : " + _diagnostics.Count);
+        }
+
+        public void InitializeExporter(string fileName)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -144,6 +146,16 @@ namespace UnityEngineAnalyzer.CLI
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Console Export Finished ({0})", duration);
+            Console.ResetColor();
+        }
+
+        public void InitializeExporter(string fileName)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Unity Syntax Analyzer");
+            Console.WriteLine();
+            Console.WriteLine("Analyzing: {0}", fileName);
+            Console.WriteLine();
             Console.ResetColor();
         }
     }
