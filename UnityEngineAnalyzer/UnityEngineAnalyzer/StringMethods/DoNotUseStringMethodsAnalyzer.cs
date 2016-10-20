@@ -28,19 +28,21 @@ namespace UnityEngineAnalyzer.StringMethods
                 return;
             }
 
-            var memberAccessExpression = invocation.Expression as MemberAccessExpressionSyntax;
 
             string name = null;
-            if (memberAccessExpression != null)
+            if (invocation.Expression is MemberAccessExpressionSyntax)
             {
-                name = memberAccessExpression.Name.Identifier.ToString();
+                name = ((MemberAccessExpressionSyntax)invocation.Expression).Name.Identifier.ToString();
             }
-            else
+            else if (invocation.Expression is IdentifierNameSyntax)
             {
-                var identifier = invocation.Expression as IdentifierNameSyntax;
-                name = identifier?.ToString();
+                name = ((IdentifierNameSyntax)invocation.Expression).ToString();
             }
-            
+            else if (invocation.Expression is GenericNameSyntax)
+            {
+                name = ((GenericNameSyntax)invocation.Expression).Identifier.ToString();
+            }
+
 
             // check if any of the "string" methods are used
             if (!StringMethods.Contains(name)) { return; }
