@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -6,12 +7,15 @@ namespace UnityEngineAnalyzer.CLI.Reporting
 {
     public class JsonAnalyzerExporter : IAnalyzerExporter
     {
-        private const string ReportFileName = "report.json";
+        private const string JsonReportFileName = "report.json";
+        private const string HtmlReportFileName = "UnityReport.html";
         private const DiagnosticInfoSeverity MinimalSeverity = DiagnosticInfoSeverity.Warning;
 
 
         private JsonTextWriter _jsonWriter;
         private readonly JsonSerializer _jsonSerializer = new JsonSerializer();
+        private string _destinationReportFile;
+
 
         public void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
         {
@@ -26,6 +30,12 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             _jsonWriter.WriteEndArray();
             _jsonWriter.WriteEndObject();
             _jsonWriter.Close();
+
+            
+            File.Copy(HtmlReportFileName, _destinationReportFile, true);
+
+            //NOTE: This code might be temporary as it assumes that the CLI is being executed interactively
+            //Process.Start(_destinationReportFile);
         }
 
         public void InitializeExporter(FileInfo projectFile)
@@ -34,8 +44,9 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             {
                 throw new ArgumentException("Project file does not exist");
             }
-            
-            var jsonFilePath = Path.Combine(projectFile.DirectoryName, ReportFileName);
+
+            _destinationReportFile = Path.Combine(projectFile.DirectoryName, HtmlReportFileName);
+            var jsonFilePath = Path.Combine(projectFile.DirectoryName, JsonReportFileName);
             var jsonFile = new FileInfo(jsonFilePath);
 
             if (jsonFile.Exists)
