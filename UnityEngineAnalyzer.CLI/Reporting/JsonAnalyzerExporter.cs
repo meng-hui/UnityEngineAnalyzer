@@ -6,12 +6,19 @@ namespace UnityEngineAnalyzer.CLI.Reporting
 {
     public class JsonAnalyzerExporter : IAnalyzerExporter
     {
+        private const string ReportFileName = "report.json";
+        private const DiagnosticInfoSeverity MinimalSeverity = DiagnosticInfoSeverity.Warning;
+
+
         private JsonTextWriter _jsonWriter;
         private readonly JsonSerializer _jsonSerializer = new JsonSerializer();
 
         public void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
         {
-            _jsonSerializer.Serialize(_jsonWriter, diagnosticInfo);
+            if (diagnosticInfo.Severity >= MinimalSeverity)
+            {
+                _jsonSerializer.Serialize(_jsonWriter, diagnosticInfo);
+            }
         }
 
         public void Finish(TimeSpan duration)
@@ -27,10 +34,8 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             {
                 throw new ArgumentException("Project file does not exist");
             }
-
-
-            var newFileName = projectFile.Name.Replace(projectFile.Extension, ".json");
-            var jsonFilePath = Path.Combine(projectFile.DirectoryName, newFileName);
+            
+            var jsonFilePath = Path.Combine(projectFile.DirectoryName, ReportFileName);
             var jsonFile = new FileInfo(jsonFilePath);
 
             if (jsonFile.Exists)
