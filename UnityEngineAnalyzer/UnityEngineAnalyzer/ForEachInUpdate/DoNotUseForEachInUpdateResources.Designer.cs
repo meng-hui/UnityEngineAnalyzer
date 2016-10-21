@@ -71,7 +71,7 @@ namespace UnityEngineAnalyzer.ForEachInUpdate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The method {0} is using a ForEach loop.
+        ///   Looks up a localized string similar to The method {0}.{1} is using a ForEach loop.
         /// </summary>
         internal static string MessageFormat {
             get {
@@ -80,7 +80,7 @@ namespace UnityEngineAnalyzer.ForEachInUpdate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Avoid using ForEach loops in Unity.
+        ///   Looks up a localized string similar to Avoid using ForEach loops in Update methods.
         /// </summary>
         internal static string Title {
             get {
