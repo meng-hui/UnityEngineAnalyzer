@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace UnityEngineAnalyzer
@@ -42,6 +44,26 @@ namespace UnityEngineAnalyzer
 
             //NOTE: there may be a performance boost if we cache some of the semantic models
             return semanticModel.Compilation.GetSemanticModel(expression.SyntaxTree);
+        }
+
+        public static bool IsDerived(this ClassDeclarationSyntax classDeclaration)
+        {
+            return (classDeclaration.BaseList != null && classDeclaration.BaseList.Types.Count > 0);
+        }
+
+        public static bool IsSealed(this ClassDeclarationSyntax classDeclaration)
+        { 
+            return classDeclaration.Modifiers.Any(m => m.Kind() == SyntaxKind.SealedKeyword);
+        }
+
+        public static bool IsSealed(this MethodDeclarationSyntax methodDeclaration)
+        {
+            return methodDeclaration.Modifiers.Any(m => m.Kind() == SyntaxKind.SealedKeyword);
+        }
+
+        public static bool IsOverriden(this MethodDeclarationSyntax methodDeclaration)
+        {
+            return methodDeclaration.Modifiers.Any(m => m.Kind() == SyntaxKind.OverrideKeyword);
         }
     }
 }
