@@ -46,7 +46,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
             context.RegisterSyntaxNodeAction(AnalyzeClassSyntax, SyntaxKind.ClassDeclaration);
         }
 
-        public static void AnalyzeClassSyntax(SyntaxNodeAnalysisContext context)
+        public void AnalyzeClassSyntax(SyntaxNodeAnalysisContext context)
         {
             var monoBehaviourInfo = new MonoBehaviourInfo(context);
 
@@ -60,8 +60,6 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
 
                 foreach (var findCall in findCalls)
                 {
-                    //Debug.WriteLine("Found a bad call! " + findCall);
-
                     var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate,
                         findCall.GetLocation(), findCall, monoBehaviourInfo.ClassName, updateMethod.Identifier);
                     context.ReportDiagnostic(diagnostic);
@@ -70,7 +68,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
         }
 
         //TODO: Try to simplify this method - it's very hard to follow
-        private static IEnumerable<ExpressionSyntax> SearchForFindCalls(SyntaxNodeAnalysisContext context,
+        private IEnumerable<ExpressionSyntax> SearchForFindCalls(SyntaxNodeAnalysisContext context,
             MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched)
         {
             var invocations = method.DescendantNodes().OfType<InvocationExpressionSyntax>();
@@ -78,11 +76,10 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
             foreach (var invocation in invocations)
             {
                 SymbolInfo symbolInfo;
-                if (!TryGetSymbolInfo(context, invocation, out symbolInfo))
+                if (!context.TryGetSymbolInfo(invocation, out symbolInfo))
                 {
                     continue;
                 }
-                //var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
 
                 var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
 
@@ -120,6 +117,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                                     if (childFindCallers != null && childFindCallers.Any())
                                     {
                                         searched[methodSymbol] = true; //update the searched dictionary with new info
+
                                         yield return invocation;
                                         break;
                                     }
@@ -129,39 +127,6 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                     }
                 }
             }
-        }
-
-        private static bool TryGetSymbolInfo(SyntaxNodeAnalysisContext context, SyntaxNode node, out SymbolInfo symbolInfo)
-        {
-            try
-            {
-                //NOTE: The Call below fixes many issues where the symbol cannot be found - but there are still cases where an argumentexception is thrown
-                // which seems to resemble this issue: https://github.com/dotnet/roslyn/issues/11193
-
-                var semanticModel = SemanticModelFor(context.SemanticModel, node);
-
-                symbolInfo = semanticModel.GetSymbolInfo(node); //context.SemanticModel.GetSymbolInfo(node);
-                return true;
-            }
-            catch (Exception generalException)
-            {
-                Debug.WriteLine("Unable to find Symbol: " + node);
-                Debug.WriteLine(generalException);
-            }
-
-            symbolInfo = default(SymbolInfo);
-            return false;
-        }
-
-        internal static SemanticModel SemanticModelFor(SemanticModel semanticModel, SyntaxNode expression)
-        {
-            if (ReferenceEquals(semanticModel.SyntaxTree, expression.SyntaxTree))
-            {
-                return semanticModel;
-            }
-
-            //NOTE: there may be a performance boost if we cache some of the semantic models
-            return semanticModel.Compilation.GetSemanticModel(expression.SyntaxTree);
         }
     }
 }
