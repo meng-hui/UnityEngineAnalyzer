@@ -12,6 +12,8 @@ namespace UnityEngineAnalyzer
 {
     static class DiagnosticDescriptors
     {
+        //NOTES: Naming of Descriptors are a bit inconsistant
+
         public static readonly DiagnosticDescriptor DoNotUseOnGUI = new DiagnosticDescriptor(
             id: DiagnosticIDs.DoNotUseOnGUI,
             title: new LocalizableResourceString(nameof(DoNotUseOnGUIResources.Title), DoNotUseOnGUIResources.ResourceManager, typeof(DoNotUseOnGUIResources)),
@@ -62,6 +64,15 @@ namespace UnityEngineAnalyzer
             id: DiagnosticIDs.DoNotUseFindMethodsInUpdate,
             title: new LocalizableResourceString(nameof(DoNotUseFindMethodsInUpdateResources.Title), DoNotUseFindMethodsInUpdateResources.ResourceManager, typeof(DoNotUseFindMethodsInUpdateResources)),
             messageFormat: new LocalizableResourceString(nameof(DoNotUseFindMethodsInUpdateResources.MessageFormat), DoNotUseFindMethodsInUpdateResources.ResourceManager, typeof(DoNotUseFindMethodsInUpdateResources)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseFindMethodsInUpdateResources.Description), DoNotUseFindMethodsInUpdateResources.ResourceManager, typeof(DoNotUseFindMethodsInUpdateResources)));
+
+        public static readonly DiagnosticDescriptor DoNotUseFindMethodsInUpdateRecursive = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseFindMethodsInUpdate,
+            title: new LocalizableResourceString(nameof(DoNotUseFindMethodsInUpdateResources.Title), DoNotUseFindMethodsInUpdateResources.ResourceManager, typeof(DoNotUseFindMethodsInUpdateResources)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseFindMethodsInUpdateResources.MessageFormatRecursive), DoNotUseFindMethodsInUpdateResources.ResourceManager, typeof(DoNotUseFindMethodsInUpdateResources)),
             category: DiagnosticCategories.Performance,
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,

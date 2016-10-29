@@ -62,7 +62,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Using Find or GetComponent in Start or Awake can cause performance problems. Cache the result on Start or Awake methods.
+        ///   Looks up a localized string similar to Using Find or GetComponent in Update methods can impact performance. Cache the result on Start or Awake methods.
         /// </summary>
         internal static string Description {
             get {
@@ -76,6 +76,15 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate {
         internal static string MessageFormat {
             get {
                 return ResourceManager.GetString("MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The method {0}.{1} calls {2} which eventually calls {3} which could impact performance. Cache the result from {3} in Start or Awake instead..
+        /// </summary>
+        internal static string MessageFormatRecursive {
+            get {
+                return ResourceManager.GetString("MessageFormatRecursive", resourceCulture);
             }
         }
         

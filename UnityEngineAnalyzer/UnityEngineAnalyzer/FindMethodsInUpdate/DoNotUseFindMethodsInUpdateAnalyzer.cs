@@ -37,9 +37,18 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
             "UnityEngine.Component",
             "UnityEngine.Transform");
 
+        private Dictionary<ExpressionSyntax,ExpressionSyntax> _indirectCallers;
+
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
-            => ImmutableArray.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate);
+        {
+            get
+            {
+                return ImmutableArray.Create(
+                    DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, 
+                    DiagnosticDescriptors.DoNotUseFindMethodsInUpdateRecursive);
+            }
+        }
 
         public override void Initialize(AnalysisContext context)
         {
@@ -51,25 +60,38 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
             var monoBehaviourInfo = new MonoBehaviourInfo(context);
 
             var searched = new Dictionary<IMethodSymbol, bool>();
+            _indirectCallers = new Dictionary<ExpressionSyntax, ExpressionSyntax>();
 
             monoBehaviourInfo.ForEachUpdateMethod((updateMethod) =>
             {
                 //Debug.WriteLine("Found an update call! " + updateMethod);
 
-                var findCalls = SearchForFindCalls(context, updateMethod, searched);
+                var findCalls = SearchForFindCalls(context, updateMethod, searched, true);
 
                 foreach (var findCall in findCalls)
                 {
-                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate,
-                        findCall.GetLocation(), findCall, monoBehaviourInfo.ClassName, updateMethod.Identifier);
-                    context.ReportDiagnostic(diagnostic);
+                    if (!_indirectCallers.ContainsKey(findCall))
+                    {
+                        var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate,
+                            findCall.GetLocation(), findCall, monoBehaviourInfo.ClassName, updateMethod.Identifier);
+                        context.ReportDiagnostic(diagnostic);
+                    }
+                    else
+                    {
+                        var endPoint = _indirectCallers[findCall];
+
+                        var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdateRecursive,
+                            findCall.GetLocation(), monoBehaviourInfo.ClassName, updateMethod.Identifier, findCall, endPoint);
+                        context.ReportDiagnostic(diagnostic);
+                    }
+
                 }
             });
         }
 
         //TODO: Try to simplify this method - it's very hard to follow
         private IEnumerable<ExpressionSyntax> SearchForFindCalls(SyntaxNodeAnalysisContext context,
-            MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched)
+            MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched, bool isRoot)
         {
             var invocations = method.DescendantNodes().OfType<InvocationExpressionSyntax>();
 
@@ -112,11 +134,16 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
 
                                 if (theMethodSyntax != null)
                                 {
-                                    var childFindCallers = SearchForFindCalls(context, theMethodSyntax, searched);
+                                    var childFindCallers = SearchForFindCalls(context, theMethodSyntax, searched, false);
 
                                     if (childFindCallers != null && childFindCallers.Any())
                                     {
                                         searched[methodSymbol] = true; //update the searched dictionary with new info
+
+                                        if (isRoot)
+                                        {
+                                            _indirectCallers.Add(invocation, childFindCallers.First());
+                                        }
 
                                         yield return invocation;
                                         break;
