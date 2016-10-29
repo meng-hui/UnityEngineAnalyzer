@@ -80,7 +80,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
                 SymbolInfo symbolInfo;
                 if (!TryGetSymbolInfo(context, invocation, out symbolInfo))
                 {
-                    break;
+                    continue;
                 }
                 //var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
 
