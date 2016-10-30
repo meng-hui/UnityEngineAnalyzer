@@ -32,14 +32,18 @@ namespace UnityEngineAnalyzer.CLI
         private ImmutableArray<DiagnosticAnalyzer> GetAnalyzers()
         {
             var listBuilder = ImmutableArray.CreateBuilder<DiagnosticAnalyzer>();
-            listBuilder.Add(new DoNotUseFindMethodsInUpdateAnalyzer());
-            listBuilder.Add(new EmptyMonoBehaviourMethodsAnalyzer());
-            listBuilder.Add(new UseCompareTagAnalyzer());
-            listBuilder.Add(new DoNotUseForEachInUpdate());
-            listBuilder.Add(new DoNotUseCoroutinesAnalyzer());
-            listBuilder.Add(new DoNotUseOnGUIAnalyzer());
-            listBuilder.Add(new DoNotUseStringMethodsAnalyzer());
-            //NOTE: We could use Reflection to automatically pick up all of the Analyzers
+
+            var assembly = typeof(DoNotUseForEachInUpdate).Assembly;
+            var allTypes = assembly.DefinedTypes;
+
+            foreach (var type in allTypes)
+            {
+                if (type.BaseType == typeof(DiagnosticAnalyzer))
+                {
+                    var instance = Activator.CreateInstance(type) as DiagnosticAnalyzer;
+                    listBuilder.Add(instance);
+                }
+            }
 
 
             var analyzers = listBuilder.ToImmutable();
