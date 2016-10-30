@@ -6,9 +6,15 @@ namespace UnityEngineAnalyzer.CLI.Reporting
     public class ConsoleAnalyzerExporter : IAnalyzerExporter
     {
         private const string ConsoleSeparator = "\t";
+        private const DiagnosticInfoSeverity MinimalSeverity = DiagnosticInfoSeverity.Warning;
 
         public void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
         {
+            if (diagnosticInfo.Severity < MinimalSeverity)
+            {
+                return;
+            }
+
             Console.Write(diagnosticInfo.Id);
             Console.Write(ConsoleSeparator);
 

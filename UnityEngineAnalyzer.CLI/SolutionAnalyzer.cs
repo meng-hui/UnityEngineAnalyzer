@@ -6,13 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.MSBuild;
-using UnityEngineAnalyzer.CompareTag;
-using UnityEngineAnalyzer.Coroutines;
-using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
-using UnityEngineAnalyzer.FindMethodsInUpdate;
 using UnityEngineAnalyzer.ForEachInUpdate;
-using UnityEngineAnalyzer.OnGUI;
-using UnityEngineAnalyzer.StringMethods;
 
 namespace UnityEngineAnalyzer.CLI
 {
