@@ -6,6 +6,8 @@ using System.Collections.Immutable;
 
 namespace UnityEngineAnalyzer.CompareTag
 {
+    //TODO: Create a CodeFix provider for this
+
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public sealed class UseCompareTagAnalyzer : DiagnosticAnalyzer
     {
@@ -56,9 +58,9 @@ namespace UnityEngineAnalyzer.CompareTag
                 // check for property access
                 var propertySymbol = context.SemanticModel.GetSymbolInfo(expression).Symbol as IPropertySymbol;
                 // check that property accessed is tag and belongs to UnityEngine
-                if (propertySymbol?.Name.Equals("tag") ?? false && 
+                if (propertySymbol?.Name.Equals("tag") ?? false && //TODO: Either fix this statement or remove this check
                     ContainingSymbols.Contains(propertySymbol.ContainingSymbol.ToString()))
-                { return true; } 
+                { return true; }
             }
 
             return false;
