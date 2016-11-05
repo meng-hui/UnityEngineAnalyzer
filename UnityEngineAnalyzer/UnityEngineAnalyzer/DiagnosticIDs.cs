@@ -10,6 +10,7 @@ namespace UnityEngineAnalyzer
         public const string DoNotUseFindMethodsInUpdate = "UEA0005";
         public const string DoNotUseCoroutines = "UEA0006";
         public const string DoNotUseForEachInUpdate = "UEA0007";
+        public const string UnsealedDerivedClass = "UEA0008";
 
         //NOTES: These should probably be on their own analyzer - as they are not specific to Unity
         public const string DoNotUseRemoting = "AOT0001";

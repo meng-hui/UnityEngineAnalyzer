@@ -83,6 +83,17 @@
       <DependentUpon>DoNotUseForEachInUpdateResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ForEachInUpdate\DoNotUseForEachInUpdate.cs" />
+    <Compile Include="StringMethods\DoNotUseForEachInUpdateResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoNotUseStringMethodsResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="IL2CPP\UnsealedDerivedClassAnalyzer.cs" />
+    <Compile Include="IL2CPP\UnsealedDerivedClassResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UnsealedDerivedClassResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="MonoBehaviourInfo.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzer.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIResources.Designer.cs">
@@ -131,6 +142,10 @@
     <EmbeddedResource Include="Coroutines\DoNotUseCoroutinesResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseForEachInUpdateResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IL2CPP\UnsealedDerivedClassResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UnsealedDerivedClassResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="OnGUI\DoNotUseOnGUIResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
