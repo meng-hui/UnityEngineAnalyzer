@@ -3,8 +3,25 @@ UnityEngineAnalyzer
 
 UnityEngineAnalyzer is a set of Roslyn analyzers that aim to detect common problems in Unity3D C# code. Unity3D makes it easy for us to make cross platform games, but there are hidden rules about performance and AOT, which might only come with experience, testing or reading the forums. It is hoped that such problems can be caught before compilation.
 
-Installation
-------------
+
+Comand Line Interface
+---------------------
+
+In order to use the Command Line Interface (CLI), download the latest release of UnityEngineAnalyzer then unzip the archive.
+
+1. Open a Command Prompt or Powershell Window
+1. Run `UnityEngineAnalyzer.CLI.exe <project path>`
+1. Observe the analysis results
+1. (Optional) In the same location as the project file are `report.json` and `UnityReport.html` files containig the results of the analysis  
+
+
+Example:
+
+`> UnityEngineAnalyzer.CLI.exe C:\Code\MyGame.CSharp.csproj` 
+
+
+Visual Studio Integration
+-------------------------
 
 In Visual Studio 2015, go to `Tools > Nuget Package Manager > Manage Nuget Packages for Solution...`. Search for and install `UnityEngineAnalyzer`
 
@@ -18,7 +35,7 @@ Right-click `Analyzers` to modify the severity or to disable the rule completely
 Limitations
 -----------
 
-- Only available for Visual Studio 2015
+- HTML Report requires FireFox or XOR (Corss Origin Request) enabled in other browsers
 - It doesn't have rules for all of [Mono's AOT Limitations](https://developer.xamarin.com/guides/ios/advanced_topics/limitations/)
 - IL2CPP might change the limitations of AOT compilation
 
