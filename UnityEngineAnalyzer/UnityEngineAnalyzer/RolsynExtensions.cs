@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -64,6 +61,30 @@ namespace UnityEngineAnalyzer
         public static bool IsOverriden(this MethodDeclarationSyntax methodDeclaration)
         {
             return methodDeclaration.Modifiers.Any(m => m.Kind() == SyntaxKind.OverrideKeyword);
+        }
+
+        public static string MethodName(this InvocationExpressionSyntax invocation)
+        {
+
+            string name;
+
+            if (invocation.Expression is MemberAccessExpressionSyntax)
+            {
+                name = ((MemberAccessExpressionSyntax)invocation.Expression).Name.Identifier.ToString();
+            }
+            else if (invocation.Expression is IdentifierNameSyntax)
+            {
+                name = ((IdentifierNameSyntax)invocation.Expression).ToString();
+            }
+            else if (invocation.Expression is GenericNameSyntax)
+            {
+                name = ((GenericNameSyntax)invocation.Expression).Identifier.ToString();
+            }
+            else
+            {
+                throw new ArgumentException("Unable to determine name of method");
+            }
+            return name;
         }
     }
 }

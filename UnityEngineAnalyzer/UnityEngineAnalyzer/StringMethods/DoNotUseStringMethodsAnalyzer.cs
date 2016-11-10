@@ -28,20 +28,7 @@ namespace UnityEngineAnalyzer.StringMethods
                 return;
             }
 
-
-            string name = null;
-            if (invocation.Expression is MemberAccessExpressionSyntax)
-            {
-                name = ((MemberAccessExpressionSyntax)invocation.Expression).Name.Identifier.ToString();
-            }
-            else if (invocation.Expression is IdentifierNameSyntax)
-            {
-                name = ((IdentifierNameSyntax)invocation.Expression).ToString();
-            }
-            else if (invocation.Expression is GenericNameSyntax)
-            {
-                name = ((GenericNameSyntax)invocation.Expression).Identifier.ToString();
-            }
+            var name = invocation.MethodName();
 
 
             // check if any of the "string" methods are used
