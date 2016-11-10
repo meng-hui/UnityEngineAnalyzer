@@ -10,7 +10,7 @@ namespace UnityEngineAnalyzer.StringMethods
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public sealed class DoNotUseStringMethodsAnalyzer : DiagnosticAnalyzer
     {
-        private static readonly ImmutableHashSet<string> StringMethods = ImmutableHashSet.Create("SendMessage", "SendMessageUpwards", "BroadcastMessage", "Invoke", "InvokeRepeating");
+        private static readonly ImmutableHashSet<string> StringMethods = ImmutableHashSet.Create("SendMessage", "SendMessageUpwards", "BroadcastMessage");
         private static readonly ImmutableHashSet<string> Namespaces = ImmutableHashSet.Create("UnityEngine.Component", "UnityEngine.GameObject", "UnityEngine.MonoBehaviour");
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptors.DoNotUseStringMethods);
