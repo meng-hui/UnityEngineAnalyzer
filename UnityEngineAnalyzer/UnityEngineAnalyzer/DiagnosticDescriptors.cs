@@ -126,5 +126,15 @@ namespace UnityEngineAnalyzer
               isEnabledByDefault: true,
               description: new LocalizableResourceString(nameof(UnsealedDerivedClassResources.Description), UnsealedDerivedClassResources.ResourceManager, typeof(UnsealedDerivedClassResources))
         );
+
+        public static readonly DiagnosticDescriptor InvokeFunctionMissing = new DiagnosticDescriptor(
+              id: DiagnosticIDs.InvokeFunctionMissing,
+              title: new LocalizableResourceString(nameof(InvokeFunctionMissingResources.Title), InvokeFunctionMissingResources.ResourceManager, typeof(InvokeFunctionMissingResources)),
+              messageFormat: new LocalizableResourceString(nameof(InvokeFunctionMissingResources.MessageFormat), InvokeFunctionMissingResources.ResourceManager, typeof(InvokeFunctionMissingResources)),
+              category: DiagnosticCategories.Performance,
+              defaultSeverity: DiagnosticSeverity.Warning,
+              isEnabledByDefault: true,
+              description: new LocalizableResourceString(nameof(InvokeFunctionMissingResources.Description), InvokeFunctionMissingResources.ResourceManager, typeof(InvokeFunctionMissingResources))
+            );
     }
 }
