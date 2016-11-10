@@ -71,7 +71,7 @@ namespace UnityEngineAnalyzer.StringMethods {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The function {0} is invoking a method that does not exist.
+        ///   Looks up a localized string similar to The function &quot;{0}&quot; is invoking the method &quot;{1}&quot; that does not exist.
         /// </summary>
         internal static string MessageFormat {
             get {

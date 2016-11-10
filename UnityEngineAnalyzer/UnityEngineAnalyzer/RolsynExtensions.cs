@@ -86,5 +86,17 @@ namespace UnityEngineAnalyzer
             }
             return name;
         }
+
+        public static T GetArgumentValue<T>(this ArgumentSyntax argument)
+        {
+            //NOTE: Possibly add support for constant parameters in the future
+
+            if (argument.Expression is LiteralExpressionSyntax)
+            {
+                var argumentValue = ((LiteralExpressionSyntax)argument.Expression).Token.Value;
+                return (T)argumentValue;
+            }
+            return default(T);
+        }
     }
 }

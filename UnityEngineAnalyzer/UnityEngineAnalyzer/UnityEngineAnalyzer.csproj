@@ -104,6 +104,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotUseStringMethodsResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="StringMethods\InvokeFunctionMissingAnalyzer.cs" />
+    <Compile Include="StringMethods\InvokeFunctionMissingResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InvokeFunctionMissingResources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AOT\DoNotUseReflectionEmitResources.resx">
@@ -149,6 +155,10 @@
     <EmbeddedResource Include="StringMethods\DoNotUseStringMethodsResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseStringMethodsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StringMethods\InvokeFunctionMissingResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>InvokeFunctionMissingResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
