@@ -14,7 +14,7 @@ namespace UnityEngineAnalyzer.Test
 
         private static MetadataReference GetUnityMetadataReference()
         {
-            var unityEnginePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Unity\Editor\Data\Managed", "UnityEngine.dll");
+            var unityEnginePath = Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramW6432%"), @"Unity\Editor\Data\Managed", "UnityEngine.dll");
 
             return MetadataReference.CreateFromFile(unityEnginePath);
         }
