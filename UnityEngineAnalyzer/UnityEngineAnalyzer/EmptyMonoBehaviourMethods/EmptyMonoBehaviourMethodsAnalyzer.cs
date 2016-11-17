@@ -78,6 +78,7 @@ namespace UnityEngineAnalyzer.EmptyMonoBehaviourMethods
         public override void Initialize(AnalysisContext context)
         {
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Method);
+            //NOTE: It might be more officient to find classes and then determine if they are a MonoBehaviour rather than look at every method 
         }
 
         private static async void AnalyzeSymbol(SymbolAnalysisContext context)

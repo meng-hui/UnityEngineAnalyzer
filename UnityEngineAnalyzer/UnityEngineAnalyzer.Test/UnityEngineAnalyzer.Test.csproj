@@ -32,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -133,6 +134,7 @@
     <Compile Include="Coroutines\DoNotUseCoroutinesAnalyzerTests.cs" />
     <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsAnalyzerTests.cs" />
     <Compile Include="FindMethodsInUpdate\DoNotUseFindMethodsInUpdateAnalyzerTests.cs" />
+    <Compile Include="ForEachInUpdate\DoNotUseForeachInUpdateAnalyzerTests.cs" />
     <Compile Include="MetadataReferenceHelper.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

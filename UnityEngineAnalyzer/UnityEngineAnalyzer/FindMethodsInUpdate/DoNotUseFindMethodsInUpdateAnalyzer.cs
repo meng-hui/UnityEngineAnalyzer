@@ -1,8 +1,12 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Linq;
 
 namespace UnityEngineAnalyzer.FindMethodsInUpdate
 {
@@ -33,47 +37,122 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate
             "UnityEngine.Component",
             "UnityEngine.Transform");
 
-        private static readonly ImmutableHashSet<string> UpdateMethodNames = ImmutableHashSet.Create(
-            "OnGUI",
-            "Update",
-            "FixedUpdate",
-            "LateUpdate");
+        private Dictionary<ExpressionSyntax,ExpressionSyntax> _indirectCallers;
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate);
-        public override void Initialize(AnalysisContext context)
+
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         {
-            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.InvocationExpression);
+            get
+            {
+                return ImmutableArray.Create(
+                    DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, 
+                    DiagnosticDescriptors.DoNotUseFindMethodsInUpdateRecursive);
+            }
         }
 
-        private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
+        public override void Initialize(AnalysisContext context)
         {
-            // get the invocation expression
-            var invocationExpression = context.Node as InvocationExpressionSyntax;
-            // get the method symbol
-            var methodSymbol = context.SemanticModel.GetSymbolInfo(invocationExpression).Symbol as IMethodSymbol;
-            if (methodSymbol == null) { return; }
+            context.RegisterSyntaxNodeAction(AnalyzeClassSyntax, SyntaxKind.ClassDeclaration);
+        }
 
-            // check if we have found a Find* or Get* method from UnityEngine
-            if (!FindMethodNames.Contains(methodSymbol.Name) ||
-                !ContainingSymbols.Contains(methodSymbol.ContainingSymbol.ToString())) { return; }
+        public void AnalyzeClassSyntax(SyntaxNodeAnalysisContext context)
+        {
+            var monoBehaviourInfo = new MonoBehaviourInfo(context);
 
-            // retrive the method this invocation happened in
-            var outerMethodSyntax = invocationExpression.FirstAncestorOrSelf<MethodDeclarationSyntax>();
-            if (outerMethodSyntax == null) { return; }
+            var searched = new Dictionary<IMethodSymbol, bool>();
+            _indirectCallers = new Dictionary<ExpressionSyntax, ExpressionSyntax>();
 
-            // check if we are immediately in a Update* method
-            var outerMethodSymbol = context.SemanticModel.GetDeclaredSymbol(outerMethodSyntax);
-            if (outerMethodSymbol == null) { return; }
-            if (!UpdateMethodNames.Contains(outerMethodSymbol.Name)) { return; }
-
-            // check if the Update* method is from UnityEngine
-            var containingClass = outerMethodSymbol.ContainingType;
-            var baseClass = containingClass.BaseType;
-            if (baseClass.ContainingNamespace.Name.Equals("UnityEngine") &&
-                baseClass.Name.Equals("MonoBehaviour"))
+            monoBehaviourInfo.ForEachUpdateMethod((updateMethod) =>
             {
-                var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate, invocationExpression.GetLocation());
-                context.ReportDiagnostic(diagnostic);
+                //Debug.WriteLine("Found an update call! " + updateMethod);
+
+                var findCalls = SearchForFindCalls(context, updateMethod, searched, true);
+
+                foreach (var findCall in findCalls)
+                {
+                    if (!_indirectCallers.ContainsKey(findCall))
+                    {
+                        var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdate,
+                            findCall.GetLocation(), findCall, monoBehaviourInfo.ClassName, updateMethod.Identifier);
+                        context.ReportDiagnostic(diagnostic);
+                    }
+                    else
+                    {
+                        var endPoint = _indirectCallers[findCall];
+
+                        var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseFindMethodsInUpdateRecursive,
+                            findCall.GetLocation(), monoBehaviourInfo.ClassName, updateMethod.Identifier, findCall, endPoint);
+                        context.ReportDiagnostic(diagnostic);
+                    }
+
+                }
+            });
+        }
+
+        //TODO: Try to simplify this method - it's very hard to follow
+        private IEnumerable<ExpressionSyntax> SearchForFindCalls(SyntaxNodeAnalysisContext context,
+            MethodDeclarationSyntax method, IDictionary<IMethodSymbol, bool> searched, bool isRoot)
+        {
+            var invocations = method.DescendantNodes().OfType<InvocationExpressionSyntax>();
+
+            foreach (var invocation in invocations)
+            {
+                SymbolInfo symbolInfo;
+                if (!context.TryGetSymbolInfo(invocation, out symbolInfo))
+                {
+                    continue;
+                }
+
+                var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
+
+                if (methodSymbol != null)
+                {
+                    if (searched.ContainsKey(methodSymbol))
+                    {
+                        if (searched[methodSymbol])
+                        {
+                            yield return invocation;
+                        }
+                    }
+                    else
+                    {
+                        if (FindMethodNames.Contains(methodSymbol.Name) &&
+                            ContainingSymbols.Contains(methodSymbol.ContainingSymbol.ToString()))
+                        {
+                            searched.Add(methodSymbol, true);
+                            yield return invocation;
+                        }
+                        else
+                        {
+                            var methodDeclarations = methodSymbol.DeclaringSyntaxReferences;
+
+                            searched.Add(methodSymbol, false); //let's assume there won't be any calls
+
+                            foreach (var methodDeclaration in methodDeclarations)
+                            {
+                                var theMethodSyntax = methodDeclaration.GetSyntax() as MethodDeclarationSyntax;
+
+                                if (theMethodSyntax != null)
+                                {
+                                    var childFindCallers = SearchForFindCalls(context, theMethodSyntax, searched, false);
+
+                                    if (childFindCallers != null && childFindCallers.Any())
+                                    {
+                                        searched[methodSymbol] = true; //update the searched dictionary with new info
+
+                                        if (isRoot)
+                                        {
+                                            _indirectCallers.Add(invocation, childFindCallers.First());
+                                        }
+
+                                        yield return invocation;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

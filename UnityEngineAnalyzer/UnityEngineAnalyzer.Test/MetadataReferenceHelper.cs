@@ -1,16 +1,34 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
+
 
 namespace UnityEngineAnalyzer.Test
 {
     static class MetadataReferenceHelper
     {
-        private static readonly DirectoryInfo ExecutingLocation = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location);
-        private static readonly DirectoryInfo SolutionDirectory = ExecutingLocation.Parent.Parent.Parent.Parent;
-        private static readonly string UnityEnginePath = Path.Combine(SolutionDirectory.FullName, "SolutionItems", "UnityEngine.dll");
+        public static readonly ImmutableList<MetadataReference> UsingUnityEngine =
+            ImmutableList.Create(GetUnityMetadataReference(), GetSystem(), GetSystemCore());
 
-        public static readonly ImmutableList<MetadataReference> UsingUnityEngine = 
-            ImmutableList.Create(MetadataReference.CreateFromFile(UnityEnginePath) as MetadataReference);
+        private static MetadataReference GetUnityMetadataReference()
+        {
+            var unityEnginePath = Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramW6432%"), @"Unity\Editor\Data\Managed", "UnityEngine.dll");
+
+            return MetadataReference.CreateFromFile(unityEnginePath);
+        }
+
+        private static MetadataReference GetSystem()
+        {
+            var assemblyPath = typeof(object).Assembly.Location;
+            return MetadataReference.CreateFromFile(assemblyPath);
+        }
+
+        private static MetadataReference GetSystemCore()
+        {
+            var assemblyPath = typeof(Enumerable).Assembly.Location;
+            return MetadataReference.CreateFromFile(assemblyPath);
+        }
     }
 }

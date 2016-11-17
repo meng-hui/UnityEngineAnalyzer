@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UnityEngineAnalyzer.FindMethodsInUpdate {
+namespace UnityEngineAnalyzer.ForEachInUpdate {
     using System;
     using System.Reflection;
     
@@ -23,14 +23,14 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DoNotUseFindMethodsInUpdateResources {
+    internal class DoNotUseForEachInUpdateResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DoNotUseFindMethodsInUpdateResources() {
+        internal DoNotUseForEachInUpdateResources() {
         }
         
         /// <summary>
@@ -40,7 +40,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("UnityEngineAnalyzer.FindMethodsInUpdate.DoNotUseFindMethodsInUpdateResources", typeof(DoNotUseFindMethodsInUpdateResources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("UnityEngineAnalyzer.ForEachInUpdate.DoNotUseForEachInUpdateResources", typeof(DoNotUseForEachInUpdateResources).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -62,7 +62,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Using Find or GetComponent in Update methods can impact performance. Cache the result on Start or Awake methods.
+        ///   Looks up a localized string similar to Using ForEach in an Update could be slower and use more memory than a For loop.
         /// </summary>
         internal static string Description {
             get {
@@ -71,7 +71,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The method {0} is called from {1}.{2} which could cause performance problems. Cache the result from {0} in Start or Awake instead..
+        ///   Looks up a localized string similar to The method {0}.{1} is using a ForEach loop.
         /// </summary>
         internal static string MessageFormat {
             get {
@@ -80,16 +80,7 @@ namespace UnityEngineAnalyzer.FindMethodsInUpdate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The method {0}.{1} calls {2} which eventually calls {3} which could impact performance. Cache the result from {3} in Start or Awake instead..
-        /// </summary>
-        internal static string MessageFormatRecursive {
-            get {
-                return ResourceManager.GetString("MessageFormatRecursive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cache the result of Find or GetComponent in Start or Awake..
+        ///   Looks up a localized string similar to Avoid using ForEach loops in Update methods.
         /// </summary>
         internal static string Title {
             get {
