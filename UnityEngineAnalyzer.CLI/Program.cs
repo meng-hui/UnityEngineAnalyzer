@@ -3,16 +3,30 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using UnityEngineAnalyzer.CLI.Reporting;
 
 namespace UnityEngineAnalyzer.CLI
 {
     public class Program
     {
+        private static Dictionary<string, Type> _exporters = new Dictionary<string, Type>();
+
+        static Program()
+        {
+            _exporters.Add(nameof(ConsoleAnalyzerExporter), typeof(ConsoleAnalyzerExporter));
+            _exporters.Add(nameof(JsonAnalyzerExporter), typeof(JsonAnalyzerExporter));
+            _exporters.Add(nameof(StandardOutputAnalyzerReporter), typeof(StandardOutputAnalyzerReporter));
+
+        }
+
+
         public static void Main(string[] args)
         {
             try
             {
+                //TODO: Use a proper parser for the commands
+
                 if (args.Length <= 0)
                 {
                     return;
@@ -25,8 +39,18 @@ namespace UnityEngineAnalyzer.CLI
 
                 //NOTE: This could be configurable via the CLI at some point
                 var report = new AnalyzerReport();
-                report.AddExporter(new ConsoleAnalyzerExporter());
-                report.AddExporter(new JsonAnalyzerExporter());
+
+                if (args.Length > 1 && _exporters.ContainsKey(args[1]))
+                {
+                    var exporterInstance = Activator.CreateInstance(_exporters[args[1]]);
+                    report.AddExporter(exporterInstance as IAnalyzerExporter);
+                }
+                else
+                {
+                    report.AddExporter(new ConsoleAnalyzerExporter());
+                    report.AddExporter(new JsonAnalyzerExporter());
+                }
+                
 
 
                 report.InitializeReport(fileInfo);
@@ -46,8 +70,6 @@ namespace UnityEngineAnalyzer.CLI
 
                 report.FinalizeReport(duration);
 
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
             }
             catch (Exception generalException)
             {

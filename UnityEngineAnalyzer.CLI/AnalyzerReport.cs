@@ -35,8 +35,10 @@ namespace UnityEngineAnalyzer.CLI
                     Message = diagnostic.GetMessage(),
                     FileName = diagnostic.Location.SourceTree.FilePath,
                     LineNumber = lineSpan.StartLinePosition.Line,
+                    CharacterPosition = lineSpan.StartLinePosition.Character,
                     Severity = (DiagnosticInfoSeverity)diagnostic.Severity
                 };
+
 
 
                 foreach (var exporter in _exporters)
@@ -50,7 +52,7 @@ namespace UnityEngineAnalyzer.CLI
         {
             foreach (var exporter in _exporters)
             {
-                exporter.Finish(duration);
+                exporter.FinalizeExporter(duration);
             }
         }
 
@@ -59,6 +61,14 @@ namespace UnityEngineAnalyzer.CLI
             foreach (var exporter in _exporters)
             {
                 exporter.InitializeExporter(projectFile);       
+            }
+        }
+
+        public void NotifyException(Exception exception)
+        {
+            foreach (var exporter in _exporters)
+            {
+                exporter.NotifyException(exception);
             }
         }
     }

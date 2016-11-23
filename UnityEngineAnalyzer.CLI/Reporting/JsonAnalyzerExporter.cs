@@ -9,7 +9,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
     {
         private const string JsonReportFileName = "report.json";
         private const string HtmlReportFileName = "UnityReport.html";
-        private const DiagnosticInfoSeverity MinimalSeverity = DiagnosticInfoSeverity.Warning;
+        private const DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity = DiagnosticInfo.DiagnosticInfoSeverity.Warning;
 
 
         private JsonTextWriter _jsonWriter;
@@ -25,14 +25,14 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             }
         }
 
-        public void Finish(TimeSpan duration)
+        public void FinalizeExporter(TimeSpan duration)
         {
             _jsonWriter.WriteEndArray();
             _jsonWriter.WriteEndObject();
             _jsonWriter.Close();
 
-            
-            File.Copy(HtmlReportFileName, _destinationReportFile, true);
+            //Console.WriteLine(Process.GetCurrentProcess().StartInfo.WorkingDirectory);
+            //File.Copy(HtmlReportFileName, _destinationReportFile, true);
 
             //NOTE: This code might be temporary as it assumes that the CLI is being executed interactively
             //Process.Start(_destinationReportFile);
@@ -67,6 +67,11 @@ namespace UnityEngineAnalyzer.CLI.Reporting
 
 
             _jsonSerializer.Formatting = Formatting.Indented;
+        }
+
+        public void NotifyException(Exception exception)
+        {
+            throw new NotImplementedException();
         }
     }
 }
