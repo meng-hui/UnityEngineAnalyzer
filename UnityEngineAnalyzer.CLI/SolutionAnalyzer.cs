@@ -44,13 +44,22 @@ namespace UnityEngineAnalyzer.CLI
             return analyzers;
         }
 
-        private async Task AnalyzeProject(Project project, ImmutableArray<DiagnosticAnalyzer> analyzers, AnalyzerReport report)
+        private async Task AnalyzeProject(Project project, ImmutableArray<DiagnosticAnalyzer> analyzers,
+            AnalyzerReport report)
         {
-            var compilation = await project.GetCompilationAsync();
+            try
+            {
+                var compilation = await project.GetCompilationAsync();
 
-            var diagnosticResults = await compilation.WithAnalyzers(analyzers).GetAnalyzerDiagnosticsAsync();
+                var diagnosticResults = await compilation.WithAnalyzers(analyzers).GetAnalyzerDiagnosticsAsync();
 
-            report.AppendDiagnostics(diagnosticResults);
+                report.AppendDiagnostics(diagnosticResults);
+            }
+            catch (Exception exception)
+            {
+                report.NotifyException(exception);
+            }
+
 
         }
     }
