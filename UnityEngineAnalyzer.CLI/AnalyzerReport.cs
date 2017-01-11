@@ -26,19 +26,27 @@ namespace UnityEngineAnalyzer.CLI
 
             foreach (var diagnostic in diagnosticResults)
             {
-                var locationSpan = diagnostic.Location.SourceSpan;
-                var lineSpan = diagnostic.Location.SourceTree.GetLineSpan(locationSpan);
+                var location = diagnostic.Location;
+                var lineNumber = 0;
+                var characterPosition = 0;
+
+                if (location != Location.None)
+                {
+                    var locationSpan = diagnostic.Location.SourceSpan;
+                    var lineSpan = diagnostic.Location.SourceTree.GetLineSpan(locationSpan);
+                    lineNumber = lineSpan.StartLinePosition.Line;
+                    characterPosition = lineSpan.StartLinePosition.Character;
+                }
 
                 var diagnosticInfo = new DiagnosticInfo
                 {
                     Id = diagnostic.Id,
                     Message = diagnostic.GetMessage(),
                     FileName = diagnostic.Location.SourceTree.FilePath,
-                    LineNumber = lineSpan.StartLinePosition.Line,
-                    CharacterPosition = lineSpan.StartLinePosition.Character,
-                    Severity = (DiagnosticInfoSeverity)diagnostic.Severity
+                    LineNumber = lineNumber,
+                    CharacterPosition = characterPosition,
+                    Severity = (DiagnosticInfo.DiagnosticInfoSeverity)diagnostic.Severity
                 };
-
 
 
                 foreach (var exporter in _exporters)
