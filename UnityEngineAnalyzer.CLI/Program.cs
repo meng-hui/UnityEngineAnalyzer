@@ -10,14 +10,13 @@ namespace UnityEngineAnalyzer.CLI
 {
     public class Program
     {
-        private static Dictionary<string, Type> _exporters = new Dictionary<string, Type>();
+        private static readonly Dictionary<string, Type> AvailableExporters = new Dictionary<string, Type>();
 
         static Program()
         {
-            _exporters.Add(nameof(ConsoleAnalyzerExporter), typeof(ConsoleAnalyzerExporter));
-            _exporters.Add(nameof(JsonAnalyzerExporter), typeof(JsonAnalyzerExporter));
-            _exporters.Add(nameof(StandardOutputAnalyzerReporter), typeof(StandardOutputAnalyzerReporter));
-
+            AvailableExporters.Add(nameof(JsonAnalyzerExporter), typeof(JsonAnalyzerExporter));
+            AvailableExporters.Add(nameof(StandardOutputAnalyzerReporter), typeof(StandardOutputAnalyzerReporter));
+            AvailableExporters.Add(nameof(ConsoleAnalyzerExporter), typeof(ConsoleAnalyzerExporter));
         }
 
 
@@ -40,15 +39,16 @@ namespace UnityEngineAnalyzer.CLI
                 //NOTE: This could be configurable via the CLI at some point
                 var report = new AnalyzerReport();
 
-                if (args.Length > 1 && _exporters.ContainsKey(args[1]))
+                if (args.Length > 1 && AvailableExporters.ContainsKey(args[1]))
                 {
-                    var exporterInstance = Activator.CreateInstance(_exporters[args[1]]);
+                    var exporterInstance = Activator.CreateInstance(AvailableExporters[args[1]]);
                     report.AddExporter(exporterInstance as IAnalyzerExporter);
                 }
                 else
                 {
-                    report.AddExporter(new ConsoleAnalyzerExporter());
+                    //It's generally a good idea to make sure that the Console Exporter is last since it is interactive
                     report.AddExporter(new JsonAnalyzerExporter());
+                    report.AddExporter(new ConsoleAnalyzerExporter());
                 }
                 
 
@@ -77,9 +77,6 @@ namespace UnityEngineAnalyzer.CLI
                 Console.WriteLine("There was an exception running the analysis");
                 Console.WriteLine(generalException.ToString());
             }
-
-
-
         }
 
 

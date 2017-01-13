@@ -11,6 +11,9 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Console Export Finished ({0})", duration);
             Console.ResetColor();
+
+            Console.WriteLine("Press any key to exit");
+            Console.ReadKey();
         }
 
         public override void InitializeExporter(FileInfo projectFile)
