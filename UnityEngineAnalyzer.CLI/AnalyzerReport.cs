@@ -29,20 +29,22 @@ namespace UnityEngineAnalyzer.CLI
                 var location = diagnostic.Location;
                 var lineNumber = 0;
                 var characterPosition = 0;
+                var fileName = string.Empty;
 
                 if (location != Location.None)
                 {
-                    var locationSpan = diagnostic.Location.SourceSpan;
-                    var lineSpan = diagnostic.Location.SourceTree.GetLineSpan(locationSpan);
+                    var locationSpan = location.SourceSpan;
+                    var lineSpan = location.SourceTree.GetLineSpan(locationSpan);
                     lineNumber = lineSpan.StartLinePosition.Line;
                     characterPosition = lineSpan.StartLinePosition.Character;
+                    fileName = location.SourceTree?.FilePath;
                 }
 
                 var diagnosticInfo = new DiagnosticInfo
                 {
                     Id = diagnostic.Id,
                     Message = diagnostic.GetMessage(),
-                    FileName = diagnostic.Location.SourceTree.FilePath,
+                    FileName = fileName,
                     LineNumber = lineNumber,
                     CharacterPosition = characterPosition,
                     Severity = (DiagnosticInfo.DiagnosticInfoSeverity)diagnostic.Severity
