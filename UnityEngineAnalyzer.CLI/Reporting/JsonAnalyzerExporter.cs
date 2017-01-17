@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
@@ -14,6 +15,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
 
         private JsonTextWriter _jsonWriter;
         private readonly JsonSerializer _jsonSerializer = new JsonSerializer();
+        private readonly List<Exception> _exceptions = new List<Exception>();
         private string _destinationReportFile;
 
 
@@ -28,11 +30,21 @@ namespace UnityEngineAnalyzer.CLI.Reporting
         public void FinalizeExporter(TimeSpan duration)
         {
             _jsonWriter.WriteEndArray();
+
+            _jsonWriter.WritePropertyName("Exceptions");
+            _jsonWriter.WriteStartArray();
+
+            foreach (var exception in _exceptions)
+            {
+                _jsonSerializer.Serialize(_jsonWriter, exception);
+            }
+            _jsonWriter.WriteEndArray();
+
             _jsonWriter.WriteEndObject();
             _jsonWriter.Close();
 
             //Console.WriteLine(Process.GetCurrentProcess().StartInfo.WorkingDirectory);
-            //File.Copy(HtmlReportFileName, _destinationReportFile, true);
+            File.Copy(HtmlReportFileName, _destinationReportFile, true);
 
             //NOTE: This code might be temporary as it assumes that the CLI is being executed interactively
             //Process.Start(_destinationReportFile);
@@ -71,7 +83,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
 
         public void NotifyException(Exception exception)
         {
-            throw new NotImplementedException();
+            _exceptions.Add(exception);
         }
     }
 }
