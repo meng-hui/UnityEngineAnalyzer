@@ -82,7 +82,7 @@ namespace UnityEngineAnalyzer
             }
             else
             {
-                throw new ArgumentException("Unable to determine name of method");
+                throw new ArgumentException("Unable to determine name of method. Invocation is of type: " + invocation.Expression.GetType());
             }
             return name;
         }
