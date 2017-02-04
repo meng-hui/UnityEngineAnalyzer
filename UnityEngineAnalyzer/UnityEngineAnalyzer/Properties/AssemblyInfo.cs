@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("UnityEngineAnalyzer")]
-[assembly: AssemblyCopyright("Copyright © Meng Hui Koh 2016")]
+[assembly: AssemblyCopyright("Copyright © Meng Hui Koh, Vinny DaSilva 2016-2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

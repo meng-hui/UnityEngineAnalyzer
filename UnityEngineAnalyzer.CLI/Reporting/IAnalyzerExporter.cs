@@ -6,7 +6,8 @@ namespace UnityEngineAnalyzer.CLI.Reporting
     public interface IAnalyzerExporter
     {
         void AppendDiagnostic(DiagnosticInfo diagnosticInfo);
-        void Finish(TimeSpan duration);
+        void FinalizeExporter(TimeSpan duration);
         void InitializeExporter(FileInfo projectFile);
+        void NotifyException(Exception exception);
     }
 }
