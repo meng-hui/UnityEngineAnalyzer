@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Animator\DoNotUseStateNameResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoNotUseStateNameResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Animator\DoNotUseStateNameAnalyzer.cs" />
     <Compile Include="AOT\DoNotUseReflectionEmitAnalyzer.cs" />
     <Compile Include="AOT\DoNotUseReflectionEmitResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -112,6 +118,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Animator\DoNotUseStateNameResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoNotUseStateNameResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="AOT\DoNotUseReflectionEmitResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseReflectionEmitResources.Designer.cs</LastGenOutput>

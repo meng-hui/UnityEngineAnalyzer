@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using UnityEngineAnalyzer.Animator;
 using UnityEngineAnalyzer.AOT;
 using UnityEngineAnalyzer.CompareTag;
 using UnityEngineAnalyzer.Coroutines;
@@ -135,6 +136,16 @@ namespace UnityEngineAnalyzer
               defaultSeverity: DiagnosticSeverity.Warning,
               isEnabledByDefault: true,
               description: new LocalizableResourceString(nameof(InvokeFunctionMissingResources.Description), InvokeFunctionMissingResources.ResourceManager, typeof(InvokeFunctionMissingResources))
-            );
+        );
+
+        public static readonly DiagnosticDescriptor DoNotUseStateName = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseStateNameInAnimator,
+            title: new LocalizableResourceString(nameof(DoNotUseStateNameResource.Title), DoNotUseStateNameResource.ResourceManager, typeof(DoNotUseStateNameResource)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseStateNameResource.MessageFormat), DoNotUseStateNameResource.ResourceManager, typeof(DoNotUseStateNameResource)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseStateNameResource.Description), DoNotUseStateNameResource.ResourceManager, typeof(DoNotUseStateNameResource))
+        );
     }
 }
