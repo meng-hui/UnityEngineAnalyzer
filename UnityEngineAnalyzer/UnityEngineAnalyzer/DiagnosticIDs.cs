@@ -13,6 +13,7 @@ namespace UnityEngineAnalyzer
         public const string UnsealedDerivedClass = "UEA0008";
         public const string InvokeFunctionMissing = "UEA0009";
         public const string DoNotUseStateNameInAnimator = "UEA0010";
+        public const string DoNotUseStringPropertyNamesInMaterial = "UEA0011";
 
         //NOTES: These should probably be on their own analyzer - as they are not specific to Unity
         public const string DoNotUseRemoting = "AOT0001";
