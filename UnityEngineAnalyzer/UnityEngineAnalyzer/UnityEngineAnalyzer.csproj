@@ -56,6 +56,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TypeGetTypeResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Camera\CameraMainAnalyzer.cs" />
+    <Compile Include="Camera\CameraMainResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CameraMainResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="CompareTag\UseCompareTagAnalyzer.cs" />
     <Compile Include="CompareTag\UseCompareTagResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -133,6 +139,10 @@
     <EmbeddedResource Include="AOT\TypeGetTypeResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TypeGetTypeResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Camera\CameraMainResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CameraMainResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="CompareTag\UseCompareTagResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
