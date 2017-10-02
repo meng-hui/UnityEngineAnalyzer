@@ -48,15 +48,15 @@ namespace UnityEngineAnalyzer.Physics
 
             var name = invocation.MethodName();
 
-            string curClass = string.Empty;
+            string containingClassName = string.Empty;
             // check if any of the methods are used
             if (PhysicsAllocatingCasts.Contains(name))
             {
-                curClass = "Physics";
+                containingClassName = "Physics";
             }
             else if (Physics2DAllocatingCasts.Contains(name))
             {
-                curClass = "Physics2D";
+                containingClassName = "Physics2D";
             }
             else
             {
@@ -69,7 +69,7 @@ namespace UnityEngineAnalyzer.Physics
             var containingType = methodSymbol.ContainingType;
 
             // check if the method is the one from UnityEngine.Animator
-            if (containingType.ContainingNamespace.Name.Equals("UnityEngine") && containingType.Name.Equals(curClass))
+            if (containingType.ContainingNamespace.Name.Equals("UnityEngine") && containingType.Name.Equals(containingClassName))
             {
                 var diagnostic = Diagnostic.Create(DiagnosticDescriptors.UseNonAllocMethods, invocation.GetLocation(), containingType.Name, methodSymbol.Name);
                 context.ReportDiagnostic(diagnostic);
