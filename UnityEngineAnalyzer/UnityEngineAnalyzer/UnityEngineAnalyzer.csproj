@@ -102,6 +102,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotUseOnGUIResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Physics\UseNonAllocMethodsAnalyzer.cs" />
+    <Compile Include="Physics\UseNonAllocMethodsResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UseNonAllocMethodsResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RolsynExtensions.cs" />
     <Compile Include="StringMethods\DoNotUseStringMethodsAnalyzer.cs" />
@@ -161,6 +167,10 @@
     <EmbeddedResource Include="OnGUI\DoNotUseOnGUIResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseOnGUIResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Physics\UseNonAllocMethodsResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UseNonAllocMethodsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="StringMethods\DoNotUseStringMethodsResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
