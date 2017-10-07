@@ -58,8 +58,15 @@ namespace UnityEngineAnalyzer.CLI
                 var tasks = new List<Task>();
                 if (fileInfo.Exists)
                 {
+                    FileInfo configFileInfo = null;
+                    if (args.Length > 1)
+                    {
+                        var configFileName = args[1];
+                        configFileInfo = new FileInfo(configFileName);
+                    }
+
                     var solutionAnalyzer = new SolutionAnalyzer();
-                    var analyzeTask = solutionAnalyzer.LoadAnadAnalyzeProject(fileInfo, report);
+                    var analyzeTask = solutionAnalyzer.LoadAndAnalyzeProjectAsync(fileInfo, configFileInfo, report);
                     tasks.Add(analyzeTask);
                 }
 
