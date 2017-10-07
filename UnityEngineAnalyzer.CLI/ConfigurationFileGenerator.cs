@@ -6,9 +6,10 @@ using UnityEngineAnalyzer.ForEachInUpdate;
 
 namespace UnityEngineAnalyzer.CLI
 {
+    //NOTE: This kind of configuration file should be created after build
     class ConfigurationFileGenerator
     {
-        private const string configurationFileName = "configuration.json";
+        private const string configurationFileName = "analyzerConfiguration.json";
 
         public void GenerateConfigurationFile()
         {

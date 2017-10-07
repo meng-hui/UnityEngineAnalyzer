@@ -22,9 +22,6 @@ namespace UnityEngineAnalyzer.CLI
         {
             try
             {
-                var configurationFileGenerator = new ConfigurationFileGenerator();
-                configurationFileGenerator.GenerateConfigurationFile();
-
                 //TODO: Use a proper parser for the commands
 
                 if (args.Length <= 0)
