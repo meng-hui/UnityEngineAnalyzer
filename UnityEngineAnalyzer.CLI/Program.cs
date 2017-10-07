@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using UnityEngineAnalyzer.CLI.Reporting;
 
 namespace UnityEngineAnalyzer.CLI
@@ -24,6 +22,9 @@ namespace UnityEngineAnalyzer.CLI
         {
             try
             {
+                var configurationFileGenerator = new ConfigurationFileGenerator();
+                configurationFileGenerator.GenerateConfigurationFile();
+
                 //TODO: Use a proper parser for the commands
 
                 if (args.Length <= 0)
@@ -39,10 +40,13 @@ namespace UnityEngineAnalyzer.CLI
                 //NOTE: This could be configurable via the CLI at some point
                 var report = new AnalyzerReport();
 
-                if (args.Length > 1 && AvailableExporters.ContainsKey(args[1]))
+                int optinalArgumentIndex = 1;
+                if (args.Length > optinalArgumentIndex && AvailableExporters.ContainsKey(args[optinalArgumentIndex]))
                 {
-                    var exporterInstance = Activator.CreateInstance(AvailableExporters[args[1]]);
+                    var exporterInstance = Activator.CreateInstance(AvailableExporters[args[optinalArgumentIndex]]);
                     report.AddExporter(exporterInstance as IAnalyzerExporter);
+
+                    optinalArgumentIndex++;
                 }
                 else
                 {
@@ -52,16 +56,15 @@ namespace UnityEngineAnalyzer.CLI
                 }
                 
 
-
                 report.InitializeReport(fileInfo);
 
                 var tasks = new List<Task>();
                 if (fileInfo.Exists)
                 {
                     FileInfo configFileInfo = null;
-                    if (args.Length > 1)
+                    if (args.Length > optinalArgumentIndex)
                     {
-                        var configFileName = args[1];
+                        var configFileName = args[optinalArgumentIndex];
                         configFileInfo = new FileInfo(configFileName);
                     }
 
