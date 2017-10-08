@@ -8,6 +8,7 @@ using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
 using UnityEngineAnalyzer.FindMethodsInUpdate;
 using UnityEngineAnalyzer.ForEachInUpdate;
 using UnityEngineAnalyzer.IL2CPP;
+using UnityEngineAnalyzer.Material;
 using UnityEngineAnalyzer.OnGUI;
 using UnityEngineAnalyzer.StringMethods;
 
@@ -157,6 +158,17 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(CameraMainResource.Description), CameraMainResource.ResourceManager, typeof(CameraMainResource))
+        );
+        
+        public static readonly DiagnosticDescriptor DoNotUseStringPropertyNames = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseStringPropertyNamesInMaterial,
+            title: new LocalizableResourceString(nameof(DoNotUseStringPropertyNamesResource.Title), DoNotUseStringPropertyNamesResource.ResourceManager, typeof(DoNotUseStringPropertyNamesResource)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseStringPropertyNamesResource.MessageFormat), DoNotUseStringPropertyNamesResource.ResourceManager, typeof(DoNotUseStringPropertyNamesResource)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseStringPropertyNamesResource.Description), DoNotUseStringPropertyNamesResource.ResourceManager, typeof(DoNotUseStringPropertyNamesResource))
+
         );
     }
 }

@@ -101,6 +101,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UnsealedDerivedClassResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Material\DoNotUseStringPropertyNamesAnalyzer.cs" />
+    <Compile Include="Material\DoNotUseStringPropertyNamesResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoNotUseStringPropertyNamesResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="MonoBehaviourInfo.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzer.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIResources.Designer.cs">
@@ -167,6 +173,10 @@
     <EmbeddedResource Include="IL2CPP\UnsealedDerivedClassResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UnsealedDerivedClassResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Material\DoNotUseStringPropertyNamesResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoNotUseStringPropertyNamesResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="OnGUI\DoNotUseOnGUIResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
