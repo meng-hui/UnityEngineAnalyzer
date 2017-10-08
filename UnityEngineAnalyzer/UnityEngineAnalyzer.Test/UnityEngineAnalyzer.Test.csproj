@@ -139,6 +139,7 @@
     <Compile Include="Material\DoNotUseStringPropertyNamesTests.cs" />
     <Compile Include="MetadataReferenceHelper.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzerTests.cs" />
+    <Compile Include="Physics\UseNonAllocMethodsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringMethods\DoNotUseStringMethodsAnalyzerTests.cs" />
     <Compile Include="StringMethods\InvokeFunctionMissingAnalyzerTests.cs" />

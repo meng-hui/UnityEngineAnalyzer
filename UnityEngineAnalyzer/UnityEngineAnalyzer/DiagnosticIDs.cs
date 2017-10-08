@@ -15,6 +15,7 @@ namespace UnityEngineAnalyzer
         public const string DoNotUseStateNameInAnimator = "UEA0010";
         public const string DoNotUseStringPropertyNamesInMaterial = "UEA0011";
         public const string CameraMainIsSlow = "UEA0012";
+        public const string PhysicsUseNonAllocMethods = "UEA0013";
 
         //NOTES: These should probably be on their own analyzer - as they are not specific to Unity
         public const string DoNotUseRemoting = "AOT0001";

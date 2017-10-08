@@ -10,6 +10,7 @@ using UnityEngineAnalyzer.ForEachInUpdate;
 using UnityEngineAnalyzer.IL2CPP;
 using UnityEngineAnalyzer.Material;
 using UnityEngineAnalyzer.OnGUI;
+using UnityEngineAnalyzer.Physics;
 using UnityEngineAnalyzer.StringMethods;
 
 namespace UnityEngineAnalyzer
@@ -168,7 +169,16 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseStringPropertyNamesResource.Description), DoNotUseStringPropertyNamesResource.ResourceManager, typeof(DoNotUseStringPropertyNamesResource))
+        );
 
+        public static readonly DiagnosticDescriptor UseNonAllocMethods = new DiagnosticDescriptor(
+            id: DiagnosticIDs.PhysicsUseNonAllocMethods,
+            title: new LocalizableResourceString(nameof(UseNonAllocMethodsResources.Title), UseNonAllocMethodsResources.ResourceManager, typeof(UseNonAllocMethodsResources)),
+            messageFormat: new LocalizableResourceString(nameof(UseNonAllocMethodsResources.MessageFormat), UseNonAllocMethodsResources.ResourceManager, typeof(UseNonAllocMethodsResources)),
+            category: DiagnosticCategories.GC,
+            defaultSeverity: DiagnosticSeverity.Info,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(UseNonAllocMethodsResources.Description), UseNonAllocMethodsResources.ResourceManager, typeof(UseNonAllocMethodsResources))
         );
     }
 }
