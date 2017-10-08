@@ -10,10 +10,11 @@ Comand Line Interface
 In order to use the Command Line Interface (CLI), download the latest release of UnityEngineAnalyzer then unzip the archive (https://github.com/vad710/UnityEngineAnalyzer/releases).
 
 1. Open a Command Prompt or Powershell Window
-1. Run `UnityEngineAnalyzer.CLI.exe <project path>`
+1. Run `UnityEngineAnalyzer.CLI.exe <project path> <OPTIONAL configuration path>`
 1. Observe the analysis results
 1. (Optional) In the same location as the project file are `report.json` and `UnityReport.html` files containig the results of the analysis  
-
+1. (Optional) configuration file path.
+    * Enable / Disable analyzers you want to run.
 
 Example:
 

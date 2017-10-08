@@ -1,0 +1,16 @@
+{
+  "DoNotUseStringMethodsAnalyzer": true,
+  "InvokeFunctionMissingAnalyzer": true,
+  "UseNonAllocMethodsAnalyzer": true,
+  "DoNotUseOnGUIAnalyzer": true,
+  "UnsealedDerivedClassAnalyzer": true,
+  "DoNotUseForEachInUpdate": true,
+  "DoNotUseFindMethodsInUpdateAnalyzer": true,
+  "EmptyMonoBehaviourMethodsAnalyzer": true,
+  "DoNotUseCoroutinesAnalyzer": true,
+  "UseCompareTagAnalyzer": true,
+  "DoNotUseReflectionEmitAnalyzer": true,
+  "DoNotUseRemotingAnalyzer": true,
+  "TypeGetTypeAnalyzer": true,
+  "DoNotUseStateNameAnalyzer": true
+}
