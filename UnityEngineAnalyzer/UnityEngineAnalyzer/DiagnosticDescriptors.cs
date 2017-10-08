@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using UnityEngineAnalyzer.Animator;
 using UnityEngineAnalyzer.AOT;
+using UnityEngineAnalyzer.Camera;
 using UnityEngineAnalyzer.CompareTag;
 using UnityEngineAnalyzer.Coroutines;
 using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
@@ -146,6 +147,16 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseStateNameResource.Description), DoNotUseStateNameResource.ResourceManager, typeof(DoNotUseStateNameResource))
+        );
+
+        public static readonly DiagnosticDescriptor CameraMainIsSlow = new DiagnosticDescriptor(
+            id: DiagnosticIDs.CameraMainIsSlow,
+            title: new LocalizableResourceString(nameof(CameraMainResource.Title), CameraMainResource.ResourceManager, typeof(CameraMainResource)),
+            messageFormat: new LocalizableResourceString(nameof(CameraMainResource.MessageFormat), CameraMainResource.ResourceManager, typeof(CameraMainResource)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(CameraMainResource.Description), CameraMainResource.ResourceManager, typeof(CameraMainResource))
         );
     }
 }
