@@ -9,6 +9,12 @@ using UnityEngineAnalyzer.ForEachInUpdate;
 using UnityEngineAnalyzer.IL2CPP;
 using UnityEngineAnalyzer.OnGUI;
 using UnityEngineAnalyzer.StringMethods;
+using UnityEngineAnalyzer.Render;
+using UnityEngineAnalyzer.Camera;
+using UnityEngineAnalyzer.Language;
+using UnityEngineAnalyzer.GCAlloc;
+using UnityEngineAnalyzer.Generics;
+using UnityEngineAnalyzer.Delegates;
 
 namespace UnityEngineAnalyzer
 {
@@ -146,6 +152,122 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseStateNameResource.Description), DoNotUseStateNameResource.ResourceManager, typeof(DoNotUseStateNameResource))
+        );
+
+		public static readonly DiagnosticDescriptor DoNotUseMaterialName = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseMaterialNameInMaterial,
+            title: new LocalizableResourceString(nameof(DoNotUseMaterialName.Title), DoNotUseMaterialNameResource.ResourceManager, typeof(DoNotUseMaterialNameResource)),
+			messageFormat: new LocalizableResourceString(nameof(DoNotUseMaterialNameResource.MessageFormat), DoNotUseMaterialNameResource.ResourceManager, typeof(DoNotUseMaterialNameResource)),
+			category: DiagnosticCategories.Performance,
+			defaultSeverity: DiagnosticSeverity.Warning,
+			isEnabledByDefault: true,
+			description: new LocalizableResourceString(nameof(DoNotUseMaterialNameResource.Description), DoNotUseMaterialNameResource.ResourceManager, typeof(DoNotUseMaterialNameResource))
+		);
+
+		public static readonly DiagnosticDescriptor DoNotUseCameraMainInUpdate = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseCameraMainInUpdate,
+			title: new LocalizableResourceString(nameof(DoNotUseCameraMainInUpdate.Title), DoNotUseCameraMainInUpdateResources.ResourceManager, typeof(DoNotUseCameraMainInUpdateResources)),
+			messageFormat: new LocalizableResourceString(nameof(DoNotUseCameraMainInUpdateResources.MessageFormat), DoNotUseCameraMainInUpdateResources.ResourceManager, typeof(DoNotUseCameraMainInUpdateResources)),
+			category: DiagnosticCategories.Performance,
+			defaultSeverity: DiagnosticSeverity.Warning,
+			isEnabledByDefault: true,
+			description: new LocalizableResourceString(nameof(DoNotUseCameraMainInUpdateResources.Description), DoNotUseCameraMainInUpdateResources.ResourceManager, typeof(DoNotUseCameraMainInUpdateResources))
+		);
+
+
+        public static readonly DiagnosticDescriptor DoNotUseCameraMainInUpdateRecursive = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseCameraMainInUpdate,
+            title: new LocalizableResourceString(nameof(DoNotUseCameraMainInUpdateResources.Title), DoNotUseCameraMainInUpdateResources.ResourceManager, typeof(DoNotUseCameraMainInUpdateResources)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseCameraMainInUpdateResources.MessageFormatRecursive), DoNotUseCameraMainInUpdateResources.ResourceManager, typeof(DoNotUseCameraMainInUpdateResources)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseCameraMainInUpdateResources.Description), DoNotUseCameraMainInUpdateResources.ResourceManager, typeof(DoNotUseCameraMainInUpdateResources)));
+
+
+        public static readonly DiagnosticDescriptor StructShouldImplementIEquatable = new DiagnosticDescriptor(
+            id: DiagnosticIDs.StructShouldImplementIEquatable,
+            title: new LocalizableResourceString(nameof(StructAnalyzerResources.Title), StructAnalyzerResources.ResourceManager, typeof(StructAnalyzerResources)),
+            messageFormat: new LocalizableResourceString(nameof(StructAnalyzerResources.ShouldImplmentIEquatable), StructAnalyzerResources.ResourceManager, typeof(StructAnalyzerResources)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(StructAnalyzerResources.Description), StructAnalyzerResources.ResourceManager, typeof(StructAnalyzerResources))
+        );
+        
+        public static readonly DiagnosticDescriptor StructShouldOverrideEquals = new DiagnosticDescriptor(
+            id: DiagnosticIDs.StructShouldOverrideEquals,
+            title: new LocalizableResourceString(nameof(StructAnalyzerResources.Title), StructAnalyzerResources.ResourceManager, typeof(StructAnalyzerResources)),
+            messageFormat: new LocalizableResourceString(nameof(StructAnalyzerResources.ShouldOverrideEquals), StructAnalyzerResources.ResourceManager, typeof(StructAnalyzerResources)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(StructAnalyzerResources.Description), StructAnalyzerResources.ResourceManager, typeof(StructAnalyzerResources))
+        );
+
+        public static readonly DiagnosticDescriptor StructShouldOverrideGetHashCode = new DiagnosticDescriptor(
+            id: DiagnosticIDs.StructShouldOverrideGetHashCode,
+            title: new LocalizableResourceString(nameof(StructAnalyzerResources.Title), StructAnalyzerResources.ResourceManager, typeof(StructAnalyzerResources)),
+            messageFormat: new LocalizableResourceString(nameof(StructAnalyzerResources.ShouldOverrideGetHashCode), StructAnalyzerResources.ResourceManager, typeof(StructAnalyzerResources)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(StructAnalyzerResources.Description), StructAnalyzerResources.ResourceManager, typeof(StructAnalyzerResources))
+        );
+
+
+        public static readonly DiagnosticDescriptor DoNotGCAllocnInUpdate = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotGCAllocInUpdate,
+            title: new LocalizableResourceString(nameof(DoNotGCAllocInUpdateResources.Title), DoNotGCAllocInUpdateResources.ResourceManager, typeof(DoNotGCAllocInUpdateResources)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotGCAllocInUpdateResources.MessageFormat), DoNotGCAllocInUpdateResources.ResourceManager, typeof(DoNotGCAllocInUpdateResources)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotGCAllocInUpdateResources.Description), DoNotGCAllocInUpdateResources.ResourceManager, typeof(DoNotGCAllocInUpdateResources))
+        );
+
+
+        public static readonly DiagnosticDescriptor DoNotGCAllocnInUpdateRecursive = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotGCAllocInUpdate,
+            title: new LocalizableResourceString(nameof(DoNotGCAllocInUpdateResources.Title), DoNotGCAllocInUpdateResources.ResourceManager, typeof(DoNotGCAllocInUpdateResources)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotGCAllocInUpdateResources.MessageFormatRecursive), DoNotGCAllocInUpdateResources.ResourceManager, typeof(DoNotGCAllocInUpdateResources)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotGCAllocInUpdateResources.Description), DoNotGCAllocInUpdateResources.ResourceManager, typeof(DoNotGCAllocInUpdateResources)));
+
+
+
+        public static readonly DiagnosticDescriptor DoNotBoxWhenInvoke = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotBoxWhenInvoke,
+            title: new LocalizableResourceString(nameof(DoNotBoxWhenInvokeResource.Title), DoNotBoxWhenInvokeResource.ResourceManager, typeof(DoNotBoxWhenInvokeResource)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotBoxWhenInvokeResource.MessageFormat), DoNotBoxWhenInvokeResource.ResourceManager, typeof(DoNotBoxWhenInvokeResource)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotBoxWhenInvokeResource.Description), DoNotBoxWhenInvokeResource.ResourceManager, typeof(DoNotBoxWhenInvokeResource))
+        );
+
+
+        public static readonly DiagnosticDescriptor DoNotUseEnumTypeParameter = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNoUseEnumTypeParameter,
+            title: new LocalizableResourceString(nameof(DoNotUseEnumTypeParameterResource.Title), DoNotUseEnumTypeParameterResource.ResourceManager, typeof(DoNotUseEnumTypeParameterResource)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseEnumTypeParameterResource.MessageFormat), DoNotUseEnumTypeParameterResource.ResourceManager, typeof(DoNotUseEnumTypeParameterResource)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseEnumTypeParameterResource.Description), DoNotUseEnumTypeParameterResource.ResourceManager, typeof(DoNotUseEnumTypeParameterResource))
+        );
+
+
+        public static readonly DiagnosticDescriptor ShouldCacheDelegate = new DiagnosticDescriptor(
+            id: DiagnosticIDs.ShouldCacheDelegate,
+            title: new LocalizableResourceString(nameof(ShouldCacheDelegateResource.Title), ShouldCacheDelegateResource.ResourceManager, typeof(ShouldCacheDelegateResource)),
+            messageFormat: new LocalizableResourceString(nameof(ShouldCacheDelegateResource.MessageFormat), ShouldCacheDelegateResource.ResourceManager, typeof(ShouldCacheDelegateResource)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(ShouldCacheDelegateResource.Description), ShouldCacheDelegateResource.ResourceManager, typeof(ShouldCacheDelegateResource))
         );
     }
 }

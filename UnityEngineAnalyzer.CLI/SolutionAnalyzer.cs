@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.MSBuild;
-using UnityEngineAnalyzer.ForEachInUpdate;
+using UnityEngineAnalyzer.IL2CPP;
 
 namespace UnityEngineAnalyzer.CLI
 {
@@ -27,7 +27,7 @@ namespace UnityEngineAnalyzer.CLI
         {
             var listBuilder = ImmutableArray.CreateBuilder<DiagnosticAnalyzer>();
 
-            var assembly = typeof(DoNotUseForEachInUpdate).Assembly;
+            var assembly = typeof(UnsealedDerivedClassAnalyzer).Assembly;
             var allTypes = assembly.DefinedTypes;
 
             foreach (var type in allTypes)
