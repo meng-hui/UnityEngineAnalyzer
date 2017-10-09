@@ -140,6 +140,7 @@
     <Compile Include="GCAlloc\DoNotBoxWhenInvokeAnalyzerTests.cs" />
     <Compile Include="GCAlloc\DoNotGCAllocInUpdateAnalyzerTests.cs" />
     <Compile Include="Generics\DoNotUseEnumTypeParameterAnalyzerTests.cs" />
+    <Compile Include="IL2CPP\UnsealedDerivedClassAnalyzerTests.cs" />
     <Compile Include="Language\StructOverrideEqualsGetHashCodeAnalyzerTest.cs" />
     <Compile Include="Language\StructOverrideEqualsObjectAnalyzerTest.cs" />
     <Compile Include="Language\StructImplementAnalyzerTest.cs" />

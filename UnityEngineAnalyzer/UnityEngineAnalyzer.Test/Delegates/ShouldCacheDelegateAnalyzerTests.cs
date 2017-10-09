@@ -262,6 +262,47 @@ class C
 
 
         [Test]
+        public void FunctionIsNotDelegate2()
+        {
+            var code = @"
+
+using System;
+
+class C
+{
+    public event EventHandler e;
+    void Update()
+    {
+        Call(this.[|ReturnInt()|]);
+    }
+
+    private void Call(int intValue)
+    {
+        
+    }    
+
+    private int ReturnInt()
+    {
+        return 0;
+    }
+}";
+
+            Document document;
+            TextSpan span;
+
+            if (TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine,
+                out document, out span))
+            {
+                NoDiagnostic(document, DiagnosticIDs.ShouldCacheDelegate);
+            }
+            else
+            {
+                Assert.Fail("Could not load unit test code");
+            }
+        }
+
+
+        [Test]
         public void FunctionIsNotDelegateAndDidNotCacheDelegate()
         {
             var code = @"

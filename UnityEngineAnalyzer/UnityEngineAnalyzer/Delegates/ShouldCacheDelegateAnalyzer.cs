@@ -46,13 +46,12 @@ namespace UnityEngineAnalyzer.Delegates
                 return;
             }
 
-            var argumentSyntax = checkSyntax.DescendantNodes().OfType<ArgumentListSyntax>();
-            var invocationSytnax = checkSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>();
-            foreach (var oneArgSyntax in argumentSyntax)
+            var argumentListSyntax = checkSyntax.ChildNodes().OfType<ArgumentListSyntax>();
+            foreach (var oneArgListSyntax in argumentListSyntax)
             {
-                foreach (var oneIdSyntax in oneArgSyntax.DescendantNodes().OfType<IdentifierNameSyntax>())
+                foreach(var oneArgSyntax in oneArgListSyntax.ChildNodes().OfType<ArgumentSyntax>())
                 {
-                    if(!(oneIdSyntax.Parent is InvocationExpressionSyntax))
+                    foreach (var oneIdSyntax in oneArgSyntax.ChildNodes().OfType<IdentifierNameSyntax>())
                     {
                         var oneIdSymbol = context.SemanticModel.GetSymbolInfo(oneIdSyntax);
                         if (oneIdSymbol.Symbol != null)
