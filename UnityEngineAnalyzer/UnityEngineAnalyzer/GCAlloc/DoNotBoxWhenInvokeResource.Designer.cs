@@ -71,7 +71,7 @@ namespace UnityEngineAnalyzer.GCAlloc {
         }
         
         /// <summary>
-        ///   查找类似 Method {0}.{1}&apos;s parameter &quot;{2}&quot;&apos;s type {3} is reference type, but the argument &quot;{4}&quot;&apos;s type {5} is value type, which makes boxing and gc allocation. 的本地化字符串。
+        ///   查找类似 Method {0}.{1}&apos;s parameter &quot;{2}&quot;&apos;s type &quot;{3}&quot; is reference type, but the argument &quot;{4}&quot;&apos;s type &quot;{5}&quot; is value type, which causes boxing and gc allocation. 的本地化字符串。
         /// </summary>
         internal static string MessageFormat {
             get {

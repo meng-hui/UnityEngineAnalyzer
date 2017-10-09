@@ -31,7 +31,24 @@ namespace UnityEngineAnalyzer.GCAlloc
 
             var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
             var methodSymbol = symbolInfo.Symbol as IMethodSymbol;
-            
+
+            bool isConditional = false;
+            foreach(var oneAttribute in methodSymbol.GetAttributes())
+            {
+                if(oneAttribute.AttributeClass.Name == "ConditionalAttribute" && oneAttribute.AttributeClass.ContainingNamespace.Name == "Diagnostics")
+                {
+                    isConditional = true;
+                    break;
+                }
+
+            }
+
+            if(isConditional)
+            {
+                return;
+            }
+
+
             if(methodSymbol.Parameters == null || methodSymbol.Parameters.Length == 0)
             {
                 return;

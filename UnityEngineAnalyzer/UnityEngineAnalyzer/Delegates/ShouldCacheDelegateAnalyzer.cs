@@ -47,18 +47,22 @@ namespace UnityEngineAnalyzer.Delegates
             }
 
             var argumentSyntax = checkSyntax.DescendantNodes().OfType<ArgumentListSyntax>();
+            var invocationSytnax = checkSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>();
             foreach (var oneArgSyntax in argumentSyntax)
             {
                 foreach (var oneIdSyntax in oneArgSyntax.DescendantNodes().OfType<IdentifierNameSyntax>())
                 {
-                    var oneIdSymbol = context.SemanticModel.GetSymbolInfo(oneIdSyntax);
-                    if (oneIdSymbol.Symbol != null)
+                    if(!(oneIdSyntax.Parent is InvocationExpressionSyntax))
                     {
-                        if (oneIdSymbol.Symbol is IMethodSymbol)
+                        var oneIdSymbol = context.SemanticModel.GetSymbolInfo(oneIdSyntax);
+                        if (oneIdSymbol.Symbol != null)
                         {
-                            var diagnostic = Diagnostic.Create(DiagnosticDescriptors.ShouldCacheDelegate,
-                                oneIdSyntax.GetLocation(), oneIdSyntax.ToString());
-                            context.ReportDiagnostic(diagnostic);
+                            if (oneIdSymbol.Symbol is IMethodSymbol)
+                            {
+                                var diagnostic = Diagnostic.Create(DiagnosticDescriptors.ShouldCacheDelegate,
+                                    oneIdSyntax.GetLocation(), oneIdSyntax.ToString());
+                                context.ReportDiagnostic(diagnostic);
+                            }
                         }
                     }
                 }

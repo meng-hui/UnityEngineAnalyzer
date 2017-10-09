@@ -218,5 +218,92 @@ class C
             }
         }
 
+
+        [Test]
+        public void FunctionIsNotDelegate()
+        {
+            var code = @"
+
+using System;
+
+class C
+{
+    public event EventHandler e;
+    void Update()
+    {
+        Call([|ReturnInt()|]);
+    }
+
+    private void Call(int intValue)
+    {
+        
+    }    
+
+    private int ReturnInt()
+    {
+        return 0;
+    }
+}";
+
+            Document document;
+            TextSpan span;
+
+            if (TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine,
+                out document, out span))
+            {
+                NoDiagnostic(document, DiagnosticIDs.ShouldCacheDelegate);
+            }
+            else
+            {
+                Assert.Fail("Could not load unit test code");
+            }
+        }
+
+
+
+        [Test]
+        public void FunctionIsNotDelegateAndDidNotCacheDelegate()
+        {
+            var code = @"
+
+using System;
+
+class C
+{
+    public event EventHandler e;
+    void Update()
+    {
+        Call(ReturnInt(), [|OnCallBack|]);
+    }
+
+    private void Call(int intValue, EventHandler h)
+    {
+        
+    }    
+
+    private int ReturnInt()
+    {
+        return 0;
+    }
+
+    private void OnCallBack(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+}";
+
+            Document document;
+            TextSpan span;
+
+            if (TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine,
+                out document, out span))
+            {
+                HasDiagnostic(document, span, DiagnosticIDs.ShouldCacheDelegate);
+            }
+            else
+            {
+                Assert.Fail("Could not load unit test code");
+            }
+        }
     }
 }

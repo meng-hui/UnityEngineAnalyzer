@@ -122,7 +122,7 @@
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
   <data name="MessageFormat" xml:space="preserve">
-    <value>Method {0}.{1}'s parameter "{2}"'s type {3} is reference type, but the argument "{4}"'s type {5} is value type, which makes boxing and gc allocation.</value>
+    <value>Method {0}.{1}'s parameter "{2}"'s type "{3}" is reference type, but the argument "{4}"'s type "{5}" is value type, which causes boxing and gc allocation.</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
   <data name="Title" xml:space="preserve">

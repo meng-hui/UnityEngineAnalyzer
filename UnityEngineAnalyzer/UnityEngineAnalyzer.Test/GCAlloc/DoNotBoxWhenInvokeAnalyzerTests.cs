@@ -153,5 +153,43 @@ class C
                 Assert.Fail("Could not load unit test code");
             }
         }
+
+
+        [Test]
+        public void BoxIgnoredWhenConditionalInvokeWithLiteral()
+        {
+            var code = @"
+
+using System.Diagnostics;
+
+class C
+{
+    [Conditional(""SOME_CONDITION""), Conditional(""SOME_CONDITION2"")]
+    private void Method(object p1, int p2)
+    {
+    }
+
+    private void Caller()
+    {
+        Method([|234|], 2);
+    }
+}
+
+";
+
+            Document document;
+            TextSpan span;
+
+            if (TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, null,
+                out document, out span))
+            {
+                NoDiagnostic(document, DiagnosticIDs.DoNotBoxWhenInvoke);
+            }
+            else
+            {
+                Assert.Fail("Could not load unit test code");
+            }
+        }
+
     }
 }
