@@ -10,7 +10,7 @@ namespace UnityEngineAnalyzer.StringMethods
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public sealed class DoNotUseStringMethodsAnalyzer : DiagnosticAnalyzer
     {
-        private static readonly ImmutableHashSet<string> StringMethods = ImmutableHashSet.Create("SendMessage", "SendMessageUpwards", "BroadcastMessage", "Invoke", "InvokeRepeating");
+        private static readonly ImmutableHashSet<string> StringMethods = ImmutableHashSet.Create("SendMessage", "SendMessageUpwards", "BroadcastMessage");
         private static readonly ImmutableHashSet<string> Namespaces = ImmutableHashSet.Create("UnityEngine.Component", "UnityEngine.GameObject", "UnityEngine.MonoBehaviour");
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptors.DoNotUseStringMethods);
@@ -28,20 +28,7 @@ namespace UnityEngineAnalyzer.StringMethods
                 return;
             }
 
-
-            string name = null;
-            if (invocation.Expression is MemberAccessExpressionSyntax)
-            {
-                name = ((MemberAccessExpressionSyntax)invocation.Expression).Name.Identifier.ToString();
-            }
-            else if (invocation.Expression is IdentifierNameSyntax)
-            {
-                name = ((IdentifierNameSyntax)invocation.Expression).ToString();
-            }
-            else if (invocation.Expression is GenericNameSyntax)
-            {
-                name = ((GenericNameSyntax)invocation.Expression).Identifier.ToString();
-            }
+            var name = invocation.MethodName();
 
 
             // check if any of the "string" methods are used

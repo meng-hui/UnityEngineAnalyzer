@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Animator\DoNotUseStateNameResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoNotUseStateNameResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Animator\DoNotUseStateNameAnalyzer.cs" />
     <Compile Include="AOT\DoNotUseReflectionEmitAnalyzer.cs" />
     <Compile Include="AOT\DoNotUseReflectionEmitResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -83,6 +89,12 @@
       <DependentUpon>DoNotUseForEachInUpdateResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ForEachInUpdate\DoNotUseForEachInUpdate.cs" />
+    <Compile Include="IL2CPP\UnsealedDerivedClassAnalyzer.cs" />
+    <Compile Include="IL2CPP\UnsealedDerivedClassResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UnsealedDerivedClassResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="MonoBehaviourInfo.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzer.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIResources.Designer.cs">
@@ -98,8 +110,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotUseStringMethodsResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="StringMethods\InvokeFunctionMissingAnalyzer.cs" />
+    <Compile Include="StringMethods\InvokeFunctionMissingResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InvokeFunctionMissingResources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Animator\DoNotUseStateNameResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoNotUseStateNameResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="AOT\DoNotUseReflectionEmitResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseReflectionEmitResources.Designer.cs</LastGenOutput>
@@ -130,15 +152,23 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Coroutines\DoNotUseCoroutinesResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoNotUseForEachInUpdateResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>DoNotUseCoroutinesResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IL2CPP\UnsealedDerivedClassResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UnsealedDerivedClassResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="OnGUI\DoNotUseOnGUIResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoNotUseForEachInUpdateResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>DoNotUseOnGUIResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="StringMethods\DoNotUseStringMethodsResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoNotUseForEachInUpdateResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>DoNotUseStringMethodsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StringMethods\InvokeFunctionMissingResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>InvokeFunctionMissingResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

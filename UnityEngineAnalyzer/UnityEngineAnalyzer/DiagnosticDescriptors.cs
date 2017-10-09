@@ -1,10 +1,12 @@
 ﻿using Microsoft.CodeAnalysis;
+using UnityEngineAnalyzer.Animator;
 using UnityEngineAnalyzer.AOT;
 using UnityEngineAnalyzer.CompareTag;
 using UnityEngineAnalyzer.Coroutines;
 using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
 using UnityEngineAnalyzer.FindMethodsInUpdate;
 using UnityEngineAnalyzer.ForEachInUpdate;
+using UnityEngineAnalyzer.IL2CPP;
 using UnityEngineAnalyzer.OnGUI;
 using UnityEngineAnalyzer.StringMethods;
 
@@ -13,6 +15,7 @@ namespace UnityEngineAnalyzer
     static class DiagnosticDescriptors
     {
         //NOTES: Naming of Descriptors are a bit inconsistant
+        //NOTES: The Resource Reading code seems  repetative
 
         public static readonly DiagnosticDescriptor DoNotUseOnGUI = new DiagnosticDescriptor(
             id: DiagnosticIDs.DoNotUseOnGUI,
@@ -113,6 +116,36 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseForEachInUpdateResources.Description), DoNotUseForEachInUpdateResources.ResourceManager, typeof(DoNotUseForEachInUpdateResources))
+        );
+
+        public static readonly DiagnosticDescriptor UnsealedDerivedClass = new DiagnosticDescriptor(
+              id: DiagnosticIDs.UnsealedDerivedClass,
+              title: new LocalizableResourceString(nameof(UnsealedDerivedClassResources.Title), UnsealedDerivedClassResources.ResourceManager, typeof(UnsealedDerivedClassResources)),
+              messageFormat: new LocalizableResourceString(nameof(UnsealedDerivedClassResources.MessageFormat), UnsealedDerivedClassResources.ResourceManager, typeof(UnsealedDerivedClassResources)),
+              category: DiagnosticCategories.Performance,
+              defaultSeverity: DiagnosticSeverity.Warning,
+              isEnabledByDefault: true,
+              description: new LocalizableResourceString(nameof(UnsealedDerivedClassResources.Description), UnsealedDerivedClassResources.ResourceManager, typeof(UnsealedDerivedClassResources))
+        );
+
+        public static readonly DiagnosticDescriptor InvokeFunctionMissing = new DiagnosticDescriptor(
+              id: DiagnosticIDs.InvokeFunctionMissing,
+              title: new LocalizableResourceString(nameof(InvokeFunctionMissingResources.Title), InvokeFunctionMissingResources.ResourceManager, typeof(InvokeFunctionMissingResources)),
+              messageFormat: new LocalizableResourceString(nameof(InvokeFunctionMissingResources.MessageFormat), InvokeFunctionMissingResources.ResourceManager, typeof(InvokeFunctionMissingResources)),
+              category: DiagnosticCategories.Performance,
+              defaultSeverity: DiagnosticSeverity.Warning,
+              isEnabledByDefault: true,
+              description: new LocalizableResourceString(nameof(InvokeFunctionMissingResources.Description), InvokeFunctionMissingResources.ResourceManager, typeof(InvokeFunctionMissingResources))
+        );
+
+        public static readonly DiagnosticDescriptor DoNotUseStateName = new DiagnosticDescriptor(
+            id: DiagnosticIDs.DoNotUseStateNameInAnimator,
+            title: new LocalizableResourceString(nameof(DoNotUseStateNameResource.Title), DoNotUseStateNameResource.ResourceManager, typeof(DoNotUseStateNameResource)),
+            messageFormat: new LocalizableResourceString(nameof(DoNotUseStateNameResource.MessageFormat), DoNotUseStateNameResource.ResourceManager, typeof(DoNotUseStateNameResource)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(DoNotUseStateNameResource.Description), DoNotUseStateNameResource.ResourceManager, typeof(DoNotUseStateNameResource))
         );
     }
 }

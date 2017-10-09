@@ -26,16 +26,28 @@ namespace UnityEngineAnalyzer.CLI
 
             foreach (var diagnostic in diagnosticResults)
             {
-                var locationSpan = diagnostic.Location.SourceSpan;
-                var lineSpan = diagnostic.Location.SourceTree.GetLineSpan(locationSpan);
+                var location = diagnostic.Location;
+                var lineNumber = 0;
+                var characterPosition = 0;
+                var fileName = string.Empty;
+
+                if (location != Location.None)
+                {
+                    var locationSpan = location.SourceSpan;
+                    var lineSpan = location.SourceTree.GetLineSpan(locationSpan);
+                    lineNumber = lineSpan.StartLinePosition.Line;
+                    characterPosition = lineSpan.StartLinePosition.Character;
+                    fileName = location.SourceTree?.FilePath;
+                }
 
                 var diagnosticInfo = new DiagnosticInfo
                 {
                     Id = diagnostic.Id,
                     Message = diagnostic.GetMessage(),
-                    FileName = diagnostic.Location.SourceTree.FilePath,
-                    LineNumber = lineSpan.StartLinePosition.Line,
-                    Severity = (DiagnosticInfoSeverity)diagnostic.Severity
+                    FileName = fileName,
+                    LineNumber = lineNumber,
+                    CharacterPosition = characterPosition,
+                    Severity = (DiagnosticInfo.DiagnosticInfoSeverity)diagnostic.Severity
                 };
 
 
@@ -50,7 +62,7 @@ namespace UnityEngineAnalyzer.CLI
         {
             foreach (var exporter in _exporters)
             {
-                exporter.Finish(duration);
+                exporter.FinalizeExporter(duration);
             }
         }
 
@@ -59,6 +71,14 @@ namespace UnityEngineAnalyzer.CLI
             foreach (var exporter in _exporters)
             {
                 exporter.InitializeExporter(projectFile);       
+            }
+        }
+
+        public void NotifyException(Exception exception)
+        {
+            foreach (var exporter in _exporters)
+            {
+                exporter.NotifyException(exception);
             }
         }
     }

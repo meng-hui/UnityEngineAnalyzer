@@ -7,7 +7,7 @@ UnityEngineAnalyzer is a set of Roslyn analyzers that aim to detect common probl
 Comand Line Interface
 ---------------------
 
-In order to use the Command Line Interface (CLI), download the latest release of UnityEngineAnalyzer then unzip the archive.
+In order to use the Command Line Interface (CLI), download the latest release of UnityEngineAnalyzer then unzip the archive (https://github.com/vad710/UnityEngineAnalyzer/releases).
 
 1. Open a Command Prompt or Powershell Window
 1. Run `UnityEngineAnalyzer.CLI.exe <project path>`

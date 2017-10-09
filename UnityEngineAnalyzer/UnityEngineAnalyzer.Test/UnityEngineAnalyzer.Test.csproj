@@ -127,6 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animator\DoNotUseStateNameAnalyzerTests.cs" />
     <Compile Include="AOT\DoNotUseReflectionEmitAnalyzerTests.cs" />
     <Compile Include="AOT\DoNotUseRemotingAnalyzerTests.cs" />
     <Compile Include="AOT\TypeGetTypeAnalyzerTests.cs" />
