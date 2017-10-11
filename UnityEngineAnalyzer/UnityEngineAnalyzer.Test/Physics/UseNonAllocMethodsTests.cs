@@ -37,6 +37,28 @@ class C : MonoBehaviour
         }
 
         [Test]
+        public void Physics2DRaycastAll()
+        {
+            const string code = @"
+using UnityEngine;
+
+class C : MonoBehaviour
+{
+    void Update()
+    {
+        RaycastHit2D[] hits;
+        hits = [|Physics2D.RaycastAll(Vector2.zero, Vector2.one)|];
+    }
+}";
+
+            Document document;
+            TextSpan span;
+            TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine, out document, out span);
+
+            HasDiagnostic(document, span, DiagnosticIDs.PhysicsUseNonAllocMethods);
+        }
+
+        [Test]
         public void Physics2DCircleCastAll()
         {
             const string code = @"

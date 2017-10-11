@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace UnityEngineAnalyzer.Physics
@@ -48,17 +49,20 @@ namespace UnityEngineAnalyzer.Physics
 
             var name = invocation.MethodName();
 
-            string containingClassName = string.Empty;
+            List<string> containingClassName = new List<string>();
+
             // check if any of the methods are used
             if (PhysicsAllocatingCasts.Contains(name))
             {
-                containingClassName = "Physics";
+                containingClassName.Add("Physics");
             }
-            else if (Physics2DAllocatingCasts.Contains(name))
+
+            if (Physics2DAllocatingCasts.Contains(name))
             {
-                containingClassName = "Physics2D";
+                containingClassName.Add("Physics2D");
             }
-            else
+            
+            if (containingClassName.Count == 0)
             {
                 return;
             }
@@ -68,8 +72,8 @@ namespace UnityEngineAnalyzer.Physics
 
             var containingType = methodSymbol.ContainingType;
 
-            // check if the method is the one from UnityEngine.Animator
-            if (containingType.ContainingNamespace.Name.Equals("UnityEngine") && containingType.Name.Equals(containingClassName))
+            // check if the method is the one from UnityEngine.Physics
+            if (containingType.ContainingNamespace.Name.Equals("UnityEngine") && containingClassName.Contains(containingType.Name))
             {
                 var diagnostic = Diagnostic.Create(DiagnosticDescriptors.UseNonAllocMethods, invocation.GetLocation(), containingType.Name, methodSymbol.Name);
                 context.ReportDiagnostic(diagnostic);
