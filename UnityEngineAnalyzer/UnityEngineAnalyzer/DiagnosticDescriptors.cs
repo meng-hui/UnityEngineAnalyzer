@@ -176,7 +176,7 @@ namespace UnityEngineAnalyzer
             title: new LocalizableResourceString(nameof(UseNonAllocMethodsResources.Title), UseNonAllocMethodsResources.ResourceManager, typeof(UseNonAllocMethodsResources)),
             messageFormat: new LocalizableResourceString(nameof(UseNonAllocMethodsResources.MessageFormat), UseNonAllocMethodsResources.ResourceManager, typeof(UseNonAllocMethodsResources)),
             category: DiagnosticCategories.GC,
-            defaultSeverity: DiagnosticSeverity.Info,
+            defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(UseNonAllocMethodsResources.Description), UseNonAllocMethodsResources.ResourceManager, typeof(UseNonAllocMethodsResources))
         );
