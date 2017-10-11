@@ -62,15 +62,24 @@ namespace UnityEngineAnalyzer.Camera
             }
         }
 
+        private object lastMethodRecursion = null;
+
         private void RecursiveMethodCrawler(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method)
         {
             var invocationAccessExpression = method.DescendantNodes().OfType<InvocationExpressionSyntax>();
             SearchCameraMain(context, method);
 
-            foreach (var invalid in invocationAccessExpression)
+            foreach (var invocation in invocationAccessExpression)
             {
+                if (lastMethodRecursion == invocationAccessExpression)
+                {
+                    break;
+                }
+
+                lastMethodRecursion = invocationAccessExpression;
+
                 SymbolInfo symbolInfo;
-                if (!context.TryGetSymbolInfo(invalid, out symbolInfo))
+                if (!context.TryGetSymbolInfo(invocation, out symbolInfo))
                 {
                     continue;
                 }
