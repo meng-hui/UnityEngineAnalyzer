@@ -18,11 +18,11 @@ namespace UnityEngineAnalyzer.CLI
 
             var rootJson = new JObject();
 
-            foreach (var type in allTypes)
+            foreach (var typeInfo in allTypes)
             {
-                if (type.BaseType == typeof(DiagnosticAnalyzer))
+                if (typeInfo.BaseType == typeof(DiagnosticAnalyzer))
                 {
-                    rootJson.Add(new JProperty(type.Name, true));
+                    rootJson.Add(new JProperty(typeInfo.Name, true)); //TODO SupportedDiagnostics.IsEnabledByDefault;
                 }
             }
 
