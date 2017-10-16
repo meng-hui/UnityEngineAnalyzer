@@ -5,6 +5,9 @@ namespace UnityEngineAnalyzer.CLI.Reporting
 {
     public class ConsoleAnalyzerExporter : StandardOutputAnalyzerReporter
     {
+        public ConsoleAnalyzerExporter(DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity) : base(MinimalSeverity)
+        {
+        }
 
         public override void FinalizeExporter(TimeSpan duration)
         {

@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using System.Collections.Generic;
+using UnityEngineAnalyzer.CLI.Reporting;
 
 namespace UnityEngineAnalyzer.CLI
 {
@@ -13,5 +14,8 @@ namespace UnityEngineAnalyzer.CLI
 
         [Option('c', "configuration", HelpText = "Custom json configuration to be used.")]
         public string ConfigurationFile { get; set; }
+
+        [Option('s', "severity", DefaultValue = DiagnosticInfo.DiagnosticInfoSeverity.Warning, HelpText = "Minimal severity to be reported.")]
+        public DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity { get; set; }
     }
 }

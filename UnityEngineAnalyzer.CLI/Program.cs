@@ -52,8 +52,8 @@ namespace UnityEngineAnalyzer.CLI
                 if (report.GetExporterCount() == 0)
                 { 
                     //It's generally a good idea to make sure that the Console Exporter is last since it is interactive
-                    report.AddExporter(new JsonAnalyzerExporter());
-                    report.AddExporter(new ConsoleAnalyzerExporter());
+                    report.AddExporter(new JsonAnalyzerExporter(options.MinimalSeverity));
+                    report.AddExporter(new ConsoleAnalyzerExporter(options.MinimalSeverity));
                 }
                 
                 report.InitializeReport(fileInfo);

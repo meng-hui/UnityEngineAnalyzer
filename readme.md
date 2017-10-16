@@ -17,6 +17,9 @@ In order to use the Command Line Interface (CLI), download the latest release of
 1. (Optional) configuration file path.
     * Use command `-c configureFilePath.json` to load custom configurations
 	* Configuration json, allows to enable / disable analyzers
+1. (Optional) minimal severity for reports
+	* Use command `-s Info/Warning/Error` to defined used minimal severity for reporting
+	* Default is Warning
 
 Example:
 

@@ -109,6 +109,7 @@
     <Compile Include="AnalyzerReport.cs" />
     <Compile Include="ConfigurationFileGenerator.cs" />
     <Compile Include="Options.cs" />
+    <Compile Include="Reporting\AnalyzerExporter.cs" />
     <Compile Include="Reporting\JsonAnalyzerExporter.cs" />
     <Compile Include="Reporting\ConsoleAnalyzerExporter.cs" />
     <Compile Include="Reporting\DiagnosticInfo.cs" />
