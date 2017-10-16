@@ -56,6 +56,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TypeGetTypeResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Camera\CameraMainAnalyzer.cs" />
+    <Compile Include="Camera\CameraMainResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CameraMainResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="CompareTag\UseCompareTagAnalyzer.cs" />
     <Compile Include="CompareTag\UseCompareTagResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -108,6 +114,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotUseOnGUIResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Physics\UseNonAllocMethodsAnalyzer.cs" />
+    <Compile Include="Physics\UseNonAllocMethodsResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UseNonAllocMethodsResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RolsynExtensions.cs" />
     <Compile Include="StringMethods\DoNotUseStringMethodsAnalyzer.cs" />
@@ -140,6 +152,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TypeGetTypeResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Camera\CameraMainResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CameraMainResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="CompareTag\UseCompareTagResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UseCompareTagResources.Designer.cs</LastGenOutput>
@@ -171,6 +187,10 @@
     <EmbeddedResource Include="OnGUI\DoNotUseOnGUIResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseOnGUIResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Physics\UseNonAllocMethodsResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UseNonAllocMethodsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="StringMethods\DoNotUseStringMethodsResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

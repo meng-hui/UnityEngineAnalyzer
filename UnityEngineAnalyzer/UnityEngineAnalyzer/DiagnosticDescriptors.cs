@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using UnityEngineAnalyzer.Animator;
 using UnityEngineAnalyzer.AOT;
+using UnityEngineAnalyzer.Camera;
 using UnityEngineAnalyzer.CompareTag;
 using UnityEngineAnalyzer.Coroutines;
 using UnityEngineAnalyzer.EmptyMonoBehaviourMethods;
@@ -9,6 +10,7 @@ using UnityEngineAnalyzer.ForEachInUpdate;
 using UnityEngineAnalyzer.IL2CPP;
 using UnityEngineAnalyzer.Material;
 using UnityEngineAnalyzer.OnGUI;
+using UnityEngineAnalyzer.Physics;
 using UnityEngineAnalyzer.StringMethods;
 
 namespace UnityEngineAnalyzer
@@ -149,6 +151,16 @@ namespace UnityEngineAnalyzer
             description: new LocalizableResourceString(nameof(DoNotUseStateNameResource.Description), DoNotUseStateNameResource.ResourceManager, typeof(DoNotUseStateNameResource))
         );
 
+        public static readonly DiagnosticDescriptor CameraMainIsSlow = new DiagnosticDescriptor(
+            id: DiagnosticIDs.CameraMainIsSlow,
+            title: new LocalizableResourceString(nameof(CameraMainResource.Title), CameraMainResource.ResourceManager, typeof(CameraMainResource)),
+            messageFormat: new LocalizableResourceString(nameof(CameraMainResource.MessageFormat), CameraMainResource.ResourceManager, typeof(CameraMainResource)),
+            category: DiagnosticCategories.Performance,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(CameraMainResource.Description), CameraMainResource.ResourceManager, typeof(CameraMainResource))
+        );
+        
         public static readonly DiagnosticDescriptor DoNotUseStringPropertyNames = new DiagnosticDescriptor(
             id: DiagnosticIDs.DoNotUseStringPropertyNamesInMaterial,
             title: new LocalizableResourceString(nameof(DoNotUseStringPropertyNamesResource.Title), DoNotUseStringPropertyNamesResource.ResourceManager, typeof(DoNotUseStringPropertyNamesResource)),
@@ -157,6 +169,16 @@ namespace UnityEngineAnalyzer
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: new LocalizableResourceString(nameof(DoNotUseStringPropertyNamesResource.Description), DoNotUseStringPropertyNamesResource.ResourceManager, typeof(DoNotUseStringPropertyNamesResource))
+        );
+
+        public static readonly DiagnosticDescriptor UseNonAllocMethods = new DiagnosticDescriptor(
+            id: DiagnosticIDs.PhysicsUseNonAllocMethods,
+            title: new LocalizableResourceString(nameof(UseNonAllocMethodsResources.Title), UseNonAllocMethodsResources.ResourceManager, typeof(UseNonAllocMethodsResources)),
+            messageFormat: new LocalizableResourceString(nameof(UseNonAllocMethodsResources.MessageFormat), UseNonAllocMethodsResources.ResourceManager, typeof(UseNonAllocMethodsResources)),
+            category: DiagnosticCategories.GC,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: new LocalizableResourceString(nameof(UseNonAllocMethodsResources.Description), UseNonAllocMethodsResources.ResourceManager, typeof(UseNonAllocMethodsResources))
         );
     }
 }

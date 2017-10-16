@@ -15,6 +15,7 @@ namespace UnityEngineAnalyzer.StringMethods
         private static readonly ImmutableHashSet<string> InvokeMethods = ImmutableHashSet.Create("Invoke", "InvokeRepeating");
         private static readonly string InvokeMethodTypeName = "UnityEngine.MonoBehaviour";
 
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptors.InvokeFunctionMissing);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -53,19 +54,12 @@ namespace UnityEngineAnalyzer.StringMethods
 
                     if (invokeEndPoint == null)
                     {
-                        var diagnostic = Diagnostic.Create(SupportedDiagnostics.First(), firstArgumentExpression.GetLocation(),
-                             methodName, invokedMethodName);
-
+                        var diagnostic = Diagnostic.Create(DiagnosticDescriptors.InvokeFunctionMissing, invocation.GetLocation());
                         context.ReportDiagnostic(diagnostic);
                     }
                 }
-
-
-
             }
 
         }
-
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptors.InvokeFunctionMissing);
     }
 }

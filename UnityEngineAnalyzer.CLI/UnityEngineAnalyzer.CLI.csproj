@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalyzerReport.cs" />
+    <Compile Include="ConfigurationFileGenerator.cs" />
     <Compile Include="Reporting\JsonAnalyzerExporter.cs" />
     <Compile Include="Reporting\ConsoleAnalyzerExporter.cs" />
     <Compile Include="Reporting\DiagnosticInfo.cs" />
