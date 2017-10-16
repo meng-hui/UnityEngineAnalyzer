@@ -17,52 +17,55 @@ namespace UnityEngineAnalyzer.CLI
             AvailableExporters.Add(nameof(ConsoleAnalyzerExporter), typeof(ConsoleAnalyzerExporter));
         }
 
-
         public static void Main(string[] args)
         {
             try
             {
-                //TODO: Use a proper parser for the commands
+                var options = new Options();
+                var isValid = CommandLine.Parser.Default.ParseArgumentsStrict(args, options);
 
-                if (args.Length <= 0)
+                if (isValid == false || options.ProjectFile == null)
                 {
                     return;
                 }
 
                 var startTime = DateTime.Now;
 
-                var fileName = args[0];
+                var fileName = options.ProjectFile;
                 var fileInfo = new FileInfo(fileName);
 
                 //NOTE: This could be configurable via the CLI at some point
                 var report = new AnalyzerReport();
 
-                int optinalArgumentIndex = 1;
-                if (args.Length > optinalArgumentIndex && AvailableExporters.ContainsKey(args[optinalArgumentIndex]))
+                if (options.Exporters != null)
                 {
-                    var exporterInstance = Activator.CreateInstance(AvailableExporters[args[optinalArgumentIndex]]);
-                    report.AddExporter(exporterInstance as IAnalyzerExporter);
-
-                    optinalArgumentIndex++;
+                    foreach (var exporter in options.Exporters)
+                    {
+                        if (AvailableExporters.ContainsKey(exporter))
+                        {
+                            var exporterInstance = Activator.CreateInstance(AvailableExporters[exporter]);
+                            report.AddExporter(exporterInstance as IAnalyzerExporter);
+                        }
+                    }
                 }
-                else
-                {
+
+                if (report.GetExporterCount() == 0)
+                { 
                     //It's generally a good idea to make sure that the Console Exporter is last since it is interactive
                     report.AddExporter(new JsonAnalyzerExporter());
                     report.AddExporter(new ConsoleAnalyzerExporter());
                 }
                 
-
                 report.InitializeReport(fileInfo);
 
                 var tasks = new List<Task>();
                 if (fileInfo.Exists)
                 {
                     FileInfo configFileInfo = null;
-                    if (args.Length > optinalArgumentIndex)
+
+                    if (options.ConfigurationFile != null)
                     {
-                        var configFileName = args[optinalArgumentIndex];
-                        configFileInfo = new FileInfo(configFileName);
+                        configFileInfo = new FileInfo(options.ConfigurationFile);
                     }
 
                     var solutionAnalyzer = new SolutionAnalyzer();

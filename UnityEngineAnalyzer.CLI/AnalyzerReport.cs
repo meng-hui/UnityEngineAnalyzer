@@ -17,6 +17,11 @@ namespace UnityEngineAnalyzer.CLI
             _exporters.Add(exporter);
         }
 
+        public int GetExporterCount()
+        {
+            return _exporters.Count;
+        }
+
         public void AppendDiagnostics(IEnumerable<Diagnostic> diagnosticResults)
         {
             if (_exporters.Count == 0)
