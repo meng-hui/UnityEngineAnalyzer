@@ -1,25 +1,25 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
-    public class JsonAnalyzerExporter : IAnalyzerExporter
+    public class JsonAnalyzerExporter : AnalyzerExporter
     {
         private const string JsonReportFileName = "report.json";
         private const string HtmlReportFileName = "UnityReport.html";
-        private const DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity = DiagnosticInfo.DiagnosticInfoSeverity.Warning;
-
 
         private JsonTextWriter _jsonWriter;
         private readonly JsonSerializer _jsonSerializer = new JsonSerializer();
         private readonly List<Exception> _exceptions = new List<Exception>();
         private string _destinationReportFile;
 
+        public JsonAnalyzerExporter(DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity) : base(MinimalSeverity)
+        {
+        }
 
-        public void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
+        public override void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
         {
             if (diagnosticInfo.Severity >= MinimalSeverity)
             {
@@ -27,7 +27,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             }
         }
 
-        public void FinalizeExporter(TimeSpan duration)
+        public override void FinalizeExporter(TimeSpan duration)
         {
             _jsonWriter.WriteEndArray();
 
@@ -50,7 +50,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             //Process.Start(_destinationReportFile);
         }
 
-        public void InitializeExporter(FileInfo projectFile)
+        public override void InitializeExporter(FileInfo projectFile)
         {
             if (!projectFile.Exists)
             {
@@ -81,7 +81,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             _jsonSerializer.Formatting = Formatting.Indented;
         }
 
-        public void NotifyException(Exception exception)
+        public override void NotifyException(Exception exception)
         {
             _exceptions.Add(exception);
         }

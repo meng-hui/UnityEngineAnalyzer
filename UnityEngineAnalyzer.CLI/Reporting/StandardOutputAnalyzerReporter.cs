@@ -3,14 +3,16 @@ using System.IO;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
-    public class StandardOutputAnalyzerReporter : IAnalyzerExporter
+    public class StandardOutputAnalyzerReporter : AnalyzerExporter
     {
         protected const string ConsoleSeparator = "\t";
-        protected const DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity = DiagnosticInfo.DiagnosticInfoSeverity.Warning;
-
         protected const string FailurePrefix = "# ";
 
-        public void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
+        public StandardOutputAnalyzerReporter(DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity) : base(MinimalSeverity)
+        {
+        }
+
+        public override void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
         {
             if (diagnosticInfo.Severity < MinimalSeverity)
             {
@@ -48,15 +50,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             }
         }
 
-        public virtual void FinalizeExporter(TimeSpan duration)
-        {
-        }
-
-        public virtual void InitializeExporter(FileInfo projectFile)
-        {
-        }
-
-        public virtual void NotifyException(Exception exception)
+        public override void NotifyException(Exception exception)
         {
             Console.ForegroundColor = ConsoleColor.Red;
 
@@ -71,6 +65,14 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             Console.WriteLine(FailurePrefix);
 
             Console.ResetColor();
+        }
+
+        public override void FinalizeExporter(TimeSpan duration)
+        {
+        }
+
+        public override void InitializeExporter(FileInfo projectFile)
+        {
         }
     }
 }

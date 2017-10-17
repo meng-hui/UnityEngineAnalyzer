@@ -61,7 +61,7 @@ namespace UnityEngineAnalyzer.Material
 
             var containingClass = methodSymbol.ContainingType;
 
-            // check if the method is the one from UnityEngine.Animator
+            // check if the method is the one from UnityEngine.Material
             if (containingClass.ContainingNamespace.Name.Equals("UnityEngine") && containingClass.Name.Equals("Material"))
             {
                 if (methodSymbol.Parameters[0].Type.MetadataName == "String")

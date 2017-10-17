@@ -1,7 +1,5 @@
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
-
-
     public class DiagnosticInfo
     {
         //TODO: Rename this to something like AnalysisResult
