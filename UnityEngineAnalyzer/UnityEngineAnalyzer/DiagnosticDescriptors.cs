@@ -1,4 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
+using System;
+using System.Linq;
 using System.Resources;
 using UnityEngineAnalyzer.Animator;
 using UnityEngineAnalyzer.AOT;
@@ -16,7 +18,7 @@ using UnityEngineAnalyzer.StringMethods;
 
 namespace UnityEngineAnalyzer
 {
-    static class DiagnosticDescriptors
+    public static class DiagnosticDescriptors
     {
         public static readonly DiagnosticDescriptor DoNotUseOnGUI;
         public static readonly DiagnosticDescriptor DoNotUseStringMethods;
@@ -57,7 +59,7 @@ namespace UnityEngineAnalyzer
             CameraMainIsSlow = CreateDiagnosticDescriptor<CameraMainResource>(DiagnosticIDs.CameraMainIsSlow, DiagnosticCategories.GC, DiagnosticSeverity.Warning);
         }
 
-        private static DiagnosticDescriptor CreateDiagnosticDescriptor<T>(string id, string category, DiagnosticSeverity severity, bool isEnabledByDefault = true)
+        private static DiagnosticDescriptor CreateDiagnosticDescriptor<T>(string id, string category, DiagnosticSeverity severity, UnityVersion latest = UnityVersion.ALL, bool isEnabledByDefault = true)
         {
             var resourceManager = new ResourceManager(typeof(T));
 
@@ -68,7 +70,23 @@ namespace UnityEngineAnalyzer
             category: category,
             defaultSeverity: severity,
             isEnabledByDefault: isEnabledByDefault,
+            customTags: CreateUnityVersionInfo(latest, latest),
             description: new LocalizableResourceString("Description", resourceManager, typeof(T)));
+        }
+
+        private static string[] CreateUnityVersionInfo(UnityVersion start, UnityVersion end)
+        {
+            return new string[] { Enum.GetName(typeof(UnityVersion), start), Enum.GetName(typeof(UnityVersion), end) };
+        }
+
+        //TODO USE: (UnityVersion start, UnityVersion end) Tuple when updated to Net Standard 2.0
+        public static Tuple<UnityVersion, UnityVersion> GetVersion(DiagnosticDescriptor dc)
+        {
+            var list = dc.CustomTags.ToList();
+            var start = (UnityVersion)Enum.Parse(typeof(UnityVersion), list[0]);
+            var end = (UnityVersion)Enum.Parse(typeof(UnityVersion), list[1]);
+
+            return Tuple.Create(start, end);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using static UnityEngineAnalyzer.CLI.Reporting.DiagnosticInfo;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
@@ -8,13 +9,13 @@ namespace UnityEngineAnalyzer.CLI.Reporting
         protected const string ConsoleSeparator = "\t";
         protected const string FailurePrefix = "# ";
 
-        public StandardOutputAnalyzerReporter(DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity) : base(MinimalSeverity)
+        public StandardOutputAnalyzerReporter(DiagnosticInfoSeverity MinimalSeverity, UnityVersion unityVersion) : base(MinimalSeverity, unityVersion)
         {
         }
 
         public override void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
         {
-            if (diagnosticInfo.Severity < MinimalSeverity)
+            if (AbleToAnalyzer(MinimalSeverity, diagnosticInfo) == false)
             {
                 return;
             }
@@ -30,10 +31,9 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             Console.Write(diagnosticInfo.Message);
             Console.ResetColor();
             Console.WriteLine(@"{0}{1}{0}{2},{3}", ConsoleSeparator,diagnosticInfo.FileName, diagnosticInfo.LineNumber, diagnosticInfo.CharacterPosition);
-            
         }
 
-        private ConsoleColor ConsoleColorFromSeverity(DiagnosticInfo.DiagnosticInfoSeverity severity)
+        private ConsoleColor ConsoleColorFromSeverity(DiagnosticInfoSeverity severity)
         {
             switch (severity)
             {
