@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using static UnityEngineAnalyzer.CLI.Reporting.DiagnosticInfo;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
@@ -9,13 +8,13 @@ namespace UnityEngineAnalyzer.CLI.Reporting
         protected const string ConsoleSeparator = "\t";
         protected const string FailurePrefix = "# ";
 
-        public StandardOutputAnalyzerReporter(DiagnosticInfoSeverity MinimalSeverity, UnityVersion unityVersion) : base(MinimalSeverity, unityVersion)
+        public StandardOutputAnalyzerReporter(Options options) : base(options)
         {
         }
 
         public override void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
         {
-            if (AbleToAnalyzer(MinimalSeverity, diagnosticInfo) == false)
+            if (IsAnalyzerRelevant(diagnosticInfo) == false)
             {
                 return;
             }
@@ -37,13 +36,13 @@ namespace UnityEngineAnalyzer.CLI.Reporting
         {
             switch (severity)
             {
-                case DiagnosticInfo.DiagnosticInfoSeverity.Hidden:
+                case DiagnosticInfoSeverity.Hidden:
                     return ConsoleColor.Gray;
-                case DiagnosticInfo.DiagnosticInfoSeverity.Info:
+                case DiagnosticInfoSeverity.Info:
                     return ConsoleColor.Green;
-                case DiagnosticInfo.DiagnosticInfoSeverity.Warning:
+                case DiagnosticInfoSeverity.Warning:
                     return ConsoleColor.Yellow;
-                case DiagnosticInfo.DiagnosticInfoSeverity.Error:
+                case DiagnosticInfoSeverity.Error:
                     return ConsoleColor.Red;
                 default:
                     return ConsoleColor.White;
@@ -71,7 +70,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
         {
         }
 
-        public override void InitializeExporter(FileInfo projectFile)
+        public override void InitializeExporter(Options options)
         {
         }
     }

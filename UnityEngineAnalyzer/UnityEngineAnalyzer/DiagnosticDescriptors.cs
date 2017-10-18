@@ -55,11 +55,11 @@ namespace UnityEngineAnalyzer
             InvokeFunctionMissing = CreateDiagnosticDescriptor<InvokeFunctionMissingResources>(DiagnosticIDs.InvokeFunctionMissing, DiagnosticCategories.Performance, DiagnosticSeverity.Warning);
             DoNotUseStateName = CreateDiagnosticDescriptor<DoNotUseStateNameResource>(DiagnosticIDs.DoNotUseStateNameInAnimator, DiagnosticCategories.Performance, DiagnosticSeverity.Warning);
             DoNotUseStringPropertyNames = CreateDiagnosticDescriptor<DoNotUseStringPropertyNamesResource>(DiagnosticIDs.DoNotUseStringPropertyNamesInMaterial, DiagnosticCategories.Performance, DiagnosticSeverity.Warning);
-            UseNonAllocMethods = CreateDiagnosticDescriptor<UseNonAllocMethodsResources>(DiagnosticIDs.PhysicsUseNonAllocMethods, DiagnosticCategories.GC, DiagnosticSeverity.Warning);
+            UseNonAllocMethods = CreateDiagnosticDescriptor<UseNonAllocMethodsResources>(DiagnosticIDs.PhysicsUseNonAllocMethods, DiagnosticCategories.GC, DiagnosticSeverity.Warning, UnityVersion.UNITY_5_3);
             CameraMainIsSlow = CreateDiagnosticDescriptor<CameraMainResource>(DiagnosticIDs.CameraMainIsSlow, DiagnosticCategories.GC, DiagnosticSeverity.Warning);
         }
 
-        private static DiagnosticDescriptor CreateDiagnosticDescriptor<T>(string id, string category, DiagnosticSeverity severity, UnityVersion latest = UnityVersion.ALL, bool isEnabledByDefault = true)
+        private static DiagnosticDescriptor CreateDiagnosticDescriptor<T>(string id, string category, DiagnosticSeverity severity, UnityVersion first = UnityVersion.UNITY_1_0, UnityVersion latest = UnityVersion.LATEST, bool isEnabledByDefault = true)
         {
             var resourceManager = new ResourceManager(typeof(T));
 
@@ -70,7 +70,7 @@ namespace UnityEngineAnalyzer
             category: category,
             defaultSeverity: severity,
             isEnabledByDefault: isEnabledByDefault,
-            customTags: CreateUnityVersionInfo(latest, latest),
+            customTags: CreateUnityVersionInfo(first, latest),
             description: new LocalizableResourceString("Description", resourceManager, typeof(T)));
         }
 
@@ -79,14 +79,19 @@ namespace UnityEngineAnalyzer
             return new string[] { Enum.GetName(typeof(UnityVersion), start), Enum.GetName(typeof(UnityVersion), end) };
         }
 
-        //TODO USE: (UnityVersion start, UnityVersion end) Tuple when updated to Net Standard 2.0
-        public static Tuple<UnityVersion, UnityVersion> GetVersion(DiagnosticDescriptor dc)
+        public static UnityVersionSpan GetVersion(DiagnosticDescriptor dc)
         {
             var list = dc.CustomTags.ToList();
+
+            if (list.Count < 2)
+            {
+                return new UnityVersionSpan(UnityVersion.NONE, UnityVersion.LATEST);
+            }
+
             var start = (UnityVersion)Enum.Parse(typeof(UnityVersion), list[0]);
             var end = (UnityVersion)Enum.Parse(typeof(UnityVersion), list[1]);
 
-            return Tuple.Create(start, end);
+            return new UnityVersionSpan(start, end);
         }
     }
 }

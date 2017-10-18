@@ -1,11 +1,10 @@
 using System;
-using System.IO;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
     public class ConsoleAnalyzerExporter : StandardOutputAnalyzerReporter
     {
-        public ConsoleAnalyzerExporter(DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity) : base(MinimalSeverity)
+        public ConsoleAnalyzerExporter(Options options) : base(options)
         {
         }
 
@@ -19,12 +18,13 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             Console.ReadKey();
         }
 
-        public override void InitializeExporter(FileInfo projectFile)
+        public override void InitializeExporter(Options options)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Unity Syntax Analyzer");
             Console.WriteLine();
-            Console.WriteLine("Analyzing: {0}", projectFile.FullName);
+            Console.WriteLine("Analyzing: {0}", options.ProjectFile);
+            Console.WriteLine("With Unity version: " + Enum.GetName((typeof(UnityVersion)), options.Version));
             Console.WriteLine();
             Console.ResetColor();
         }

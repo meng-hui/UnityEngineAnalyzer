@@ -1,31 +1,24 @@
-﻿using Microsoft.CodeAnalysis;
-using System;
-using System.IO;
-using static UnityEngineAnalyzer.CLI.Reporting.DiagnosticInfo;
+﻿using System;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
     public abstract class AnalyzerExporter : IAnalyzerExporter
     {
-        protected DiagnosticInfoSeverity MinimalSeverity;
-        private readonly UnityVersion unityVersion;
+        private readonly Options options;
 
-        public AnalyzerExporter(DiagnosticInfoSeverity MinimalSeverity, UnityVersion unityVersion)
+        public AnalyzerExporter(Options options)
         {
-            this.MinimalSeverity = MinimalSeverity;
-            this.unityVersion = unityVersion;
+            this.options = options;
         }
 
-        public bool AbleToAnalyzer(DiagnosticInfoSeverity currentSeverity, DiagnosticDescriptor diagnosticInfo, UnityVersion unityVersion = UnityVersion.ALL)
+        public bool IsAnalyzerRelevant(DiagnosticInfo diagnosticInfo)
         {
-            if (MinimalSeverity < currentSeverity)
+            if (options.MinimalSeverity > diagnosticInfo.Severity)
             {
                 return false;
             }
 
-            var off = DiagnosticDescriptors.GetVersion(diagnosticInfo);
-
-            if (unityVersion < off.Item1 || unityVersion > off.Item2)
+            if (options.Version < diagnosticInfo.VersionSpan.First || options.Version > diagnosticInfo.VersionSpan.Last)
             {
                 return false;
             }
@@ -35,7 +28,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
 
         public abstract void AppendDiagnostic(DiagnosticInfo diagnosticInfo);
         public abstract void FinalizeExporter(TimeSpan duration);
-        public abstract void InitializeExporter(FileInfo projectFile);
+        public abstract void InitializeExporter(Options options);
         public abstract void NotifyException(Exception exception);
     }
 }

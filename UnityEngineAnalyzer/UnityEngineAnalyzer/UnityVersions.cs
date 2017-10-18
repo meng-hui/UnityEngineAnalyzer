@@ -1,10 +1,20 @@
-﻿using System;
-
-namespace UnityEngineAnalyzer
+﻿namespace UnityEngineAnalyzer
 {
+    public class UnityVersionSpan
+    {
+        public UnityVersion First { get; set; }
+        public UnityVersion Last { get; set; }
+
+        public UnityVersionSpan (UnityVersion first, UnityVersion last)
+        {
+            First = first;
+            Last = last;
+        }
+    }
+
     public enum UnityVersion
     {
-        ALL,
+        NONE,
         UNITY_1_0,
         UNITY_2_0,
         UNITY_3_0,
@@ -28,5 +38,6 @@ namespace UnityEngineAnalyzer
         UNITY_2017_1,
         UNITY_2017_2,
         UNITY_2017_3,
+        LATEST,
     }
 }

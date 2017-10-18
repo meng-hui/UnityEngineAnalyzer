@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngineAnalyzer.CLI.Reporting;
 
@@ -9,6 +11,7 @@ namespace UnityEngineAnalyzer.CLI
     public class Program
     {
         private static readonly Dictionary<string, Type> AvailableExporters = new Dictionary<string, Type>();
+        private const UnityVersion DEFAULT_UNITY_VERSION = UnityVersion.LATEST;
 
         static Program()
         {
@@ -28,6 +31,8 @@ namespace UnityEngineAnalyzer.CLI
                 {
                     return;
                 }
+
+                options.Version = DefineUnityVersion(options);
 
                 var startTime = DateTime.Now;
 
@@ -52,11 +57,11 @@ namespace UnityEngineAnalyzer.CLI
                 if (report.GetExporterCount() == 0)
                 { 
                     //It's generally a good idea to make sure that the Console Exporter is last since it is interactive
-                    report.AddExporter(new JsonAnalyzerExporter(options.MinimalSeverity));
-                    report.AddExporter(new ConsoleAnalyzerExporter(options.MinimalSeverity));
+                    report.AddExporter(new JsonAnalyzerExporter(options));
+                    report.AddExporter(new ConsoleAnalyzerExporter(options));
                 }
                 
-                report.InitializeReport(fileInfo);
+                report.InitializeReport(options);
 
                 var tasks = new List<Task>();
                 if (fileInfo.Exists)
@@ -89,6 +94,46 @@ namespace UnityEngineAnalyzer.CLI
             }
         }
 
+        //TODO SET TO OWN CLASS
+        private static UnityVersion DefineUnityVersion(Options options)
+        {
+            if (options.Version != UnityVersion.NONE)
+            {
+                return options.Version;
+            }
 
+            //THIS ONLY WORKS ON UNITY >= 5, before that ProjectVersion.txt did not exists
+            var projectPath = new FileInfo(options.ProjectFile).Directory;
+            var projectVersionFile = new FileInfo(projectPath + "/ProjectSettings/ProjectVersion.txt");
+            if (projectVersionFile.Exists)
+            {
+                var projectVersionString = File.ReadAllText(projectVersionFile.FullName);
+                return TryParseUnityVersion(projectVersionString);
+            }
+
+            return DEFAULT_UNITY_VERSION;
+        }
+
+        //TODO UNIT TESTS
+        private static UnityVersion TryParseUnityVersion(string version)
+        {
+            string editorText = "m_EditorVersion: ";
+            var match = Regex.Match(version, editorText + "[0-9.a-z]*");
+
+            string src = match.Value.Substring(editorText.Length);
+            src = src.Replace('.', '_');
+            src = src.Substring(0, src.IndexOf('_') + 2);
+
+            var unityVersions = Enum.GetValues(typeof(UnityVersion)).Cast<UnityVersion>();
+            foreach (var unityVersion in unityVersions)
+            {
+                if (Enum.GetName(typeof(UnityVersion), unityVersion).Contains(src))
+                {
+                    return unityVersion;
+                }
+            }
+
+            return DEFAULT_UNITY_VERSION;
+        }
     }
 }
