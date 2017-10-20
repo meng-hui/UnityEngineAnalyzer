@@ -1,21 +1,34 @@
 ﻿using System;
-using System.IO;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
     public abstract class AnalyzerExporter : IAnalyzerExporter
     {
-        //NOTE: Can we use using.static.DiagnosticsInfo; C#6 feature?
-        protected DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity;
+        private readonly Options options;
 
-        public AnalyzerExporter(DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity)
+        public AnalyzerExporter(Options options)
         {
-            this.MinimalSeverity = MinimalSeverity;
+            this.options = options;
+        }
+
+        public bool IsAnalyzerRelevant(DiagnosticInfo diagnosticInfo)
+        {
+            if (options.MinimalSeverity > diagnosticInfo.Severity)
+            {
+                return false;
+            }
+
+            if (options.Version < diagnosticInfo.VersionSpan.First || options.Version > diagnosticInfo.VersionSpan.Last)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public abstract void AppendDiagnostic(DiagnosticInfo diagnosticInfo);
         public abstract void FinalizeExporter(TimeSpan duration);
-        public abstract void InitializeExporter(FileInfo projectFile);
+        public abstract void InitializeExporter(Options options);
         public abstract void NotifyException(Exception exception);
     }
 }

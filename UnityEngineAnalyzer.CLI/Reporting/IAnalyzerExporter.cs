@@ -7,7 +7,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
     {
         void AppendDiagnostic(DiagnosticInfo diagnosticInfo);
         void FinalizeExporter(TimeSpan duration);
-        void InitializeExporter(FileInfo projectFile);
+        void InitializeExporter(Options options);
         void NotifyException(Exception exception);
     }
 }

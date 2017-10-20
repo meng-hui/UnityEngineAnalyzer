@@ -29,6 +29,9 @@ namespace UnityEngineAnalyzer.CLI
                     return;
                 }
 
+                var unityVersionResolver = new UnityVersionResolver();
+                options.Version = unityVersionResolver.ResolveVersion(options);
+
                 var startTime = DateTime.Now;
 
                 var fileName = options.ProjectFile;
@@ -52,11 +55,11 @@ namespace UnityEngineAnalyzer.CLI
                 if (report.GetExporterCount() == 0)
                 { 
                     //It's generally a good idea to make sure that the Console Exporter is last since it is interactive
-                    report.AddExporter(new JsonAnalyzerExporter(options.MinimalSeverity));
-                    report.AddExporter(new ConsoleAnalyzerExporter(options.MinimalSeverity));
+                    report.AddExporter(new JsonAnalyzerExporter(options));
+                    report.AddExporter(new ConsoleAnalyzerExporter(options));
                 }
                 
-                report.InitializeReport(fileInfo);
+                report.InitializeReport(options);
 
                 var tasks = new List<Task>();
                 if (fileInfo.Exists)
@@ -89,6 +92,7 @@ namespace UnityEngineAnalyzer.CLI
             }
         }
 
+        //TODO SET TO OWN CLASS
 
     }
 }

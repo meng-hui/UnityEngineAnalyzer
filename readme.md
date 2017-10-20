@@ -20,6 +20,9 @@ In order to use the Command Line Interface (CLI), download the latest release of
 1. (Optional) minimal severity for reports
 	* Use command `-s Info/Warning/Error` to defined used minimal severity for reporting
 	* Default is Warning
+1.	(Optional) Unity version for check
+	* Use command `-v UNITY_2017_1/UNITY_5_5/UNITY_4_0/...` to Unity version
+	* For default analyzer will try to find ProjectVersion.txt file and parse version automatically.
 
 Example:
 

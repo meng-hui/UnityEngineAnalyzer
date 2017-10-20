@@ -134,6 +134,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>InvokeFunctionMissingResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UnityVersions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Animator\DoNotUseStateNameResource.resx">

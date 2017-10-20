@@ -15,13 +15,13 @@ namespace UnityEngineAnalyzer.CLI.Reporting
         private readonly List<Exception> _exceptions = new List<Exception>();
         private string _destinationReportFile;
 
-        public JsonAnalyzerExporter(DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity) : base(MinimalSeverity)
+        public JsonAnalyzerExporter(Options options) : base(options)
         {
         }
 
         public override void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
         {
-            if (diagnosticInfo.Severity >= MinimalSeverity)
+            if (IsAnalyzerRelevant(diagnosticInfo))
             {
                 _jsonSerializer.Serialize(_jsonWriter, diagnosticInfo);
             }
@@ -50,8 +50,9 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             //Process.Start(_destinationReportFile);
         }
 
-        public override void InitializeExporter(FileInfo projectFile)
+        public override void InitializeExporter(Options options)
         {
+            var projectFile = new FileInfo(options.ProjectFile);
             if (!projectFile.Exists)
             {
                 throw new ArgumentException("Project file does not exist");
