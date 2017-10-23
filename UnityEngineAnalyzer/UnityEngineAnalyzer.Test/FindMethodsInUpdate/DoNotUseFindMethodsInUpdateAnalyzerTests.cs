@@ -47,6 +47,42 @@ class C : MonoBehaviour
             }
         }
 
+
+        [Test]
+        public void GameObjectFindInUpdateRecursive()
+        {
+            var code = @"
+using UnityEngine;
+
+class C : MonoBehaviour
+{
+    void Update()
+    {
+        [|MyMethod()|];
+        //var result = GameObject.Find(""param"");
+    }
+
+    void MyMethod()
+    {
+        GameObject.Find(""param"");
+    }
+}";
+
+            Document document;
+            TextSpan span;
+
+            if (TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, MetadataReferenceHelper.UsingUnityEngine,
+                out document, out span))
+            {
+                HasDiagnostic(document, span, DiagnosticIDs.DoNotUseFindMethodsInUpdate);
+            }
+            else
+            {
+                Assert.Fail("Could not load unit test code");
+            }
+        }
+
+
         [Test]
         public void GameObjectFindInStart()
         {

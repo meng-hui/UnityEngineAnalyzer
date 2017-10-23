@@ -126,7 +126,7 @@
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
   <data name="MessageFormatRecursive" xml:space="preserve">
-    <value>The method {0}.{1} calls {2} which eventually calls {3} which could impact performance. Cache the result from {3} in Start or Awake instead.</value>
+    <value>The method {0}.{1} calls {2} which eventually calls {3} which could impact performance. Cache the result from {3}'s {2} in Start or Awake instead.</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Cache the result of Find or GetComponent in Start or Awake.</value>

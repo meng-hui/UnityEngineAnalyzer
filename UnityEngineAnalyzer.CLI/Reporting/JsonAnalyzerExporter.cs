@@ -1,45 +1,58 @@
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
-    public class JsonAnalyzerExporter : IAnalyzerExporter
+    public class JsonAnalyzerExporter : AnalyzerExporter
     {
         private const string JsonReportFileName = "report.json";
         private const string HtmlReportFileName = "UnityReport.html";
-        private const DiagnosticInfoSeverity MinimalSeverity = DiagnosticInfoSeverity.Warning;
-
 
         private JsonTextWriter _jsonWriter;
         private readonly JsonSerializer _jsonSerializer = new JsonSerializer();
+        private readonly List<Exception> _exceptions = new List<Exception>();
         private string _destinationReportFile;
 
-
-        public void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
+        public JsonAnalyzerExporter(Options options) : base(options)
         {
-            if (diagnosticInfo.Severity >= MinimalSeverity)
+        }
+
+        public override void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
+        {
+            if (IsAnalyzerRelevant(diagnosticInfo))
             {
                 _jsonSerializer.Serialize(_jsonWriter, diagnosticInfo);
             }
         }
 
-        public void Finish(TimeSpan duration)
+        public override void FinalizeExporter(TimeSpan duration)
         {
             _jsonWriter.WriteEndArray();
+
+            _jsonWriter.WritePropertyName("Exceptions");
+            _jsonWriter.WriteStartArray();
+
+            foreach (var exception in _exceptions)
+            {
+                _jsonSerializer.Serialize(_jsonWriter, exception);
+            }
+            _jsonWriter.WriteEndArray();
+
             _jsonWriter.WriteEndObject();
             _jsonWriter.Close();
 
-            
+            //Console.WriteLine(Process.GetCurrentProcess().StartInfo.WorkingDirectory);
             File.Copy(HtmlReportFileName, _destinationReportFile, true);
 
             //NOTE: This code might be temporary as it assumes that the CLI is being executed interactively
             //Process.Start(_destinationReportFile);
         }
 
-        public void InitializeExporter(FileInfo projectFile)
+        public override void InitializeExporter(Options options)
         {
+            var projectFile = new FileInfo(options.ProjectFile);
             if (!projectFile.Exists)
             {
                 throw new ArgumentException("Project file does not exist");
@@ -67,6 +80,11 @@ namespace UnityEngineAnalyzer.CLI.Reporting
 
 
             _jsonSerializer.Formatting = Formatting.Indented;
+        }
+
+        public override void NotifyException(Exception exception)
+        {
+            _exceptions.Add(exception);
         }
     }
 }

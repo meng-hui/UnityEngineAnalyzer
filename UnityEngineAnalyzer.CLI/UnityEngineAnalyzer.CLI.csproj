@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.3.2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
@@ -96,13 +99,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalyzerReport.cs" />
+    <Compile Include="ConfigurationFileGenerator.cs" />
+    <Compile Include="Options.cs" />
+    <Compile Include="Reporting\AnalyzerExporter.cs" />
     <Compile Include="Reporting\JsonAnalyzerExporter.cs" />
     <Compile Include="Reporting\ConsoleAnalyzerExporter.cs" />
     <Compile Include="Reporting\DiagnosticInfo.cs" />
     <Compile Include="Reporting\IAnalyzerExporter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\StandardOutputAnalyzerReporter.cs" />
     <Compile Include="SolutionAnalyzer.cs" />
+    <Compile Include="UnityVersionResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
