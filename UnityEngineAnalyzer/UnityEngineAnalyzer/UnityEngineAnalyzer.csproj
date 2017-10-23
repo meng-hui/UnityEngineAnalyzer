@@ -166,18 +166,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>InvokeFunctionMissingResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Render\DoNotUseMaterialNameAnalyzer.cs" />
-    <Compile Include="Render\DoNotUseMaterialNameResource.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DoNotUseMaterialNameResource.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Camera\DoNotUseCameraMainInUpdateAnalyzer.cs" />
-    <Compile Include="Camera\DoNotUseCameraMainInUpdateResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DoNotUseCameraMainInUpdateResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="UnityVersions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -264,14 +252,6 @@
     <EmbeddedResource Include="StringMethods\InvokeFunctionMissingResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InvokeFunctionMissingResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Render\DoNotUseMaterialNameResource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoNotUseMaterialNameResource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Camera\DoNotUseCameraMainInUpdateResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DoNotUseCameraMainInUpdateResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

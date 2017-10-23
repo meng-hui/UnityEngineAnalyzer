@@ -9,7 +9,6 @@ using UnityEngineAnalyzer.ForEachInUpdate;
 
 //using Microsoft.CodeAnalysis.Workspaces;
 
-/*
 namespace UnityEngineAnalyzer.Test.ForEachInUpdate
 {
 [TestFixture]
@@ -55,4 +54,3 @@ void Update()
     }
 }
 }
-*/

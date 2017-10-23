@@ -15,8 +15,6 @@ using UnityEngineAnalyzer.Material;
 using UnityEngineAnalyzer.OnGUI;
 using UnityEngineAnalyzer.Physics;
 using UnityEngineAnalyzer.StringMethods;
-using UnityEngineAnalyzer.Render;
-using UnityEngineAnalyzer.Camera;
 using UnityEngineAnalyzer.Language;
 using UnityEngineAnalyzer.GCAlloc;
 using UnityEngineAnalyzer.Generics;
@@ -44,6 +42,7 @@ namespace UnityEngineAnalyzer
         public static readonly DiagnosticDescriptor UseNonAllocMethods;
         public static readonly DiagnosticDescriptor CameraMainIsSlow;
         public static readonly DiagnosticDescriptor DoNotGCAllocnInUpdate;
+        public static readonly DiagnosticDescriptor DoNotGCAllocnInUpdateRecursive;
         public static readonly DiagnosticDescriptor DoNotBoxWhenInvoke;
         public static readonly DiagnosticDescriptor StructShouldImplementIEquatable;
         public static readonly DiagnosticDescriptor StructShouldOverrideEquals;
@@ -63,6 +62,7 @@ namespace UnityEngineAnalyzer
             UseNonAllocMethods = CreateDiagnosticDescriptor<UseNonAllocMethodsResources>(DiagnosticIDs.PhysicsUseNonAllocMethods, DiagnosticCategories.GC, DiagnosticSeverity.Warning, UnityVersion.UNITY_5_3);
             CameraMainIsSlow = CreateDiagnosticDescriptor<CameraMainResource>(DiagnosticIDs.CameraMainIsSlow, DiagnosticCategories.GC, DiagnosticSeverity.Warning);
             DoNotGCAllocnInUpdate = CreateDiagnosticDescriptor<DoNotGCAllocInUpdateResources>(DiagnosticIDs.DoNotGCAllocInUpdate, DiagnosticCategories.GC, DiagnosticSeverity.Warning);
+            DoNotGCAllocnInUpdateRecursive = CreateDiagnosticDescriptor<DoNotGCAllocInUpdateResources>(DiagnosticIDs.DoNotGCAllocInUpdate, DiagnosticCategories.GC, DiagnosticSeverity.Warning);
             DoNotBoxWhenInvoke = CreateDiagnosticDescriptor<DoNotBoxWhenInvokeResource>(DiagnosticIDs.DoNotBoxWhenInvoke, DiagnosticCategories.GC, DiagnosticSeverity.Warning);
             ShouldCacheDelegate = CreateDiagnosticDescriptor<ShouldCacheDelegateResource>(DiagnosticIDs.ShouldCacheDelegate, DiagnosticCategories.GC, DiagnosticSeverity.Warning);
 

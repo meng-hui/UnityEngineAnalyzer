@@ -61,7 +61,7 @@ namespace UnityEngineAnalyzer.CLI
         {
             var listBuilder = ImmutableArray.CreateBuilder<DiagnosticAnalyzer>();
 
-            var assembly = typeof(UnsealedDerivedClassAnalyzer).Assembly;
+            var assembly = typeof(DoNotUseForEachInUpdate).Assembly;
             var allTypes = assembly.DefinedTypes;
 
             foreach (var type in allTypes)

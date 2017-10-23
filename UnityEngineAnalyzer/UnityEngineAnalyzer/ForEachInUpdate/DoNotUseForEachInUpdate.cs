@@ -9,9 +9,6 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace UnityEngineAnalyzer.ForEachInUpdate
 {
-	/*
-     * In unity 5.5.0 or newer, foreach is not neccessary to avoid.
-     * 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public sealed class DoNotUseForEachInUpdate : DiagnosticAnalyzer
     {
@@ -57,5 +54,4 @@ namespace UnityEngineAnalyzer.ForEachInUpdate
             //TODO: Keep Searching recurively to other methods...
         }
     }
-    */
 }
