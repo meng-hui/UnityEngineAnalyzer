@@ -56,6 +56,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TypeGetTypeResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Camera\CameraMainAnalyzer.cs" />
+    <Compile Include="Camera\CameraMainResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CameraMainResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="CompareTag\UseCompareTagAnalyzer.cs" />
     <Compile Include="CompareTag\UseCompareTagResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -127,12 +133,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StructAnalyzerResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Material\DoNotUseStringPropertyNamesAnalyzer.cs" />
+    <Compile Include="Material\DoNotUseStringPropertyNamesResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoNotUseStringPropertyNamesResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="MonoBehaviourInfo.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzer.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotUseOnGUIResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Physics\UseNonAllocMethodsAnalyzer.cs" />
+    <Compile Include="Physics\UseNonAllocMethodsResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UseNonAllocMethodsResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RolsynExtensions.cs" />
@@ -160,6 +178,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotUseCameraMainInUpdateResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UnityVersions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Animator\DoNotUseStateNameResource.resx">
@@ -177,6 +196,10 @@
     <EmbeddedResource Include="AOT\TypeGetTypeResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TypeGetTypeResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Camera\CameraMainResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CameraMainResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="CompareTag\UseCompareTagResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -222,9 +245,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StructAnalyzerResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Material\DoNotUseStringPropertyNamesResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DoNotUseStringPropertyNamesResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="OnGUI\DoNotUseOnGUIResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseOnGUIResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Physics\UseNonAllocMethodsResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UseNonAllocMethodsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="StringMethods\DoNotUseStringMethodsResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

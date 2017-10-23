@@ -1,18 +1,20 @@
 ﻿using System;
-using System.IO;
+using static UnityEngineAnalyzer.CLI.Reporting.DiagnosticInfo;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
-    public class StandardOutputAnalyzerReporter : IAnalyzerExporter
+    public class StandardOutputAnalyzerReporter : AnalyzerExporter
     {
         protected const string ConsoleSeparator = "\t";
-        protected const DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity = DiagnosticInfo.DiagnosticInfoSeverity.Warning;
-
         protected const string FailurePrefix = "# ";
 
-        public void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
+        public StandardOutputAnalyzerReporter(Options options) : base(options)
         {
-            if (diagnosticInfo.Severity < MinimalSeverity)
+        }
+
+        public override void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
+        {
+            if (IsAnalyzerRelevant(diagnosticInfo) == false)
             {
                 return;
             }
@@ -28,35 +30,26 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             Console.Write(diagnosticInfo.Message);
             Console.ResetColor();
             Console.WriteLine(@"{0}{1}{0}{2},{3}", ConsoleSeparator,diagnosticInfo.FileName, diagnosticInfo.LineNumber, diagnosticInfo.CharacterPosition);
-            
         }
 
-        private ConsoleColor ConsoleColorFromSeverity(DiagnosticInfo.DiagnosticInfoSeverity severity)
+        private ConsoleColor ConsoleColorFromSeverity(DiagnosticInfoSeverity severity)
         {
             switch (severity)
             {
-                case DiagnosticInfo.DiagnosticInfoSeverity.Hidden:
+                case DiagnosticInfoSeverity.Hidden:
                     return ConsoleColor.Gray;
-                case DiagnosticInfo.DiagnosticInfoSeverity.Info:
+                case DiagnosticInfoSeverity.Info:
                     return ConsoleColor.Green;
-                case DiagnosticInfo.DiagnosticInfoSeverity.Warning:
+                case DiagnosticInfoSeverity.Warning:
                     return ConsoleColor.Yellow;
-                case DiagnosticInfo.DiagnosticInfoSeverity.Error:
+                case DiagnosticInfoSeverity.Error:
                     return ConsoleColor.Red;
                 default:
                     return ConsoleColor.White;
             }
         }
 
-        public virtual void FinalizeExporter(TimeSpan duration)
-        {
-        }
-
-        public virtual void InitializeExporter(FileInfo projectFile)
-        {
-        }
-
-        public virtual void NotifyException(Exception exception)
+        public override void NotifyException(Exception exception)
         {
             Console.ForegroundColor = ConsoleColor.Red;
 
@@ -71,6 +64,14 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             Console.WriteLine(FailurePrefix);
 
             Console.ResetColor();
+        }
+
+        public override void FinalizeExporter(TimeSpan duration)
+        {
+        }
+
+        public override void InitializeExporter(Options options)
+        {
         }
     }
 }

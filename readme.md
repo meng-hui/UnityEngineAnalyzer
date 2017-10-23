@@ -12,8 +12,17 @@ In order to use the Command Line Interface (CLI), download the latest release of
 1. Open a Command Prompt or Powershell Window
 1. Run `UnityEngineAnalyzer.CLI.exe <project path>`
 1. Observe the analysis results
-1. (Optional) In the same location as the project file are `report.json` and `UnityReport.html` files containig the results of the analysis  
-
+1. (Optional) In the same location as the project file are `report.json` and `UnityReport.html` files containig the results of the analysis
+    * Use command `-e customexporter exporter2 ...` to load custom exporters
+1. (Optional) configuration file path.
+    * Use command `-c configureFilePath.json` to load custom configurations
+	* Configuration json, allows to enable / disable analyzers
+1. (Optional) minimal severity for reports
+	* Use command `-s Info/Warning/Error` to defined used minimal severity for reporting
+	* Default is Warning
+1.	(Optional) Unity version for check
+	* Use command `-v UNITY_2017_1/UNITY_5_5/UNITY_4_0/...` to Unity version
+	* For default analyzer will try to find ProjectVersion.txt file and parse version automatically.
 
 Example:
 

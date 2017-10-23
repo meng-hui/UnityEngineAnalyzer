@@ -1,33 +1,33 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
-    public class JsonAnalyzerExporter : IAnalyzerExporter
+    public class JsonAnalyzerExporter : AnalyzerExporter
     {
         private const string JsonReportFileName = "report.json";
         private const string HtmlReportFileName = "UnityReport.html";
-        private const DiagnosticInfo.DiagnosticInfoSeverity MinimalSeverity = DiagnosticInfo.DiagnosticInfoSeverity.Warning;
-
 
         private JsonTextWriter _jsonWriter;
         private readonly JsonSerializer _jsonSerializer = new JsonSerializer();
         private readonly List<Exception> _exceptions = new List<Exception>();
         private string _destinationReportFile;
 
-
-        public void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
+        public JsonAnalyzerExporter(Options options) : base(options)
         {
-            if (diagnosticInfo.Severity >= MinimalSeverity)
+        }
+
+        public override void AppendDiagnostic(DiagnosticInfo diagnosticInfo)
+        {
+            if (IsAnalyzerRelevant(diagnosticInfo))
             {
                 _jsonSerializer.Serialize(_jsonWriter, diagnosticInfo);
             }
         }
 
-        public void FinalizeExporter(TimeSpan duration)
+        public override void FinalizeExporter(TimeSpan duration)
         {
             _jsonWriter.WriteEndArray();
 
@@ -50,8 +50,9 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             //Process.Start(_destinationReportFile);
         }
 
-        public void InitializeExporter(FileInfo projectFile)
+        public override void InitializeExporter(Options options)
         {
+            var projectFile = new FileInfo(options.ProjectFile);
             if (!projectFile.Exists)
             {
                 throw new ArgumentException("Project file does not exist");
@@ -81,7 +82,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
             _jsonSerializer.Formatting = Formatting.Indented;
         }
 
-        public void NotifyException(Exception exception)
+        public override void NotifyException(Exception exception)
         {
             _exceptions.Add(exception);
         }

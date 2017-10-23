@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.CodeAnalysis;
 using UnityEngineAnalyzer.CLI.Reporting;
 
@@ -15,6 +14,11 @@ namespace UnityEngineAnalyzer.CLI
         public void AddExporter(IAnalyzerExporter exporter)
         {
             _exporters.Add(exporter);
+        }
+
+        public int GetExporterCount()
+        {
+            return _exporters.Count;
         }
 
         public void AppendDiagnostics(IEnumerable<Diagnostic> diagnosticResults)
@@ -47,9 +51,9 @@ namespace UnityEngineAnalyzer.CLI
                     FileName = fileName,
                     LineNumber = lineNumber,
                     CharacterPosition = characterPosition,
-                    Severity = (DiagnosticInfo.DiagnosticInfoSeverity)diagnostic.Severity
+                    Severity = (DiagnosticInfo.DiagnosticInfoSeverity)diagnostic.Severity,
+                    VersionSpan = DiagnosticDescriptors.GetVersion(diagnostic.Descriptor)
                 };
-
 
                 foreach (var exporter in _exporters)
                 {
@@ -66,11 +70,11 @@ namespace UnityEngineAnalyzer.CLI
             }
         }
 
-        public void InitializeReport(FileInfo projectFile)
+        public void InitializeReport(Options options)
         {
             foreach (var exporter in _exporters)
             {
-                exporter.InitializeExporter(projectFile);       
+                exporter.InitializeExporter(options);
             }
         }
 

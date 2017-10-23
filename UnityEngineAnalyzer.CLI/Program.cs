@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using UnityEngineAnalyzer.CLI.Reporting;
 
 namespace UnityEngineAnalyzer.CLI
@@ -19,47 +17,62 @@ namespace UnityEngineAnalyzer.CLI
             AvailableExporters.Add(nameof(ConsoleAnalyzerExporter), typeof(ConsoleAnalyzerExporter));
         }
 
-
         public static void Main(string[] args)
         {
             try
             {
-                //TODO: Use a proper parser for the commands
+                var options = new Options();
+                var isValid = CommandLine.Parser.Default.ParseArgumentsStrict(args, options);
 
-                if (args.Length <= 0)
+                if (isValid == false || options.ProjectFile == null)
                 {
                     return;
                 }
 
+                var unityVersionResolver = new UnityVersionResolver();
+                options.Version = unityVersionResolver.ResolveVersion(options);
+
                 var startTime = DateTime.Now;
 
-                var fileName = args[0];
+                var fileName = options.ProjectFile;
                 var fileInfo = new FileInfo(fileName);
 
                 //NOTE: This could be configurable via the CLI at some point
                 var report = new AnalyzerReport();
 
-                if (args.Length > 1 && AvailableExporters.ContainsKey(args[1]))
+                if (options.Exporters != null)
                 {
-                    var exporterInstance = Activator.CreateInstance(AvailableExporters[args[1]]);
-                    report.AddExporter(exporterInstance as IAnalyzerExporter);
+                    foreach (var exporter in options.Exporters)
+                    {
+                        if (AvailableExporters.ContainsKey(exporter))
+                        {
+                            var exporterInstance = Activator.CreateInstance(AvailableExporters[exporter]);
+                            report.AddExporter(exporterInstance as IAnalyzerExporter);
+                        }
+                    }
                 }
-                else
-                {
+
+                if (report.GetExporterCount() == 0)
+                { 
                     //It's generally a good idea to make sure that the Console Exporter is last since it is interactive
-                    report.AddExporter(new JsonAnalyzerExporter());
-                    report.AddExporter(new ConsoleAnalyzerExporter());
+                    report.AddExporter(new JsonAnalyzerExporter(options));
+                    report.AddExporter(new ConsoleAnalyzerExporter(options));
                 }
                 
-
-
-                report.InitializeReport(fileInfo);
+                report.InitializeReport(options);
 
                 var tasks = new List<Task>();
                 if (fileInfo.Exists)
                 {
+                    FileInfo configFileInfo = null;
+
+                    if (options.ConfigurationFile != null)
+                    {
+                        configFileInfo = new FileInfo(options.ConfigurationFile);
+                    }
+
                     var solutionAnalyzer = new SolutionAnalyzer();
-                    var analyzeTask = solutionAnalyzer.LoadAnadAnalyzeProject(fileInfo, report);
+                    var analyzeTask = solutionAnalyzer.LoadAndAnalyzeProjectAsync(fileInfo, configFileInfo, report);
                     tasks.Add(analyzeTask);
                 }
 
@@ -79,6 +92,7 @@ namespace UnityEngineAnalyzer.CLI
             }
         }
 
+        //TODO SET TO OWN CLASS
 
     }
 }

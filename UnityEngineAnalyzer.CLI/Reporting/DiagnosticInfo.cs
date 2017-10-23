@@ -1,7 +1,5 @@
 namespace UnityEngineAnalyzer.CLI.Reporting
 {
-
-
     public class DiagnosticInfo
     {
         //TODO: Rename this to something like AnalysisResult
@@ -12,6 +10,7 @@ namespace UnityEngineAnalyzer.CLI.Reporting
         public int LineNumber { get; set; }
         public int CharacterPosition { get; set; }
         public DiagnosticInfoSeverity Severity { get; set; }
+        public UnityVersionSpan VersionSpan { get; set; }
 
         public enum DiagnosticInfoSeverity
         {
