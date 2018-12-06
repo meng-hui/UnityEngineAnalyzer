@@ -4,6 +4,13 @@ UnityEngineAnalyzer
 UnityEngineAnalyzer is a set of Roslyn analyzers that aim to detect common problems in Unity3D C# code. Unity3D makes it easy for us to make cross platform games, but there are hidden rules about performance and AOT, which might only come with experience, testing or reading the forums. It is hoped that such problems can be caught before compilation.
 
 
+Auto Add UnityEngineAnalyzer to your Unity project
+---------------------
+Each time your refresh your unity project, the UnityEngineAnalyzer may be removed from the solution.
+To auto add it to your solution, you can:
+1. copy Editor/AutoAddUnityEngineAnalyzer.cs to your unity project Editor folder;
+1. modify `public const string UnityEngineAnalyzerPath = "Tools\\VisualStudio\\UnityEngineAnalyzer\\UnityEngineAnalyzer.dll";` to your actual UnityEngineAnalyzer.dll path 
+
 Comand Line Interface
 ---------------------
 
