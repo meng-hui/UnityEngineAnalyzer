@@ -74,6 +74,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotUseCoroutinesResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Delegates\DuplicatedDelegateDetectionResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DuplicatedDelegateDetectionResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Delegates\ShouldCacheDelegateAnalyzer.cs" />
     <Compile Include="Delegates\ShouldCacheDelegateResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -84,6 +89,7 @@
     <Compile Include="DiagnosticDescriptors.cs" />
     <Compile Include="DiagnosticIDs.cs" />
     <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsAnalyzer.cs" />
+    <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsCodeFixer.cs" />
     <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -113,17 +119,32 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotBoxWhenInvokeResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Generics\EnumShouldManualSetMemberValue.cs" />
     <Compile Include="Generics\DoNotUseEnumTypeParameterAnalyzer.cs" />
+    <Compile Include="Generics\EnumShouldManualSetMemberValueResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnumShouldManualSetMemberValueResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Generics\DoNotUseEnumTypeParameterResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DoNotUseEnumTypeParameterResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="IgnoringWithCommit.cs" />
     <Compile Include="IL2CPP\UnsealedDerivedClassAnalyzer.cs" />
+    <Compile Include="IL2CPP\UnsealedDerivedClassCodeFixer.cs" />
     <Compile Include="IL2CPP\UnsealedDerivedClassResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UnsealedDerivedClassResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Delegates\DuplicatedDelegateDetection.cs" />
+    <Compile Include="Lambda\LambdaClosureAnalyzer.cs" />
+    <Compile Include="Lambda\LambdaAnalyzerResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LambdaAnalyzerResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Language\StructOverrideGetHashCodeAnalyzer.cs" />
     <Compile Include="Language\StructOverrideEqualsObjectAnalyzer.cs" />
@@ -133,6 +154,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StructAnalyzerResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="LogicError\InfiniteRecursiveCallResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InfiniteRecursiveCallResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="LogicError\InfiniteRecursiveCallAnalyzer.cs" />
     <Compile Include="Material\DoNotUseStringPropertyNamesAnalyzer.cs" />
     <Compile Include="Material\DoNotUseStringPropertyNamesResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -193,6 +220,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UseCompareTagResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Delegates\DuplicatedDelegateDetectionResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DuplicatedDelegateDetectionResource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Delegates\ShouldCacheDelegateResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ShouldCacheDelegateResource.Designer.cs</LastGenOutput>
@@ -221,6 +253,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotBoxWhenInvokeResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Generics\EnumShouldManualSetMemberValueResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EnumShouldManualSetMemberValueResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Generics\DoNotUseEnumTypeParameterResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DoNotUseEnumTypeParameterResource.Designer.cs</LastGenOutput>
@@ -229,9 +265,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UnsealedDerivedClassResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Lambda\LambdaAnalyzerResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LambdaAnalyzerResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Language\StructAnalyzerResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StructAnalyzerResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogicError\InfiniteRecursiveCallResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>InfiniteRecursiveCallResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Material\DoNotUseStringPropertyNamesResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -316,6 +361,9 @@
     <Reference Include="System.Reflection.Metadata, Version=1.0.21.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Reflection.Metadata.1.0.21\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity2017.1.3p2\Editor\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />

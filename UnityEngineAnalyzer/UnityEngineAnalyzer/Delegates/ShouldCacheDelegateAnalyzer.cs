@@ -1,7 +1,9 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -14,21 +16,45 @@ namespace UnityEngineAnalyzer.Delegates
         
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(AnalyzeAssignmentNode, SyntaxKind.AddAssignmentExpression);
-            context.RegisterSyntaxNodeAction(AnalyzeAssignmentNode, SyntaxKind.SubtractAssignmentExpression);
-            context.RegisterSyntaxNodeAction(AnalyzeInvocationNode, SyntaxKind.InvocationExpression);
+            context.RegisterSyntaxNodeAction(AnalyzeClassSyntax, SyntaxKind.ClassDeclaration);
         }
 
-        private static void AnalyzeAssignmentNode(SyntaxNodeAnalysisContext context)
+        public static void AnalyzeClassSyntax(SyntaxNodeAnalysisContext context)
         {
-            var checkSyntax = context.Node;
+            var monoBehaviourInfo = new MonoBehaviourInfo(context);
             
-            foreach (var oneIdSyntax in checkSyntax.DescendantNodes().OfType<IdentifierNameSyntax>())
+            var searched = new Dictionary<IMethodSymbol, bool>();
+            monoBehaviourInfo.ForEachUpdateMethod((updateMethod) =>
+            {
+                AnalyzeAssignmentNode(context, updateMethod);
+                AnalyzeInvocationNode(context, updateMethod);
+            });
+        }
+
+        public static event Action<int> e;
+        private static void AnalyzeAssignmentNode(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method)
+        {
+            e += ShouldCacheDelegateAnalyzer_e;
+            e -= ShouldCacheDelegateAnalyzer_e;
+            foreach (var oneAssign in method.DescendantNodes().OfType<AssignmentExpressionSyntax>())
+            {
+                AnalyzeAddRemoveNode(context, oneAssign);
+            }
+        }
+
+        private static void ShouldCacheDelegateAnalyzer_e(int obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void AnalyzeAddRemoveNode(SyntaxNodeAnalysisContext context, ExpressionSyntax syntax)
+        {
+            foreach (var oneIdSyntax in syntax.ChildNodes().OfType<IdentifierNameSyntax>())
             {
                 var oneIdSymbol = context.SemanticModel.GetSymbolInfo(oneIdSyntax);
                 if (oneIdSymbol.Symbol != null)
                 {
-                    if (oneIdSymbol.Symbol is IMethodSymbol)
+                    if (oneIdSymbol.Symbol is IMethodSymbol methodSymbol && !methodSymbol.IsStatic)
                     {
                         var diagnostic = Diagnostic.Create(DiagnosticDescriptors.ShouldCacheDelegate,
                             oneIdSyntax.GetLocation(), oneIdSyntax.ToString());
@@ -36,36 +62,51 @@ namespace UnityEngineAnalyzer.Delegates
                     }
                 }
             }
+            foreach (var oneAccessSyntax in syntax.ChildNodes().OfType<MemberAccessExpressionSyntax>())
+            {
+                foreach (var oneIdSyntax in oneAccessSyntax.ChildNodes().OfType<IdentifierNameSyntax>())
+                {
+                    var oneIdSymbol = context.SemanticModel.GetSymbolInfo(oneIdSyntax);
+                    if (oneIdSymbol.Symbol != null)
+                    {
+                        if (oneIdSymbol.Symbol is IMethodSymbol methodSymbol && !methodSymbol.IsStatic)
+                        {
+                            var diagnostic = Diagnostic.Create(DiagnosticDescriptors.ShouldCacheDelegate,
+                                oneIdSyntax.GetLocation(), oneIdSyntax.ToString());
+                            context.ReportDiagnostic(diagnostic);
+                        }
+                    }
+                }
+            }
         }
 
-        private static void AnalyzeInvocationNode(SyntaxNodeAnalysisContext context)
-        {
-            var checkSyntax = context.Node as InvocationExpressionSyntax;
-            if(null == checkSyntax)
-            {
-                return;
-            }
 
-            var argumentListSyntax = checkSyntax.ChildNodes().OfType<ArgumentListSyntax>();
-            foreach (var oneArgListSyntax in argumentListSyntax)
+        private static void AnalyzeInvocationNode(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method)
+        {
+            foreach(var invoke in method.DescendantNodes().OfType<InvocationExpressionSyntax>())
             {
-                foreach(var oneArgSyntax in oneArgListSyntax.ChildNodes().OfType<ArgumentSyntax>())
+                var argumentListSyntax = invoke.ChildNodes().OfType<ArgumentListSyntax>();
+                foreach (var oneArgListSyntax in argumentListSyntax)
                 {
-                    foreach (var oneIdSyntax in oneArgSyntax.ChildNodes().OfType<IdentifierNameSyntax>())
+                    foreach (var oneArgSyntax in oneArgListSyntax.ChildNodes().OfType<ArgumentSyntax>())
                     {
-                        var oneIdSymbol = context.SemanticModel.GetSymbolInfo(oneIdSyntax);
-                        if (oneIdSymbol.Symbol != null)
+                        foreach (var oneIdSyntax in oneArgSyntax.ChildNodes().OfType<IdentifierNameSyntax>())
                         {
-                            if (oneIdSymbol.Symbol is IMethodSymbol)
+                            var oneIdSymbol = context.SemanticModel.GetSymbolInfo(oneIdSyntax);
+                            if (oneIdSymbol.Symbol != null)
                             {
-                                var diagnostic = Diagnostic.Create(DiagnosticDescriptors.ShouldCacheDelegate,
-                                    oneIdSyntax.GetLocation(), oneIdSyntax.ToString());
-                                context.ReportDiagnostic(diagnostic);
+                                if (oneIdSymbol.Symbol is IMethodSymbol methodSymbol && !methodSymbol.IsStatic)
+                                {
+                                    var diagnostic = Diagnostic.Create(DiagnosticDescriptors.ShouldCacheDelegate,
+                                        oneIdSyntax.GetLocation(), oneIdSyntax.ToString());
+                                    context.ReportDiagnostic(diagnostic);
+                                }
                             }
                         }
                     }
                 }
             }
+
         }
     }
 }

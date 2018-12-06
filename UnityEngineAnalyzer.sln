@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityEngineAnalyzer", "Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityEngineAnalyzer.Test", "UnityEngineAnalyzer\UnityEngineAnalyzer.Test\UnityEngineAnalyzer.Test.csproj", "{76CAC24F-3E52-43A1-A696-6848EB9C1E7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityEngineAnalyzer.Vsix", "UnityEngineAnalyzer\UnityEngineAnalyzer.Vsix\UnityEngineAnalyzer.Vsix.csproj", "{23A41489-857C-4FC7-9B96-2F20D8EE380B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityEngineAnalyzer.CLI", "UnityEngineAnalyzer.CLI\UnityEngineAnalyzer.CLI.csproj", "{9C2B02D9-9DCF-4617-AEF5-C00B2A332B83}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{76CAC24F-3E52-43A1-A696-6848EB9C1E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76CAC24F-3E52-43A1-A696-6848EB9C1E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76CAC24F-3E52-43A1-A696-6848EB9C1E7B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23A41489-857C-4FC7-9B96-2F20D8EE380B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23A41489-857C-4FC7-9B96-2F20D8EE380B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23A41489-857C-4FC7-9B96-2F20D8EE380B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23A41489-857C-4FC7-9B96-2F20D8EE380B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C2B02D9-9DCF-4617-AEF5-C00B2A332B83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9C2B02D9-9DCF-4617-AEF5-C00B2A332B83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C2B02D9-9DCF-4617-AEF5-C00B2A332B83}.Release|Any CPU.ActiveCfg = Release|Any CPU

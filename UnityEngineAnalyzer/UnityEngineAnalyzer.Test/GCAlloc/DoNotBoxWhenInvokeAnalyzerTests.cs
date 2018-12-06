@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 using NUnit.Framework;
@@ -191,5 +191,72 @@ class C
             }
         }
 
+        // For params argument, shoule be some external process:
+        // if type of params array is value type: won't box;
+        // if type of params array is reference type: box.
+
+        [Test]
+        public void NoBoxInParams()
+        {
+            var code = @"
+class C
+{
+    private void Method(params int[] argus)
+    {
+    }
+
+    private void Caller()
+    {
+        int arg = 234;
+        Method([|arg, 2|]);
+    }
+}
+";
+
+            Document document;
+            TextSpan span;
+
+            if (TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, null,
+                out document, out span))
+            {
+                NoDiagnostic(document, DiagnosticIDs.DoNotBoxWhenInvoke);
+            }
+            else
+            {
+                Assert.Fail("Could not load unit test code");
+            }
+        }
+
+        [Test]
+        public void BoxInParams()
+        {
+            var code = @"
+class C
+{
+    private void Method(params C[] argus)
+    {
+    }
+
+    private void Caller()
+    {
+        int arg = 234;
+        Method([|arg|], [|2|]);
+    }
+}
+";
+
+            Document document;
+            TextSpan span;
+
+            if (TestHelpers.TryGetDocumentAndSpanFromMarkup(code, LanguageName, null,
+                out document, out span))
+            {
+                NoDiagnostic(document, DiagnosticIDs.DoNotBoxWhenInvoke);
+            }
+            else
+            {
+                Assert.Fail("Could not load unit test code");
+            }
+        }
     }
 }

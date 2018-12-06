@@ -19,6 +19,17 @@ namespace UnityEngineAnalyzer
             "FixedUpdate",
             "LateUpdate");
 
+        private static readonly ImmutableHashSet<string> MoreUpdateMethodNames = ImmutableHashSet.Create(
+
+            "MoreFixedUpdate",
+            "MoreSlowFixedUpdate",
+            "MoreUpdate",
+            "MoreUpdate2",
+            "MoreUpdate3",
+            "MoreLateUpdate",
+            "MoreLateUpdate2"
+        );
+
         public MonoBehaviourInfo(SyntaxNodeAnalysisContext analysisContext)
         {
             _classDeclaration = analysisContext.Node as ClassDeclarationSyntax;
@@ -34,13 +45,24 @@ namespace UnityEngineAnalyzer
 
         public void ForEachUpdateMethod(Action<MethodDeclarationSyntax> callback)
         {
+            var methods = _classDeclaration.Members.OfType<MethodDeclarationSyntax>();
+
             if (this.IsMonoBehaviour())
             {
-                var methods = _classDeclaration.Members.OfType<MethodDeclarationSyntax>();
-
                 foreach (var method in methods)
                 {
                     if (UpdateMethodNames.Contains(method.Identifier.ValueText))
+                    {
+                        callback(method);
+                    }
+                }
+            }
+
+            if (this.IsMoreLoopBehaviour())
+            {
+                foreach (var method in methods)
+                {
+                    if (MoreUpdateMethodNames.Contains(method.Identifier.ValueText))
                     {
                         callback(method);
                     }
@@ -68,6 +90,33 @@ namespace UnityEngineAnalyzer
             }
 
             return IsMonoBehavior(baseClass); //determine if the BaseClass extends mono behavior
+
+        }
+
+
+
+        public bool IsMoreLoopBehaviour()
+        {
+            return IsMonoBehavior(_classSymbol);
+        }
+
+        private static bool IsMoreLoopBehaviour(INamedTypeSymbol classDeclaration)
+        {
+            if (classDeclaration.BaseType == null)
+            {
+                return false;
+            }
+
+            var allInterfaces = classDeclaration.AllInterfaces;
+            foreach (var oneInterface in allInterfaces)
+            {
+                if (oneInterface.Name.Equals("IMoreLoopBehaviour"))
+                {
+                    return true;
+                }
+            }
+
+            return false;
 
         }
     }

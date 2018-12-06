@@ -1,4 +1,4 @@
-﻿
+
 namespace UnityEngineAnalyzer
 {
     public static class DiagnosticIDs
@@ -17,17 +17,25 @@ namespace UnityEngineAnalyzer
         public const string CameraMainIsSlow = "UEA0012";
         public const string PhysicsUseNonAllocMethods = "UEA0013";
         public const string DoNotGCAllocInUpdate = "UEA0014";
-      
+
+        // language analysis
+        public const string StructShouldImplementIEquatable = "UCS0001";
+        public const string StructShouldOverrideEquals = "UCS0002";
+        public const string StructShouldOverrideGetHashCode = "UCS0003";
+        public const string DoNotBoxWhenInvoke = "UCS0004";
+        public const string DoNoUseEnumTypeParameter = "UCS0005";
+        public const string ShouldCacheDelegate = "UCS0006";
+        public const string LambdaUseLocalVariable = "UCS0007";
+        public const string UseCommonDelegate = "UCS0008";
+        public const string EnumShouldManualSetMemberValue = "UCS0009";
+
+        // logic error analysis
+        public const string InfiniteRecursiveCall = "ULE0001";
+
 
         //NOTES: These should probably be on their own analyzer - as they are not specific to Unity
         public const string DoNotUseRemoting = "AOT0001";
         public const string DoNotUseReflectionEmit = "AOT0002";
         public const string TypeGetType = "AOT0003";
-        public const string StructShouldImplementIEquatable = "AOT0004";
-        public const string StructShouldOverrideEquals = "AOT0005";
-        public const string StructShouldOverrideGetHashCode = "AOT0006";
-        public const string DoNotBoxWhenInvoke = "AOT0007";
-        public const string DoNoUseEnumTypeParameter = "AOT0008";
-        public const string ShouldCacheDelegate = "AOT0009";
     }
 }

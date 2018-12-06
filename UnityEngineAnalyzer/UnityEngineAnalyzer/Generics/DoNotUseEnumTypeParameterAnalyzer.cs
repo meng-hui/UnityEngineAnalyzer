@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -37,8 +37,10 @@ namespace UnityEngineAnalyzer.Generics
                         checkedIdSyntax.Add(oneIdSyntax);
 
                         var oneIdSymbolInfo = context.SemanticModel.GetSymbolInfo(oneIdSyntax);
-                        var oneIdSymbol = oneIdSymbolInfo.Symbol as INamedTypeSymbol;
-                        if (oneIdSymbol.BaseType.Name == "Enum" &&
+                        var oneIdSymbolraw = oneIdSymbolInfo.Symbol as INamedTypeSymbol;
+                        if (oneIdSymbolraw is INamedTypeSymbol oneIdSymbol &&
+                            oneIdSymbol.BaseType != null &&
+                            oneIdSymbol.BaseType.Name == "Enum" &&
                             oneIdSymbol.BaseType.ContainingNamespace.Name == "System")
                         {
                             var diagnostic = Diagnostic.Create(DiagnosticDescriptors.DoNotUseEnumTypeParameter,

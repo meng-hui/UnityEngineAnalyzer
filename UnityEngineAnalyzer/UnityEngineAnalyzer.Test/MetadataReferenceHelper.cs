@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using System.IO;
@@ -14,7 +14,7 @@ namespace UnityEngineAnalyzer.Test
 
         private static MetadataReference GetUnityMetadataReference()
         {
-            var unityEnginePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Unity\Editor\Data\Managed", "UnityEngine.dll");
+            var unityEnginePath = Path.Combine(@"D:\Program Files", @"Unity2017.1.3p2\Editor\Data\Managed", "UnityEngine.dll");
 
             return MetadataReference.CreateFromFile(unityEnginePath);
         }

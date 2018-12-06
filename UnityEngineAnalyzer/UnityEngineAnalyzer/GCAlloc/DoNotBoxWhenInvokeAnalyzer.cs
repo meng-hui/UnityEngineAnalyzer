@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -19,12 +19,8 @@ namespace UnityEngineAnalyzer.GCAlloc
         private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var invocation = context.Node as InvocationExpressionSyntax;
-            if (invocation == null)
-            {
-                return;
-            }
-            
-            if (invocation.ArgumentList == null || invocation.ArgumentList.Arguments == null || invocation.ArgumentList.Arguments.Count == 0)
+
+            if (invocation?.ArgumentList == null || invocation.ArgumentList.Arguments.Count == 0)
             {
                 return;
             }
@@ -48,10 +44,16 @@ namespace UnityEngineAnalyzer.GCAlloc
                 return;
             }
 
-
             if(methodSymbol.Parameters == null || methodSymbol.Parameters.Length == 0)
             {
                 return;
+            }
+
+            var lastParameter = methodSymbol.Parameters[methodSymbol.Parameters.Length - 1];
+            if (lastParameter.IsParams)
+            {
+                if (lastParameter.Type is IArrayTypeSymbol arrSymbol && arrSymbol.ElementType.IsValueType)
+                    return;
             }
 
             for(int i = 0; i < methodSymbol.Parameters.Length && i < invocation.ArgumentList.Arguments.Count; ++i)

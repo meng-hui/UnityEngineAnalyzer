@@ -34,6 +34,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="dotMemory.Unit, Version=111.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.dotMemoryUnit.3.0.20171219.105559\lib\net35\dotMemory.Unit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.1.0.0\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
@@ -124,6 +127,9 @@
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
       <Private>false</Private>
     </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Unity2017.1.3p2\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animator\DoNotUseStateNameAnalyzerTests.cs" />
@@ -135,15 +141,21 @@
     <Compile Include="Coroutines\DoNotUseCoroutinesAnalyzerTests.cs" />
     <Compile Include="Delegates\ShouldCacheDelegateAnalyzerTests.cs" />
     <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsAnalyzerTests.cs" />
+    <Compile Include="EmptyMonoBehaviourMethods\EmptyMonoBehaviourMethodsCodeFixTests.cs" />
     <Compile Include="FindMethodsInUpdate\DoNotUseFindMethodsInUpdateAnalyzerTests.cs" />
     <Compile Include="ForEachInUpdate\DoNotUseForeachInUpdateAnalyzerTests.cs" />
     <Compile Include="GCAlloc\DoNotBoxWhenInvokeAnalyzerTests.cs" />
     <Compile Include="GCAlloc\DoNotGCAllocInUpdateAnalyzerTests.cs" />
+    <Compile Include="Generics\EnumShouldManualSetMemberValueTests.cs" />
     <Compile Include="Generics\DoNotUseEnumTypeParameterAnalyzerTests.cs" />
     <Compile Include="IL2CPP\UnsealedDerivedClassAnalyzerTests.cs" />
+    <Compile Include="IL2CPP\UnsealedDerivedClassCodeFixTests.cs" />
+    <Compile Include="Language\DuplicatedDelegateDetectionTestCases.cs" />
+    <Compile Include="Language\LambdaLocalVaribleTestCases.cs" />
     <Compile Include="Language\StructOverrideEqualsGetHashCodeAnalyzerTest.cs" />
     <Compile Include="Language\StructOverrideEqualsObjectAnalyzerTest.cs" />
     <Compile Include="Language\StructImplementAnalyzerTest.cs" />
+    <Compile Include="LogicError\InfiniteRecursiveCallTest.cs" />
     <Compile Include="Material\DoNotUseStringPropertyNamesTests.cs" />
     <Compile Include="MetadataReferenceHelper.cs" />
     <Compile Include="OnGUI\DoNotUseOnGUIAnalyzerTests.cs" />
@@ -156,19 +168,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UnityEngineAnalyzer\UnityEngineAnalyzer.csproj">
-      <Project>{BFB2BB34-FED8-48CC-9B83-A6E38BA5666C}</Project>
-      <Name>UnityEngineAnalyzer</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\UnityEngineAnalyzer\UnityEngineAnalyzer.csproj">
+      <Project>{bfb2bb34-fed8-48cc-9b83-a6e38ba5666c}</Project>
+      <Name>UnityEngineAnalyzer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

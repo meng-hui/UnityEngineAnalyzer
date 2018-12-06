@@ -7,6 +7,7 @@ namespace UnityEngineAnalyzer
         public const string StringMethods = "String Methods";
         public const string Miscellaneous = "Miscellaneous";
         public const string Performance = "Performance";
+        public const string LogicError = "Logic Error";
 
         public const string AOT = "AOT";
     }
