@@ -11,6 +11,25 @@ To auto add it to your solution, you can:
 1. copy Editor/AutoAddUnityEngineAnalyzer.cs to your unity project Editor folder;
 1. modify `public const string UnityEngineAnalyzerPath = "Tools\\VisualStudio\\UnityEngineAnalyzer\\UnityEngineAnalyzer.dll";` to your actual UnityEngineAnalyzer.dll path 
 
+Implemented Analyzer
+---------------------
+- Prefered to sealed the inherited class; 应对子类进行sealed
+- struct should implement IEquatable, should override GetHashCode(); struct应实现IEquatable、应override GetHashCode()
+- should cache delegate to avoid gc; 应cache delegate以防止产生gc
+- avoid new object in Update() to avoid gc; 避免在Update()函数里new对象产生gc
+- avoid boxing; 调用函数时应避免box产生gc
+- should not use enum for generic; 泛型避免使用enum
+- should use hash for Animator interfaces; Animator接口避免使用String，应使用Hash
+- should use hash for Material interfaces; Material接口避免使用String，应使用Hash
+- avoid calling Camera.main in Update-like message function; 避免Update()函数里调用Camera.main
+- avoid calling GameObject.Find() in Update-like message function; 避免在Update()函数里GameObject.Find()之类的函数
+- should use CompareTag() but not string comparision; 应使用ComareTag()，而不是字符串比较
+- avoid using coroutine; 避免使用协程
+- avoid empty Update-like message function; 避免Mono空消息函数
+- avoid SendMessage(); 避免SendMessage
+- detect some infinite recursive call; 错误无限递归检查
+
+
 Comand Line Interface
 ---------------------
 
